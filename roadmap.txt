@@ -1,0 +1,13 @@
+roadmap:
+1- questions/réponses (forum)
+2- poll		
+3- notes
+4- ajouter question+uploader des fichiers
+5- épingler la meilleur réponse 
+6- upvote-downvote les réponses
+7- chaque réponse a un status(réponse du prof, réponse du etudiant)
+8- organiser les sujets de disscusion dans des dossiers
+9- devoires de maison
+10- commenter sur les réponses
+11-reputation system par module (plus)
+12 - archiver les disccusions (plus)
