@@ -1,0 +1,16 @@
+const express = require('express');
+const router = express.Router();
+
+// @desc login/Landing page
+// @route GET /login
+router.get('/registration', (req, res) => {
+    res.render('registration', {layout: 'registration'});
+});
+
+router.post('/registration', (req, res) => {
+    email = req.body.inputEmail;
+    pwd   = req.body.inputPassword;
+    year  = req.body.year);
+});
+
+module.exports = router;

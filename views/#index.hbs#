@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stoa</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/material-icons.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+</head>
+<body>
+
+
+    <nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
+        <div class="container">
+            <a href="#" class="navbar-brand">
+                <img src="images/icons/logo.png" alt="stoa">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#toggleMobileMenu" aria-controls="togleMobileMenu" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="toggleMobileMenu">
+                <form class="form-inline ml-5">
+                    <input class="search-bar form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">                    
+                </form>          
+                <ul class="navbar-nav text-center ml-auto">                    
+                    <li>
+                        <a class="nav-link" href="#">Account</a>
+                    </li>                  
+                </ul>                      
+            </div>
+        </div>
+    </nav>
+        
+    <div class="sidebar">
+        <ul class="links">
+            <li>                
+                <span class="material-icons">home</span>
+                <a href="#">
+                    Home
+                </a>                
+            </li>
+            <li>
+                <span class="material-icons">question_answer</span>
+                <a href="#">Discussions</a>                
+            </li>
+            <li>
+                <span class="material-icons">local_library</span>
+                <a href="#">Modules</a>                
+            </li>
+            <li>
+                <span class="material-icons">poll</span>
+                <a href="#">Poll</a>                
+            </li>
+            <li>
+                <span class="material-icons">note</span>
+                <a href="#">Notes</a>                
+            </li>
+            <li>
+                <span class="material-icons">article</span>
+                <a href="#">Devoires</a>                
+            </li>
+        </ul>
+    </div>
+
+    <div class="content">
+
+    </div>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</body>
+</html>
