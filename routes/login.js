@@ -19,11 +19,11 @@ router.post('/login', (req, res) => {
 
         if (results[0]) {
             if (bcrypt.compare(req.body.password, results[0]))
-                res.render('/');
+                res.redirect('/');
         }
-        else
+        else {
             res.redirect('/login');
-
+        }
     });
 });
 
