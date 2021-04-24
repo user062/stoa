@@ -22,6 +22,11 @@ body {
     background-clip: padding-box;
 }
 
+.year {
+    padding: 0px!important;
+    height: 30px!important;
+}
+
 .left-illustration img{
     width: 100%;
 }
