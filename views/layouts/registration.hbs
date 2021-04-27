@@ -1,11 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S'identifier</title>    
+    <title>S'inscrire</title>    
     <link rel="stylesheet" href="css/login.css">    
     <link rel="stylesheet" href="css/material-icons.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -18,6 +17,11 @@
         <img src="images/online-platform.svg">
       </div>        
       <div class="col-lg-6 col-md-12 col-xs-12 my-auto">          
+        {{#if error}}
+        <div class="alert alert-danger">
+          <strong>{{error}}</strong>
+        </div>
+        {{/if}}
         <form id="registration" method="POST" action ="registration/registration">
           <h4 class="text-center my-4 mx-auto col-lg-6 col-xs-12">S'inscrire</h4>
           <div class="form-group">
@@ -29,9 +33,31 @@
             <input type="password" name="password" id="password" class="form-control">
           </div>
           <div class="form-group">
+            <label for="text">Nom</label>
+            <input type="text" name="l_name" id="l_name" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="text">Prenom</label>
+            <input type="text" name="f_name" id="f_name" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>Gender</label><br>
+            <input type="radio" id="male" name="gender" value="m" class="form-group">
+            <label for="male">Male</label><br>
+            <input type="radio" id="female" name="gender" value="f" class="form-group">
+            <label for="female">Female</label><br>
+          </div>
+          <div class="form-group">
             <label>Année</label>
-            <select class="form-control year"></select>
+            <input type="date" name="birth" id="birth" class="form-control">
           </div>          
+          <div class="form-group">
+            <label>Status</label><br>
+            <input type="radio" id="prof" name="status" value="p" class="form-group">
+            <label for="Prof">Prof</label><br>
+            <input type="radio" id="etudiant" name="status" value="e" class="form-group">
+            <label for="Etudiant">Etudiant</label><br>
+          </div>
           <!-- <div class="form-group">
             <input type="checkbox" >              
           </div> -->

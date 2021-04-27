@@ -23,16 +23,16 @@ DROP TABLE IF EXISTS `COMPTE`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `COMPTE` (
-  `USERNAME` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `compteID` int(11) NOT NULL AUTO_INCREMENT,
   `EMAIL` varchar(80) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `PASSWORD` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `NOM` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `HASH` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `NOM` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `PRENOM` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `SEXE` char(1) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `DATE_DE_NESSANCE` date DEFAULT NULL,
-  `TYPE` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`USERNAME`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `DATE_NAISSANCE` date DEFAULT NULL,
+  `TYPE` char(1) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`compteID`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,6 +41,7 @@ CREATE TABLE `COMPTE` (
 
 LOCK TABLES `COMPTE` WRITE;
 /*!40000 ALTER TABLE `COMPTE` DISABLE KEYS */;
+INSERT INTO `COMPTE` VALUES (1,'abc@email.com','$2a$10$3dDIIa2ISQ1d7lJ4Tz9scOe/Gq5Vkld70/qS7gRn349LJ7wRKty.a','doe','john','m','2000-01-01','e');
 /*!40000 ALTER TABLE `COMPTE` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-04-24 18:40:52
+-- Dump completed on 2021-04-27  3:45:54
