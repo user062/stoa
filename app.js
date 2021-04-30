@@ -14,7 +14,7 @@ const app = express();
 if (process.env.NODE_ENV === 'development')
     app.use(morgan('dev'));
 
-app.engine('.hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }));
+app.engine('.hbs', exphbs({ defaultLayout: '', extname: '.hbs' }));
 app.set('view engine', '.hbs');
 
 app.use(express.static(path.join(__dirname, 'views')));
