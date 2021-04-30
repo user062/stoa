@@ -7,7 +7,7 @@ const bcrypt = require('bcryptjs');
 // @route POST /login
 router.post('/login', async (req, res) => {
     let emadress= req.body.email;
-    let sql_query = 'Select HASH from COMPTE where COMPTE.EMAIL=' + mysql.escape(emadress);
+    let sql_query = 'Select HASH from COMPTE where COMPTE.EMAIL=' + connection.escape(emadress);
 
     connection.query(sql_query, async (error, results) => {
         if (error)
