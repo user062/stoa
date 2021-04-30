@@ -17,8 +17,8 @@ router.post('/registration', async (req, res) => {
     let hash = await bcrypt.hash(pwd, salt);
     let values = [email, hash, f_name, l_name, gender, birth, status].map((x) => "'" + x + "'").join(', ');
     let query = ["insert into COMPTE (EMAIL, HASH, NOM, PRENOM, SEXE, DATE_NAISSANCE, TYPE) values (", values, ")"].join('');
-
-    connection.query("select compteID from COMPTE where email=" + "'" + email + "'", (err, results) => {
+    let checkEmail = 'select compteID from COMPTE where email= ?';
+    connection.query(checkEmail, [email], (err, results) => {
         if (err)
             throw err;
 
