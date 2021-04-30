@@ -5,9 +5,9 @@ const exphbs = require('express-handlebars');
 const connectDB = require('./config/db');
 const path = require('path');
 const session = require('express-session');
+const { allowedNodeEnvironmentFlags } = require('process');
 
 dotenv.config({ path: './config/config.env' });
-
 
 const app = express();
 
@@ -30,6 +30,9 @@ app.use(
 app.use('/', require('./routes/index'));
 app.use('/login', require('./routes/login'));
 app.use('/registration', require('./routes/registration'));
+
+
+
 
 const PORT = process.env.PORT || 5000;
 

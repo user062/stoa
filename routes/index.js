@@ -41,4 +41,8 @@ router.get('/registration', (req, res) => {
         res.render('registration', { layout: 'registration' });
 });
 
+router.get('/module', (req, res) => {
+    res.render('module', {layout: 'module'});
+});
+
 module.exports = router;
