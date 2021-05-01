@@ -34,6 +34,7 @@ CREATE TABLE `COMPTE` (
   PRIMARY KEY (`compteID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+alter table compte add column vcode int default 0;
 
 --
 -- Dumping data for table `COMPTE`
