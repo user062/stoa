@@ -12,6 +12,10 @@
     --sidebar-width: 68px;
 }
 
+.material-icons, .icon-text {
+    vertical-align: middle;
+  }
+
 @font-face {
     font-family: 'Poppins';
     src: url("../fonts/Poppins-Regular.ttf");
@@ -111,6 +115,7 @@ body {
     margin: 0 auto 1.5rem auto;
 }
 
+
 .active {
     color: #0069D9!important;
 }
@@ -163,6 +168,10 @@ body {
     .navbar-brand {
         width: 70px;        
         height: 70px;              
+    }
+
+    .new__descussion-text {
+        display: none;
     }
     
 }
