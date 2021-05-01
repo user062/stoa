@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/material-icons.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">        
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
 </head>
 <body>
 
@@ -21,9 +20,9 @@
                 <span class="navbar-toggler-icon"></span>
             </button> --}}
             <div class="collapse navbar-collapse">
-                <form class="form-inline ml-5">
+                {{!-- <form class="form-inline ml-5">
                     <input class="search-bar form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">                    
-                </form>          
+                </form>           --}}
                 <ul class="navbar-nav text-center ml-auto">                    
                     <li>
                         <a class="nav-link" href="#">Account</a>
@@ -35,19 +34,48 @@
         
     <div class="sidebar">
         <ul class="links">
+            <button class="btn btn-primary new__descussion">Nouvelle Discussion</button>
             <li>                                
-                <a class="sidebar__link" href="#">
+                <a class="sidebar__link active" href="#">
                     <span class="material-icons">home</span>
                     Home
                 </a>                
             </li>
             <li>                
                 <a class="sidebar__link" href="#">
-                    <span class="material-icons">question_answer</span>
+                    <span class="material-icons">
+                    chat_bubble_outline
+                    </span>           
                     Discussions
                 </a>                
             </li>
+            <hr style="background-color: #f6f6f6;height: 1px;width: 75%;margin: 1rem auto">
             <li>                
+                <a class="sidebar__link" href="#">
+                    <span class="material-icons">
+                    folder_open
+                    </span>           
+                    IHM
+                </a>                
+            </li>
+            <li>                
+                <a class="sidebar__link" href="#">
+                    <span class="material-icons">
+                    folder_open
+                    </span>           
+                    Acoo
+                </a>                
+            </li>
+            <li>                
+                <a class="sidebar__link" href="#">
+                    <span class="material-icons">
+                    folder_open
+                    </span>           
+                    Algo
+                </a>                
+            </li>
+
+            {{!-- <li>                
                 <a class="sidebar__link" href="#">
                     <span class="material-icons">local_library</span>
                     Modules
@@ -70,7 +98,7 @@
                     <span class="material-icons">article</span>
                     Devoires
                 </a>                
-            </li>
+            </li> --}}
         </ul>
     </div>
 
@@ -111,9 +139,9 @@
                                                 </p>
                                                 <p class="text-muted"><span class="text-secondary font-weight-bold">13 minutes ago</span></p>
                                             </div>
-                                            <div class="text-muted small text-center align-self-center">
-                                                <span class="d-none d-sm-inline-block"><i class="far fa-eye"></i> 19</span>
-                                                <span><i class="far fa-comment ml-2"></i> 3</span>                                        
+                                            <div class="text-muted small  text-center align-self-center">
+                                                <span class="d-none d-sm-inline-block"><span class="material-icons" style="font-size: 16px">visibility</span> 19</span>                                                
+                                                <span><span class="material-icons" style="font-size: 16px">forum</span> 3</span>                                        
                                             </div>
                                         </div>
                                     </div>
@@ -142,9 +170,9 @@
                                                     <p>Thank</p>
                                                 </div>
                                             </div>
-                                            <div class="text-muted small text-center">
-                                                <span class="d-none d-sm-inline-block"><i class="far fa-eye"></i> 19</span>
-                                                <span><i class="far fa-comment ml-2"></i> 3</span>
+                                            <div class="text-muted small  text-center align-self-center">
+                                                <span class="d-none d-sm-inline-block"><span class="material-icons" style="font-size: 16px">visibility</span> 19</span>                                                
+                                                <span><span class="material-icons" style="font-size: 16px">forum</span> 3</span>                                        
                                             </div>
                                         </div>
                                     </div>

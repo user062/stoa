@@ -62,8 +62,8 @@ body {
 
 .sidebar {    
     height: 100vh;
-    border-right: 2px #f6f6f6 solid;
-    background: #1761A0;
+    /* border-right: 2px #f6f6f6 solid; */
+    background: #FAFAFA;
     grid-area: sidebar;          
     transition: all ease .3s;    
     position: fixed;
@@ -79,11 +79,11 @@ body {
     align-items: flex-start;    
     margin: 0 auto;
     padding: 10% 0;
-    height: 100vh;
+    height: 100vh;    
 }
 
 .sidebar .links li {
-    width: 100%;    
+    width: 100%;        
 }
 
 .sidebar .links li a {    
@@ -91,37 +91,43 @@ body {
     display: grid;
     grid-template-columns: max-content max-content;
     align-items: center;
-    column-gap: 1.5rem;
-    color: var(--text-color);
+    column-gap: 1.5rem;    
     text-decoration: none;
     opacity: .9;
     position: relative;
-    padding: .5rem 0 .5rem 1.8rem;
+    padding: .5rem 0 .5rem 1.8rem;    
+    /* color: rgba(255, 255, 255, 0.6);     */
+    color: rgb(54, 54, 54);
+    font-size: 15px;
 }
+
 
 .sidebar .links li a .material-icons {           
     font-size: 22px;
 }
 
+.new__descussion {
+    font-size: 13px!important;
+    margin: 0 auto 1.5rem auto;
+}
+
 .active {
-    opacity: 1!important;
-    color: #FFF;
+    color: #0069D9!important;
 }
 
 .active::before {
     content: '';
     width: 2px;
-    background-color: #FFF;
+    background-color: #0069D9;
     position: absolute;
-    height: 50%;
-    
+    height: 50%;    
 }
 
 .content {    
-    background: #E2E8F0;
+    background: #fafafa;
     height: 100vh;
     grid-area: content;
-    padding: 2rem 0;
+    padding: 2rem 0;    
 }
 
 .content a {
@@ -129,7 +135,8 @@ body {
 }
 
 .content .card {
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    box-shadow: 0 5px 10px rgba(154,160,185,.05), 0 15px 40px rgba(166,173,201,.2);
+    background: #FFF;
     border-radius: 10px;
 }
 
