@@ -45,4 +45,12 @@ router.get('/module', (req, res) => {
     res.render('module');
 });
 
+router.get('/validation', (req, res) => {
+    res.render('validation', { layout: '' });
+});
+
+router.get('/new_post', (req, res) => {
+    res.render('new_post', { layout: '' });
+});
+
 module.exports = router;

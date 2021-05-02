@@ -5,7 +5,6 @@ const exphbs = require('express-handlebars');
 const connectDB = require('./config/db');
 const path = require('path');
 const session = require('express-session');
-const { allowedNodeEnvironmentFlags } = require('process');
 
 dotenv.config({ path: './config/config.env' });
 
@@ -19,6 +18,8 @@ app.set('view engine', '.hbs');
 
 app.use(express.static(path.join(__dirname, 'views')));
 app.use(express.urlencoded({ extended: false }));
+
+app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
 
 app.use(
     session({
