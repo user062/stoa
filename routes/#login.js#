@@ -6,13 +6,13 @@ const bcrypt = require('bcryptjs');
 // @desc login/Landing page
 // @route POST /login
 router.post('/login', async (req, res) => {
-    let emadress = req.body.email;
-    let sql_query = 'Select PASSWORD from COMPTE where COMPTE.EMAIL=' + connection.escape(emadress);
-    connection.query(sql_query, async (error, results) => {
+    let sql_query = 'Select HASH from COMPTE where COMPTE.EMAIL=' + "'" + req.body.email + "'";
+
+    connection.query('Select HASH from COMPTE where COMPTE.EMAIL=$1', req.body.email, async (error, results) => {
         if (error)
             throw error;
 
-        else if (results[0] && await bcrypt.compare(req.body.password, results[0].PASSWORD)) {
+        else if (results[0] && await bcrypt.compare(req.body.password, results[0].HASH)) {
             req.session.loggedIn = true;
             req.session.userId = req.body.email;
             res.redirect('/');

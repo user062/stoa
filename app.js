@@ -8,17 +8,18 @@ const session = require('express-session');
 
 dotenv.config({ path: './config/config.env' });
 
-
 const app = express();
 
 if (process.env.NODE_ENV === 'development')
     app.use(morgan('dev'));
 
-app.engine('.hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }));
+app.engine('.hbs', exphbs({ defaultLayout: '', extname: '.hbs' }));
 app.set('view engine', '.hbs');
 
 app.use(express.static(path.join(__dirname, 'views')));
 app.use(express.urlencoded({ extended: false }));
+
+app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
 
 app.use(
     session({
@@ -30,6 +31,9 @@ app.use(
 app.use('/', require('./routes/index'));
 app.use('/login', require('./routes/login'));
 app.use('/registration', require('./routes/registration'));
+
+
+
 
 const PORT = process.env.PORT || 5000;
 

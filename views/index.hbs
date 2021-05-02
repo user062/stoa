@@ -7,23 +7,22 @@
     <title>Stoa</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/material-icons.css">
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">        
 </head>
 <body>
 
-
-    <nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
+    <nav class="navbar navbar-expand-md bg-light sticky-top">
         <div class="container">
             <a href="#" class="navbar-brand">
-                <img src="images/icons/logo.png" alt="stoa">
+                <img src="images/stoa2.png" alt="stoa">
             </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#toggleMobileMenu" aria-controls="toggleMobileMenu" aria-expanded="false" aria-label="Toggle navigation">
+            {{!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#toggleMobileMenu" aria-controls="toggleMobileMenu" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="toggleMobileMenu">
-                <form class="form-inline ml-5">
+            </button> --}}
+            <div class="collapse navbar-collapse">
+                {{!-- <form class="form-inline ml-5">
                     <input class="search-bar form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">                    
-                </form>          
+                </form>           --}}
                 <ul class="navbar-nav text-center ml-auto">                    
                     <li>
                         <a class="nav-link" href="#">Account</a>
@@ -35,39 +34,219 @@
         
     <div class="sidebar">
         <ul class="links">
-            <li>                
-                <span class="material-icons">home</span>
-                <a href="#">
+            <button class="btn btn-primary new__descussion">
+                <span class="material-icons">add</span>
+                <span class="new__descussion-text">Nouvelle Discussion</span>
+                </button>
+            <li>                                
+                <a class="sidebar__link active" href="#">
+                    <span class="material-icons">home</span>
                     Home
                 </a>                
             </li>
-            <li>
-                <span class="material-icons">question_answer</span>
-                <a href="#">Discussions</a>                
+            <li>                
+                <a class="sidebar__link" href="#">
+                    <span class="material-icons">
+                    chat_bubble_outline
+                    </span>           
+                    Discussions
+                </a>                
             </li>
-            <li>
-                <span class="material-icons">local_library</span>
-                <a href="#">Modules</a>                
+            <hr style="background-color: #f6f6f6;height: 1px;width: 75%;margin: 1rem auto">
+            <li>                
+                <a class="sidebar__link" href="#">
+                    <span class="material-icons">
+                    folder_open
+                    </span>           
+                    IHM
+                </a>                
             </li>
-            <li>
-                <span class="material-icons">poll</span>
-                <a href="#">Poll</a>                
+            <li>                
+                <a class="sidebar__link" href="#">
+                    <span class="material-icons">
+                    folder_open
+                    </span>           
+                    Acoo
+                </a>                
             </li>
-            <li>
-                <span class="material-icons">note</span>
-                <a href="#">Notes</a>                
+            <li>                
+                <a class="sidebar__link" href="#">
+                    <span class="material-icons">
+                    folder_open
+                    </span>           
+                    Algo
+                </a>                
             </li>
-            <li>
-                <span class="material-icons">article</span>
-                <a href="#">Devoires</a>                
+
+            {{!-- <li>                
+                <a class="sidebar__link" href="#">
+                    <span class="material-icons">local_library</span>
+                    Modules
+                </a>                
             </li>
+            <li>                
+                <a class="sidebar__link" href="#">
+                    <span class="material-icons">poll</span>
+                    Poll
+                </a>                
+            </li>
+            <li>                
+                <a class="sidebar__link" href="#">
+                    <span class="material-icons">note</span>
+                    Notes
+                </a>                
+            </li>
+            <li>                
+                <a class="sidebar__link" href="#">
+                    <span class="material-icons">article</span>
+                    Devoires
+                </a>                
+            </li> --}}
         </ul>
     </div>
 
-    <div class="content">
+    <div class="content">        
+        <div class="container">
+        <div class="main-body p-0">
+            <div class="inner-wrapper">    
+                <!-- Inner main -->
+                <div class="inner-main">
+                    <div class="container">
+                        <!-- Inner main header -->
+                        <div class="row inner-main-header">
+                            <select class="col-2 custom-select custom-select-sm w-auto mr-1">
+                                <option selected="">Latest</option>
+                                <option value="1">Popular</option>
+                                <option value="3">Solved</option>
+                                <option value="3">Unsolved</option>
+                                <option value="3">No Replies Yet</option>
+                            </select>
+                            <span class="col-xs-3 input-icon input-icon-sm ml-auto w-auto">
+                                <input type="text" class="form-control form-control-sm bg-gray-200 border-gray-200 shadow-none mb-4" placeholder="Search forum" />
+                            </span>
+                        </div>                    
+                    </div>
+                    
+                    <!-- Forum List -->
+                    <div class="posts">
+                        <div class="post">
+                            <div class="inner-main-body pt-2 collapse forum-content show">
+                                <div class="card mb-2">
+                                    <div class="card-body p-2 p-sm-3">
+                                        <div class="media forum-item">
+                                            <a href="#" data-toggle="collapse" data-target=".forum-content"><img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="mr-3 rounded-circle" width="50" alt="User" /></a>
+                                            <div class="media-body">
+                                                <h6><a href="#" data-toggle="collapse" data-target=".forum-content" class="text-body">Salam alikoum chabiba!</a></h6>
+                                                <p class="text-secondary">
+                                                    lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet
+                                                </p>
+                                                <p class="text-muted"><span class="text-secondary font-weight-bold">13 minutes ago</span></p>
+                                            </div>
+                                            <div class="text-muted small  text-center align-self-center">
+                                                <span class="d-none d-sm-inline-block"><span class="material-icons" style="font-size: 16px">visibility</span> 19</span>                                                
+                                                <span><span class="material-icons" style="font-size: 16px">forum</span> 3</span>                                        
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                    
 
+                            <!-- Forum Detail (replies) -->
+                            <div class="inner-main-body p-2 p-sm-3 collapse forum-content">
+                                <a href="#" class="btn btn-light btn-sm mb-3 has-icon" data-toggle="collapse" data-target=".forum-content"><i class="fa fa-arrow-left mr-2"></i>Back</a>
+                                <div class="card mb-2">
+                                    <div class="card-body">
+                                        <div class="media forum-item">
+                                            <a href="javascript:void(0)" class="card-link">
+                                                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="rounded-circle" width="50" alt="User" />                                        
+                                            </a>
+                                            <div class="media-body ml-3">
+                                                <a href="javascript:void(0)" class="text-secondary">Mokrani</a>
+                                                <small class="text-muted ml-2">1 hour ago</small>
+                                                <h5 class="mt-1">Realtime fetching data</h5>
+                                                <div class="mt-3 font-size-sm">
+                                                    <p>Hellooo :)</p>
+                                                    <p>
+                                                        I'm newbie with laravel and i want to fetch data from database in realtime for my dashboard anaytics and i found a solution with ajax but it dosen't work if any one have a simple solution it will be
+                                                        helpful
+                                                    </p>
+                                                    <p>Thank</p>
+                                                </div>
+                                            </div>
+                                            <div class="text-muted small  text-center align-self-center">
+                                                <span class="d-none d-sm-inline-block"><span class="material-icons" style="font-size: 16px">visibility</span> 19</span>                                                
+                                                <span><span class="material-icons" style="font-size: 16px">forum</span> 3</span>                                        
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>                        
+                                <div class="card mb-2">
+                                    <div class="card-body">
+                                        <div class="media forum-item">
+                                            <a href="javascript:void(0)" class="card-link">
+                                                <img src="https://bootdey.com/img/Content/avatar/avatar2.png" class="rounded-circle" width="50" alt="User" />                                    
+                                            </a>
+                                            <div class="media-body ml-3">
+                                                <a href="javascript:void(0)" class="text-secondary">drewdan</a>
+                                                <small class="text-muted ml-2">1 hour ago</small>
+                                                <div class="mt-3 font-size-sm">
+                                                    <p>What exactly doesn't work with your ajax calls?</p>
+                                                    <p>Also, WebSockets are a great solution for realtime data on a dashboard. Laravel offers this out of the box using broadcasting</p>
+                                                </div>
+                                                <button class="btn btn-xs text-muted has-icon"><i class="fa fa-heart mr-1" aria-hidden="true"></i>1</button>
+                                                <a href="javascript:void(0)" class="text-muted small">Reply</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                            
+                    </div>
+                    {{!-- End post --}}                    
+                    </div>
+                    
+                    
+                    
+
+                </div>
+                <!-- /Inner main -->
+            </div>
+
+            <!-- New Thread Modal -->
+            {{!-- <div class="modal fade" id="threadModal" tabindex="-1" role="dialog" aria-labelledby="threadModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <form>
+                            <div class="modal-header d-flex align-items-center bg-primary text-white">
+                                <h6 class="modal-title mb-0" id="threadModalLabel">New Discussion</h6>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="threadTitle">Title</label>
+                                    <input type="text" class="form-control" id="threadTitle" placeholder="Enter title" autofocus="" />
+                                </div>
+                                <textarea class="form-control summernote" style="display: none;"></textarea>
+
+                                <div class="custom-file form-control-sm mt-3" style="max-width: 300px;">
+                                    <input type="file" class="custom-file-input" id="customFile" multiple="" />
+                                    <label class="custom-file-label" for="customFile">Attachment</label>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-primary">Post</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div> --}}
+        </div>
+        </div>
     </div>
 
+    <script src="js/main.js"></script>
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
 </body>
