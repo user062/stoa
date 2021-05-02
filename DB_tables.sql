@@ -17,7 +17,7 @@ create table COMMENTAIRE
 create table COMPTE
 (
    COMPTEID              int auto_increment primary key,
-   EMAIL                varchar(80),
+   EMAIL                varchar(80) UNIQUE,
    PASSWORD             varchar(80),
    NOM                  varchar(40),
    PRENOM               varchar(30),
