@@ -24,13 +24,17 @@
 body {
     font-family: 'Poppins'!important;    
     display: grid;
-    grid-template-columns: 218px calc(100% - 218px);
+    grid-template-columns: calc(100% - 260px) 260px;
     grid-template-rows: 80px auto;
     grid-template-areas: "navbar navbar"
-                         "sidebar content";
+                         "content sidebar";
+}
+/* Containers */
+.container {
+    max-width: 1050px!important;
 }
 
-.container {
+.navbar .container {
     max-width: 1350px!important;
 }
 
@@ -38,7 +42,7 @@ body {
     border-bottom: 2px #f6f6f6 solid;
     height: 80px;
     grid-area: navbar;
-    box-shadow: 0px 1px 10px #999;
+    box-shadow: 0 10px 20px -12px rgba(0,0,0,.25);
 }
 
 .navbar-brand {
@@ -64,14 +68,15 @@ body {
     color: #000;
 }
 
-.sidebar {    
+.sidebar {        
+    right: 0;
     height: 100vh;
     /* border-right: 2px #f6f6f6 solid; */
     background: #FAFAFA;
     grid-area: sidebar;          
     transition: all ease .3s;    
     position: fixed;
-    width: 218px;
+    width: 260px;
     top: 80px;
 }
 
@@ -115,7 +120,6 @@ body {
     margin: 0 auto 1.5rem auto;
 }
 
-
 .active {
     color: #0069D9!important;
 }
@@ -126,6 +130,8 @@ body {
     background-color: #0069D9;
     position: absolute;
     height: 50%;    
+    right: 0;
+    margin-right: 15%;
 }
 
 .content {    
@@ -133,6 +139,7 @@ body {
     height: 100vh;
     grid-area: content;
     padding: 2rem 0;    
+    font-size: .8rem!important;
 }
 
 .content a {
@@ -140,20 +147,37 @@ body {
 }
 
 .content .card {
-    box-shadow: 0 5px 10px rgba(154,160,185,.05), 0 15px 40px rgba(166,173,201,.2);
+    box-shadow: 0 7px 30px -10px rgba(150,170,180,0.5);
     background: #FFF;
     border-radius: 10px;
 }
 
+.content .card__tag {
+    width: 90px;
+    height: 20px;    
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: 10px;
+    right: 3%;
+    position: absolute;
+    top: -10px;
+    background-color: #FFF;
+    font-size: 11px;
+    text-align: center;
+}
+
 .content .card:hover {
-    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)!important;
+    box-shadow: 0 5px 10px rgba(154,160,185,.05), 0 15px 40px rgba(166,173,201,.2);    
     transition: all ease .4s;
+}
+
+.post-time {
+    font-size: 12px;
 }
 
 
 @media (max-width: 768px) {
     body {
-        grid-template-columns: 68px calc(100% - 68px);
+        grid-template-columns: calc(100% - 68px) 68px;
     }
 
     .sidebar {
