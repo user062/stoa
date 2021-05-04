@@ -64,19 +64,11 @@ create table DOSSIER
 create table file_1
 (
    ID_file           int auto_increment primary key,
-   POST_ID              int ,
+   POST_ID              int default null,
+   ID_REPONSE           int default null,
    file_CORE         LONGBLOB
 );
 
-/*==============================================================*/
-/* Table : FICHIER_2                                            */
-/*==============================================================*/
-create table file_2
-(
-   ID_FILE              int auto_increment primary key,
-   ID_REPONSE           int ,
-   FILE_CORE            LONGBLOB
-);
 
 /*==============================================================*/
 /* Table : INSCRET                                              */
@@ -126,6 +118,7 @@ create table POST
 (
    POST_ID              int auto_increment primary key,
    COMPTEID              int,
+   title				varchar(200) not null,
    DATE_AJOUTE          date,
    TYPE                 char(1),
    POST_CORE            longtext
