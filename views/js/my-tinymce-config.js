@@ -1,6 +1,6 @@
 tinymce.init({
     selector: 'textarea#my-expressjs-tinymce-app',
-    height: 500,
+    height: 350,
     menubar: false,
     plugins: [
         'advlist autolink lists link image charmap print preview anchor',
