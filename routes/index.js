@@ -4,7 +4,7 @@ const router = express.Router();
 // @desc index/Landing page
 // @route GET /
 router.get('/', (req, res) => {
-    if (!req.session.userId)
+    if (!req.session.loggedIn)
         res.redirect('/login');
 
     else
@@ -20,7 +20,7 @@ router.get('/login', (req, res) => {
         req.session.error = null;
     }
 
-    else if (req.session.userId)
+    else if (req.session.loggedIn)
         res.redirect('/');
 
     else
@@ -35,7 +35,7 @@ router.get('/registration', (req, res) => {
         req.session.error = null;
     }
 
-    else if (req.session.userId)
+    else if (req.session.loggedIn)
         res.redirect('/');
     else
         res.render('registration', { layout: 'registration' });
@@ -46,6 +46,11 @@ router.get('/module', (req, res) => {
 });
 
 router.get('/validation', (req, res) => {
+  if (req.session.error) {
+      res.render('validation', { error: req.session.error, layout: '' });
+      req.session.error = null;
+  }
+  else
     res.render('validation', { layout: '' });
 });
 

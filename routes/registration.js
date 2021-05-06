@@ -54,6 +54,7 @@ router.post('/registration', async (req, res) => {
                     throw err;
                 else {
 
+                    req.session.loggedIn= false;
 
                     req.session.userId = req.body.email;
 

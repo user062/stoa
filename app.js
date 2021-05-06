@@ -31,6 +31,7 @@ app.use(
 app.use('/', require('./routes/index'));
 app.use('/login', require('./routes/login'));
 app.use('/registration', require('./routes/registration'));
+app.use('/validation', require('./routes/validation'));
 
 
 
