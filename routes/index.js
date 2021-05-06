@@ -91,4 +91,8 @@ router.get('/new_post', (req, res) => {
     res.render('new_post', { layout: '' });
 });
 
+router.get('/new_post2', (req, res) => {
+    res.render('new_post2', { layout: '' });
+});
+
 module.exports = router;
