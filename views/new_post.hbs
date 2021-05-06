@@ -4,12 +4,151 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nouveau Post</title>    
-    <link rel="stylesheet" href="css/login.css">    
+    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/material-icons.css">
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">        
 </head>
-<body>                
-    <h1>New post</h1>
+<body>
+
+    <nav class="navbar navbar-expand-md bg-light sticky-top">
+        <div class="container">
+            <a href="#" class="navbar-brand">
+                <img src="images/stoa2.png" alt="stoa">
+            </a>            
+            <div class="collapse navbar-collapse">                
+                <ul class="navbar-nav text-center ml-auto">                    
+                    <li>
+                        <a class="nav-link" href="#">Account</a>
+                    </li>                  
+                </ul>                      
+            </div>
+        </div>
+    </nav>
+        
+    <div class="sidebar">
+        <ul class="links">
+            <button class="btn btn-primary new__descussion">
+                <span class="material-icons">add</span>
+                <span class="new__descussion-text">Nouvelle Discussion</span>
+                </button>
+            <li>                                
+                <a class="sidebar__link active" href="#">
+                    <span class="material-icons">home</span>
+                    Home
+                </a>                
+            </li>
+            <li>                
+                <a class="sidebar__link" href="#">
+                    <span class="material-icons">
+                    chat_bubble_outline
+                    </span>           
+                    Discussions
+                </a>                
+            </li>
+            <hr style="background-color: #f6f6f6;height: 1px;width: 75%;margin: 1rem auto">
+            <li>                
+                <a class="sidebar__link" href="#">
+                    <span class="material-icons">
+                    folder_open
+                    </span>           
+                    IHM
+                </a>                
+            </li>
+            <li>                
+                <a class="sidebar__link" href="#">
+                    <span class="material-icons">
+                    folder_open
+                    </span>           
+                    Acoo
+                </a>                
+            </li>
+            <li>                
+                <a class="sidebar__link" href="#">
+                    <span class="material-icons">
+                    folder_open
+                    </span>           
+                    Algo
+                </a>                
+            </li>            
+        </ul>
+    </div>
+
+    <div class="content">        
+        <div class="container">
+        <div class="col-10 mx-auto">
+            <h5>Ajouter un post</h5>
+            <hr>
+            <form action="">
+                <label>Type</label>
+                <section class="post__types">                              
+                    <div class="type" id="question">
+                        <div class="type-logo">
+                            <img src="images/icons/faq.png">
+                        </div>
+                        <div class="type-title">
+                            Question 
+                        </div>
+                    </div>
+                 
+                    <div class="type" id="note">
+                        <div class="type-logo">
+                            <img src="images/icons/note.png">
+                        </div>
+                        <div class="type-title">
+                            Note 
+                        </div>
+                    </div>                                       
+                    <div class="type" id="poll">
+                        <div class="type-logo">
+                            <img src="images/icons/poll.png">
+                        </div>
+                        <div class="type-title">
+                            Poll 
+                        </div>
+                    </div>                    
+                </section>
+                <section class="post__title form-group">
+                    <label for="title">Titre</label>
+                    <input class="form-control" type="text" placeholder="Titre du sujet" id="title">
+                </section>
+                <section class="post__folder form-group">
+                    <label for="title">Dossier</label>
+                    <div class="dossiers">
+                        <div class="dossier">
+                            <span>devoires</span> 
+                        </div>
+                        <div class="dossier">
+                            <span>coures</span>                            
+                        </div>
+                        <div class="dossier">
+                            <span>td</span>
+                        </div>
+                        <div class="dossier">
+                            <span>notes</span>
+                        </div>
+                    </div>
+                </section>
+                <section class="details">
+                    <label>Détailles</label>
+                    <textarea id="my-expressjs-tinymce-app"></textarea>
+                </section>
+                <button class="btn btn-primary col-12 ml-auto mt-3 mb-5">Ajouter</button>
+            </form>
+
+
+            
+        </div>
+        </div>
+    </div>
+
+
+    <!-- Script element sourcing TinyMCE -->
+    <script type="application/javascript" src= "/tinymce/tinymce.min.js"></script>
+    <!-- Script element sourcing the TinyMCE configuration -->
+    <script type="application/javascript" src= "/js/my-tinymce-config.js"></script>
+
+    <script src="js/main.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
 </body>
 </html>

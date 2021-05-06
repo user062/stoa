@@ -1,5 +1,5 @@
  //Sidebar activate links  
- const sidebarLinks = document.querySelectorAll('.sidebar__link');            
+ var sidebarLinks = document.querySelectorAll('.sidebar__link');            
         
  sidebarLinks.forEach( e => {
      e.addEventListener('click', () => {
@@ -9,6 +9,27 @@
          e.classList.add('active');   
       });
  });
+
+
+ //Post on click event
+ var types = document.querySelectorAll('.type');
+
+ types.forEach( type => {
+    type.addEventListener('click', () => {
+        types.forEach( el => el.classList.remove('active-type'));
+        type.classList.add('active-type');
+     });
+ });
+
+ //Folders Selection
+ var dossiers = document.querySelectorAll('.dossier');
+
+ dossiers.forEach( dossier => {
+     dossier.addEventListener('click', () => {         
+        dossier.classList.toggle('selected-folder');
+     });
+ });
+ 
 
  //toggle sidebar
 //  const hamburger = document.querySelector('.navbar__toggle');
