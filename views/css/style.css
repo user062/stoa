@@ -174,6 +174,17 @@ body {
     font-size: 12px;
 }
 
+.comment{
+    border-top: 1px solid #e4e6e8;
+    border-bottom: 1px solid #e4e6e8;
+    font-size: 12px;
+    background-color: #FFF!important;
+    width: 90%;
+}
+
+.comment-detail a {
+    color: #2172CD;
+}
 
 @media (max-width: 768px) {
     body {

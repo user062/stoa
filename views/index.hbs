@@ -176,26 +176,38 @@
                                     </div>
                                 </div>                        
                                 {{#each post.responses as |response|}}
-                                {{!-- Replies --}}
-                                <div class="card mb-2">
-                                    <div class="card-body">
-                                        <div class="media forum-item">
-                                            <a href="javascript:void(0)" class="card-link">
-                                                <img src="https://randomuser.me/api/portraits/men/42.jpg" class="rounded-circle" width="50" alt="User" />                                    
-                                            </a>
-                                            <div class="media-body ml-3">
-                                                <a href="javascript:void(0)" class="text-secondary">{{response.author}}</a>
-                                                <small class="text-muted ml-2">1 hour ago</small>
-                                                <div class="mt-3 font-size-sm">
-                                                    <p>{{response.content}}</p>
+                                    {{!-- Replies --}}
+                                    <div class="ml-3 card mb-2">
+                                        <div class="card-body">
+                                            <div class="media forum-item">
+                                                <a href="javascript:void(0)" class="card-link">
+                                                    <img src="https://randomuser.me/api/portraits/men/42.jpg" class="rounded-circle" width="50" alt="User" />                                    
+                                                </a>
+                                                <div class="media-body ml-3">
+                                                    <a href="javascript:void(0)" class="text-secondary">{{response.author}}</a>
+                                                    <small class="text-muted ml-2">1 hour ago</small>
+                                                    <div class="mt-3 font-size-sm">
+                                                        <p>{{response.content}}</p>
+                                                    </div>
+                                                    <button class="btn btn-xs text-muted has-icon"><i class="fa fa-heart mr-1" aria-hidden="true"></i>1</button>
+                                                    <a href="javascript:void(0)" class="text-muted small">Reply</a>       
+                                                    {{!-- Comments for this post (loop here) --}}
+                                                    <div class="mt-4 comment">
+                                                        <a href="javascript:void(0)" class="card-link"></a>
+                                                        <div class="ml-2 pt-1 comment-text">                                    
+                                                            <p class="mb-1">{{response.content}} Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis, quisquam. Libero vitae laboriosam dolorum.</p>                                    
+                                                            <div class="pb-1 comment-detail">
+                                                                <a href="javascript:void(0)"    >{{response.author}}djamel cherbal</a>
+                                                                <small class="text-muted ml-2">1 hour ago</small>    
+                                                            </div>                                                                                                                                                               
+                                                        </div>                                            
+                                                    </div>
                                                 </div>
-                                                <button class="btn btn-xs text-muted has-icon"><i class="fa fa-heart mr-1" aria-hidden="true"></i>1</button>
-                                                <a href="javascript:void(0)" class="text-muted small">Reply</a>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            {{/each}}
+                                    </div>                                    
+                                {{/each}}
+                                
                             </div>                            
                         </div>
                         {{/each}}
