@@ -29,6 +29,14 @@
         dossier.classList.toggle('selected-folder');
      });
  });
+
+ var modules = document.querySelectorAll('.module__link');
+
+ modules.forEach( module =>  {
+     module.addEventListener('click', () => {
+        module.classList.toggle('show-folders');
+     })     
+ })
  
 
  //toggle sidebar

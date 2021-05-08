@@ -115,6 +115,17 @@ body {
     font-size: 22px;
 }
 
+/* Sidebar Folders */
+.module__link {
+    height: 50px;
+    overflow: hidden;    
+}
+
+.show-folders {
+    height: auto;
+}
+/* End Sidebar Folders */
+
 .new__descussion {
     font-size: 13px!important;
     margin: 0 auto 1.5rem auto;
@@ -312,3 +323,4 @@ body {
 .dossiers .dossier span {
     line-height: 32px;
 }
+
