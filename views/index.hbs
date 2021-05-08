@@ -140,6 +140,15 @@
                                             <div class="media-body">
                                                 <h6><a href="#" data-toggle="collapse" data-target=".forum-content{{post.id}}" class="text-body">{{post.title}}</a></h6>
                                                 <p class="text-secondary">{{post.content}}</p>
+                                                <div class="files mb-2">
+                                                    {{!-- Loop files --}}
+                                                    <div class="file">
+                                                        <span class="material-icons icon">description</span>
+                                                        <span class="file-name">
+                                                           <a href="#">devoire_de_maison.pdf</a> 
+                                                        </span>
+                                                    </div>                                                                                                          
+                                                </div>
                                                 <p class="post-time text-muted align-self-end m-0"><span class="text-secondary font-weight-bold">13 minutes ago</span></p>
                                             </div>
                                             <div class="text-muted small  text-center align-self-end">
@@ -166,12 +175,20 @@
                                                 <h5 class="mt-1">{{post.title}}</h5>
                                                 <div class="mt-3 font-size-sm">
                                                     <p>{{post.content}}</p>
-                                                </div>
+                                                    <div class="files mb-2">
+                                                        {{!-- Loop files --}}
+                                                        <div class="file">
+                                                            <span class="material-icons icon">description</span>
+                                                            <span class="file-name">
+                                                            <a href="#">devoire_de_maison.pdf</a> 
+                                                            </span>
+                                                        </div>                                                          
+                                                    </div>                                                
                                             </div>
-                                            <div class="text-muted small  text-center align-self-center">
+                                            <div class="text-muted small  text-right align-self-center">
                                                 <span class="d-none d-sm-inline-block"><span class="material-icons" style="font-size: 16px">visibility</span> 19</span>                                                
                                                 <span><span class="material-icons" style="font-size: 16px">forum</span> 3</span>                                        
-                                            </div>
+                                            </div>                                            
                                         </div>
                                     </div>
                                 </div>                        
@@ -185,10 +202,19 @@
                                                 </a>
                                                 <div class="media-body ml-3">
                                                     <a href="javascript:void(0)" class="text-secondary">{{response.author}}</a>
-                                                    <small class="text-muted ml-2">1 hour ago</small>
+                                                    <small class="text-muted ml-2">1 hour ago</small>                                                    
                                                     <div class="mt-3 font-size-sm">
                                                         <p>{{response.content}}</p>
                                                     </div>
+                                                    <div class="files mb-2">
+                                                        {{!-- Loop files --}}
+                                                        <div class="file">
+                                                            <span class="material-icons icon">description</span>
+                                                            <span class="file-name">
+                                                            <a href="#">devoire_de_maison.pdf</a> 
+                                                            </span>
+                                                        </div>                                                          
+                                                    </div>      
                                                     <button class="btn btn-xs text-muted has-icon"><i class="fa fa-heart mr-1" aria-hidden="true"></i>1</button>
                                                     <a href="javascript:void(0)" class="text-muted small">Reply</a>       
                                                     {{!-- Comments for this post (loop here) --}}
