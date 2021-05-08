@@ -136,7 +136,7 @@ body {
 
 .content {    
     background: #fafafa;
-    height: 100vh;
+    height: 100%;
     grid-area: content;
     padding: 2rem 0;    
     font-size: .8rem!important;
