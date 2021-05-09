@@ -19,7 +19,6 @@ router.post('/login', async (req, res) => {
             res.redirect('/');
         }
         else {
-          req.session.loggedIn = true;
           req.session.userId = req.body.email;
           res.redirect('/validation');
         }
