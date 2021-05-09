@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +8,7 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/material-icons.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">        
-    <title>Nouveau Poste</title>
+    <title>Nouveau Reponse</title>
 </head>
 <body>
 
@@ -77,66 +78,14 @@
     <div class="content">        
         <div class="container">
         <div class="col-10 mx-auto">
-            <h5>Ajouter un post</h5>
+            <h5>Ajouter une reponse</h5>
             <hr>
-            <form action="new_post/new_post" method="POST">
-                <label>Type</label>
-                <section class="post__types">                              
-                    <div class="type active-type" id="question">
-                        <div class="type-logo">
-                            <img src="images/icons/faq.png" height="65" width="65">
-                        </div>
-                        <div class="type-title">
-                            Question 
-                        </div>
-                    </div>
-                 
-                    <div class="type" id="note">
-                        <div class="type-logo">
-                            <img src="images/icons/note.png" height="65" width="65">
-                        </div>
-                        <div class="type-title">
-                            Note 
-                        </div>
-                    </div>                                       
-                    <div class="type" id="poll">
-                        <div class="type-logo">
-                            <img src="images/icons/poll.png" height="65" width="65">
-                        </div>
-                        <div class="type-title">
-                            Poll 
-                        </div>
-                    </div>                    
-                </section><br>
-                <section class="post__folder form-group">
-                    <label for="title">Dossiers</label>
-                    <div class="dossiers">
-                        <div class="dossier">
-                            <span>devoires</span> 
-                        </div>
-                        <div class="dossier">
-                            <span>coures</span>                            
-                        </div>
-                        <div class="dossier">
-                            <span>td</span>
-                        </div>
-                        <div class="dossier">
-                            <span>notes</span>
-                        </div>
-                        <div class="dossier">
-                            <span>other</span>
-                        </div>
-                    </div>
-                </section><br>
-                <section class="post__title form-group">
-                    <label for="title">Titre</label>
-                    <input class="form-control" type="text" name="title" placeholder="Titre du sujet" id="title">
-                </section><br>
+            <form action="new_reply/new_reply" method="POST">
                 <section class="details">
                     <label>Détailes</label>
                     <textarea name="keyboard_cat" class="petMachine" id="my-expressjs-tinymce-app"></textarea>
                 </section>
-                <button class="btn btn-primary col-12 ml-auto mt-3 mb-5" onclick="select_type()">Ajouter</button>
+                <button class="btn btn-primary col-12 ml-auto mt-3 mb-5" >Reponder</button>
             </form>
 
 
@@ -145,28 +94,6 @@
         </div>
     </div>
 
-    <script>
-      function select_type(){
-          let form = document.getElementsByTagName("form")[0];
-
-          let chosen_type = document.getElementsByClassName("active-type")[0];
-          let type = document.createElement('input');
-          type.setAttribute("type", "hidden");
-          type.setAttribute("name", "type");
-          type.setAttribute("value", chosen_type.id);
-          form.appendChild(type);
-
-          let selected_folders = document.getElementsByClassName("selected-folder");
-          for(let selected_folder of selected_folders){
-              let folder = document.createElement('input');
-              folder.setAttribute("type", "hidden");
-              folder.setAttribute("name", "folders")
-              folder.setAttribute("value", selected_folder.getElementsByTagName("span")[0].innerHTML);
-              form.appendChild(folder);
-          }
-      }
-      
-    </script>
     <!-- Script element sourcing TinyMCE -->
     <script type="application/javascript" src= "/tinymce/tinymce.min.js"></script>
     <!-- Script element sourcing the TinyMCE configuration -->

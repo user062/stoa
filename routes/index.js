@@ -1,14 +1,16 @@
 const express = require('express');
 const router = express.Router();
+const Module = require('../models/Module');
 
 // @desc index/Landing page
 // @route GET /
 router.get('/', (req, res) => {
+
     if (!req.session.userId)
         res.redirect('/login');
 
     else
-        res.render('index');
+        res.render('index', { layout: '', posts: Module.posts });
 });
 
 
@@ -53,4 +55,7 @@ router.get('/new_post', (req, res) => {
     res.render('new_post', { layout: '' });
 });
 
+router.get('/new_reply', (req, res) => {
+    res.render('new_reply', { layout: '' });
+});
 module.exports = router;
