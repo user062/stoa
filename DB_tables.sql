@@ -23,6 +23,8 @@ create table COMPTE
    PRENOM               varchar(30),
    SEXE                 char(1) check (SEXE='F' or SEXE='H'),
    DATE_NAISSANCE    	date,
+   vcode				int default 0,
+   date_inscrit			timestamp,
    TYPE                 char(1) check (TYPE='E' or TYPE='P')
 );
 
