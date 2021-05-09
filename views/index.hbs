@@ -34,10 +34,10 @@
         
     <div class="sidebar">
         <ul class="links">
-            <button class="btn btn-primary new__descussion">
+            <a href="/new_post" class="btn btn-primary new__descussion">
                 <span class="material-icons">add</span>
                 <span class="new__descussion-text">Nouvelle Discussion</span>
-                </button>
+            </a>
             <li>                                
                 <a class="sidebar__link active" href="#">
                     <span class="material-icons">home</span>
@@ -52,16 +52,32 @@
                     Discussions
                 </a>                
             </li>
-            <hr style="background-color: #f6f6f6;height: 1px;width: 75%;margin: 1rem auto">
-            <li>                
+            <hr style="background-color: #f6f6f6;height: 1px;width: 75%;margin: 1rem auto">            
+            <li class="module__link">                
                 <a class="sidebar__link" href="#">
-                    <span class="material-icons">
-                    folder_open
-                    </span>           
+                    <span class="material-icons">folder_open</span>           
                     IHM
-                </a>                
+                </a>          
+                <div class="module__folders ml-4">
+                    <a class="module__folder" href="#">
+                        <span class="material-icons">folder_open</span>           
+                        Coures
+                    </a>          
+                </div>   
+                <div class="module__folders ml-4">
+                    <a class="module__folder" href="#">
+                        <span class="material-icons">folder_open</span>           
+                        TD
+                    </a>          
+                </div>      
+                <div class="module__folders ml-4">
+                    <a class="module__folder" href="#">
+                        <span class="material-icons">folder_open</span>           
+                        Notes
+                    </a>          
+                </div>      
             </li>
-            <li>                
+            <li class="module__link">                
                 <a class="sidebar__link" href="#">
                     <span class="material-icons">
                     folder_open
@@ -69,7 +85,7 @@
                     Acoo
                 </a>                
             </li>
-            <li>                
+            <li class="module__link">                
                 <a class="sidebar__link" href="#">
                     <span class="material-icons">
                     folder_open
@@ -129,19 +145,17 @@
                     
                     <!-- Forum List -->
                     <div class="posts">
+                      {{#each posts as |post|}}
                         <div class="post">
-                            <div class="inner-main-body pt-2 collapse forum-content show">
+                            <div class="inner-main-body pt-2 collapse forum-content{{post.id}} show">
                                 <div class="card mb-2">
                                     <div class="card__tag text-muted">ACOO</div>
                                     <div class="card-body p-2 p-sm-3">
                                         <div class="media forum-item">
-                                            <a href="#" data-toggle="collapse" data-target=".forum-content"><img src="https://randomuser.me/api/portraits/men/88.jpg" class="mr-3 rounded-circle" width="50" alt="User" /></a>
+                                            <a href="#" data-toggle="collapse" data-target=".forum-content{{post.id}}"><img src="https://randomuser.me/api/portraits/men/88.jpg" class="mr-3 rounded-circle" width="50" alt="User" /></a>
                                             <div class="media-body">
-                                                <h6><a href="#" data-toggle="collapse" data-target=".forum-content" class="text-body">Salam alikoum chabiba!</a></h6>
-                                                <p class="text-secondary">
-                                                    lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet
-                                                    lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet...                                                    
-                                                </p>
+                                                <h6><a href="#" data-toggle="collapse" data-target=".forum-content{{post.id}}" class="text-body">{{post.title}}</a></h6>
+                                                <p class="text-secondary">{{{post.content}}}</p>
                                                 <p class="post-time text-muted align-self-end m-0"><span class="text-secondary font-weight-bold">13 minutes ago</span></p>
                                             </div>
                                             <div class="text-muted small  text-center align-self-end">
@@ -154,8 +168,8 @@
                             </div>                    
 
                             <!-- Forum Detail (replies) -->
-                            <div class="inner-main-body p-2 p-sm-3 collapse forum-content">
-                                <a href="#" class="btn btn-light btn-sm mb-3 has-icon" data-toggle="collapse" data-target=".forum-content"><i class="fa fa-arrow-left mr-2"></i>Back</a>
+                            <div class="inner-main-body p-2 p-sm-3 collapse forum-content{{post.id}}" >
+                                <a href="#" class="btn btn-light btn-sm mb-3 has-icon" data-toggle="collapse" data-target=".forum-content{{post.id}}"><i class="fa fa-arrow-left mr-2"></i>Back</a>
                                 <div class="card mb-2">
                                     <div class="card-body">
                                         <div class="media forum-item">
@@ -163,52 +177,76 @@
                                                 <img src="https://randomuser.me/api/portraits/men/34.jpg" class="rounded-circle" width="50" alt="User" />                                        
                                             </a>
                                             <div class="media-body ml-3">
-                                                <a href="javascript:void(0)" class="text-secondary">Mokrani</a>
+                                                <a href="javascript:void(0)" class="text-secondary">{{post.author}}</a>
                                                 <small class="text-muted ml-2">1 hour ago</small>
-                                                <h5 class="mt-1">Realtime fetching data</h5>
+                                                <h5 class="mt-1">{{post.title}}</h5>
                                                 <div class="mt-3 font-size-sm">
-                                                    <p>Hellooo :)</p>
-                                                    <p>
-                                                        I'm newbie with laravel and i want to fetch data from database in realtime for my dashboard anaytics and i found a solution with ajax but it dosen't work if any one have a simple solution it will be
-                                                        helpful
-                                                    </p>
-                                                    <p>Thank</p>
-                                                </div>
+                                                    <p>{{{post.content}}}</p>
+                                                    <div class="files mb-2">
+                                                        {{!-- Loop files --}}
+                                                        <div class="file">
+                                                            <span class="material-icons icon">description</span>
+                                                            <span class="file-name">
+                                                            <a href="#">devoire_de_maison.pdf</a> 
+                                                            </span>
+                                                        </div>                                                          
+                                                    </div>                                                
                                             </div>
-                                            <div class="text-muted small  text-center align-self-center">
+                                            <div class="text-muted small  text-right align-self-center">
                                                 <span class="d-none d-sm-inline-block"><span class="material-icons" style="font-size: 16px">visibility</span> 19</span>                                                
                                                 <span><span class="material-icons" style="font-size: 16px">forum</span> 3</span>                                        
-                                            </div>
+                                            </div>                                            
                                         </div>
+                                <a href="/new_reply" class="text-muted small">Reply</a>
                                     </div>
                                 </div>                        
-                                <div class="card mb-2">
-                                    <div class="card-body">
-                                        <div class="media forum-item">
-                                            <a href="javascript:void(0)" class="card-link">
-                                                <img src="https://randomuser.me/api/portraits/men/42.jpg" class="rounded-circle" width="50" alt="User" />                                    
-                                            </a>
-                                            <div class="media-body ml-3">
-                                                <a href="javascript:void(0)" class="text-secondary">drewdan</a>
-                                                <small class="text-muted ml-2">1 hour ago</small>
-                                                <div class="mt-3 font-size-sm">
-                                                    <p>What exactly doesn't work with your ajax calls?</p>
-                                                    <p>Also, WebSockets are a great solution for realtime data on a dashboard. Laravel offers this out of the box using broadcasting</p>
+                                {{#each post.responses as |response|}}
+                                    {{!-- Replies --}}
+                                    <div class="ml-3 card mb-2">
+                                        <div class="card-body">
+                                            <div class="media forum-item">
+                                                <a href="javascript:void(0)" class="card-link">
+                                                    <img src="https://randomuser.me/api/portraits/men/42.jpg" class="rounded-circle" width="50" alt="User" />                                    
+                                                </a>
+                                                <div class="media-body ml-3">
+                                                    <a href="javascript:void(0)" class="text-secondary">{{response.author}}</a>
+                                                    <small class="text-muted ml-2">1 hour ago</small>                                                    
+                                                    <div class="mt-3 font-size-sm">
+                                                        <p>{{{response.content}}}</p>
+                                                    </div>
+                                                    <div class="files mb-2">
+                                                        {{!-- Loop files --}}
+                                                        <div class="file">
+                                                            <span class="material-icons icon">description</span>
+                                                            <span class="file-name">
+                                                            <a href="#">devoire_de_maison.pdf</a> 
+                                                            </span>
+                                                        </div>                                                          
+                                                    </div>      
+                                                    <button class="btn btn-xs text-muted has-icon"><i class="fa fa-heart mr-1" aria-hidden="true"></i>1</button>
+                                                    <a href="javascript:void(0)" class="text-muted small">Reply</a>       
+                                                    {{!-- Comments for this post (loop here) --}}
+                                                    <div class="mt-4 comment">
+                                                        <a href="javascript:void(0)" class="card-link"></a>
+                                                        <div class="ml-2 pt-1 comment-text">                                    
+                                                            <p class="mb-1">{{response.content}} Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis, quisquam. Libero vitae laboriosam dolorum.</p>                                    
+                                                            <div class="pb-1 comment-detail">
+                                                                <a href="javascript:void(0)"    >{{response.author}}djamel cherbal</a>
+                                                                <small class="text-muted ml-2">1 hour ago</small>    
+                                                            </div>                                                                                                                                                               
+                                                        </div>                                            
+                                                    </div>
                                                 </div>
-                                                <button class="btn btn-xs text-muted has-icon"><i class="fa fa-heart mr-1" aria-hidden="true"></i>1</button>
-                                                <a href="javascript:void(0)" class="text-muted small">Reply</a>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
+                                    </div>                                    
+                                {{/each}}
+                                
                             </div>                            
-                    </div>
+                        </div>
+                        {{/each}}
                     {{!-- End post --}}                    
                     </div>
-                    
-                    
-                    
-
                 </div>
                 <!-- /Inner main -->
             </div>

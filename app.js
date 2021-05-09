@@ -32,6 +32,8 @@ app.use('/', require('./routes/index'));
 app.use('/login', require('./routes/login'));
 app.use('/registration', require('./routes/registration'));
 app.use('/validation', require('./routes/validation'));
+app.use('/new_post', require('./routes/new_post'));
+app.use('/new_reply', require('./routes/new_reply'));
 
 
 
