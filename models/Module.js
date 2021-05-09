@@ -18,7 +18,7 @@ class Module {
     }
 
     add_post(post) {
-        let query = 'insert into POST (COMPTEID, titre, TYPE, POST_CORE) values (?, ?, ?, ?);';
+        let query = 'insert into POST (COMPTEID, title, TYPE, POST_CORE) values (?, ?, ?, ?);';
         connection.query(query, [post.author, post.title, post.type[0], post.content], (err, results) => {
             if (err)
                 throw err;

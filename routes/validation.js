@@ -8,7 +8,7 @@ const connection = require('../config/db');
 router.post('/validation', async (req, res) => {
     let emadress = req.session.userId;
     let sql_query = 'Select vcode, compteID from COMPTE where COMPTE.EMAIL=' + connection.escape(emadress);
-    let sql_query1 = 'update compte set vcode = 0 where compteID = ?';
+    let sql_query1 = 'update COMPTE set vcode = 0 where compteID = ?';
 
     connection.query(sql_query, async (error, results) => {
         if (error)
@@ -21,10 +21,10 @@ router.post('/validation', async (req, res) => {
                 if (error)
                     throw error;
                 else {
-                  req.session.userId= cID;
-                  res.redirect('/');
-            }
-          });
+                    req.session.userId = cID;
+                    res.redirect('/');
+                }
+            });
         }
 
         else {
