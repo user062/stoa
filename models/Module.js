@@ -13,7 +13,7 @@ class Module {
                 if (err)
                     throw err;
                 else
-                    results.forEach((row) => { this.posts.unshift(new Post(row.POST_ID, row.COMPTEID, row.titre, row.TYPE, row.POST_CORE, [], [])); });
+                    results.forEach((row) => { this.posts.unshift(new Post(row.POST_ID, row.COMPTEID, row.title, row.TYPE, row.POST_CORE, [], [])); });
             });
     }
 
