@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +7,7 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/material-icons.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">        
-    <title>Nouveau Reponse</title>
+    <title>Nouveau Comment</title>
 </head>
 <body>
 
@@ -80,12 +79,12 @@
         <div class="col-10 mx-auto">
             <h5>Ajouter une reponse</h5>
             <hr>
-            <form action="new_reply/new_reply" method="POST" encType="multipart/form-data">
+            <form action="new_comment/new_comment" method="POST">
                 <section class="details">
                     <label>Détailes</label>
                     <textarea name="keyboard_cat" class="petMachine" id="my-expressjs-tinymce-app"></textarea>
                 </section>
-                <button class="btn btn-primary col-12 ml-auto mt-3 mb-5" onclick="clean_file_placeholder()">Reponder</button>
+                <button class="btn btn-primary col-12 ml-auto mt-3 mb-5" >Commenter</button>
             </form>
 
 
@@ -94,16 +93,6 @@
         </div>
     </div>
 
-    <script>
-      function clean_file_placeholder(){
-          let file = tinymce.activeEditor.dom.get('file_upload');
-
-          while(file){
-              file = tinymce.activeEditor.dom.get('file_upload');
-              tinymce.activeEditor.dom.remove(file);
-          }
-      }
-    </script>
     <!-- Script element sourcing TinyMCE -->
     <script type="application/javascript" src= "/tinymce/tinymce.min.js"></script>
     <!-- Script element sourcing the TinyMCE configuration -->

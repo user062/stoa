@@ -6,7 +6,6 @@ const Module = require('../models/Module');
 // @route GET /
 router.get('/', (req, res) => {
     if (!req.session.loggedIn)
-
         res.redirect('/login');
 
     else
@@ -48,12 +47,12 @@ router.get('/module', (req, res) => {
 });
 
 router.get('/validation', (req, res) => {
-  if (req.session.error) {
-      res.render('validation', { error: req.session.error, layout: '' });
-      req.session.error = null;
-  }
-  else
-    res.render('validation', { layout: '' });
+    if (req.session.error) {
+        res.render('validation', { error: req.session.error, layout: '' });
+        req.session.error = null;
+    }
+    else
+        res.render('validation', { layout: '' });
 });
 
 router.get('/new_post', (req, res) => {
@@ -63,4 +62,9 @@ router.get('/new_post', (req, res) => {
 router.get('/new_reply', (req, res) => {
     res.render('new_reply', { layout: '' });
 });
+
+router.get('/new_comment', (req, res) => {
+    res.render('new_comment', { layout: '' });
+});
+
 module.exports = router;

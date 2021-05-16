@@ -5,6 +5,9 @@ const exphbs = require('express-handlebars');
 const connectDB = require('./config/db');
 const path = require('path');
 const session = require('express-session');
+const Handlebars = require("handlebars");
+const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-access');
+const fileUpload = require('express-fileupload');
 
 dotenv.config({ path: './config/config.env' });
 
@@ -13,7 +16,7 @@ const app = express();
 if (process.env.NODE_ENV === 'development')
     app.use(morgan('dev'));
 
-app.engine('.hbs', exphbs({ defaultLayout: '', extname: '.hbs' }));
+app.engine('.hbs', exphbs({ handlebars: allowInsecurePrototypeAccess(Handlebars), defaultLayout: '', extname: '.hbs' }));
 app.set('view engine', '.hbs');
 
 app.use(express.static(path.join(__dirname, 'views')));
@@ -21,6 +24,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
 
+app.use(fileUpload());
 app.use(
     session({
         secret: 'keyboard cat',
@@ -34,6 +38,7 @@ app.use('/registration', require('./routes/registration'));
 app.use('/validation', require('./routes/validation'));
 app.use('/new_post', require('./routes/new_post'));
 app.use('/new_reply', require('./routes/new_reply'));
+app.use('/new_comment', require('./routes/new_comment'));
 
 
 
