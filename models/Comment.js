@@ -8,14 +8,10 @@ class Comment {
         this.author_id = author_id;
         this.content = content;
 
-        connection.query('select NOM, PRENOM from COMPTE where COMPTEID=?', [author_id], (err, results) => {
-            if (err)
-                throw err;
-            else
-                this.author = results[0].PRENOM + ' ' + results[0].NOM;
+        connection.query('select NOM, PRENOM from COMPTE where COMPTEID=?', [author_id]).then((results) => {
+            this.author = results[0][0].PRENOM + ' ' + results[0][0].NOM;
         });
     }
-
     get get_elapsed_time() {
         return elapsed_time(this.creation_date);
     }

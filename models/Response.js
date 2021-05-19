@@ -25,15 +25,13 @@ class Response {
     }
 
 
-    add_comment(comment) {
+    async add_comment(comment) {
         let query = 'insert into COMMENTAIRE (COMPTEID, ID_REPONSE, COMM_CORE) values (?, ?, ?);';
 
-        connection.query(query, [comment.author_id, this.id, comment.content]).then((results) => {
-            connection.query('SELECT LAST_INSERT_ID() as id').then((results) => {
-                comment.id = results[0][0].id;
-                this.comments.push(comment);
-            });
-        });
+        await connection.query(query, [comment.author_id, this.id, comment.content]);
+        let comment_id = await connection.query("select ID_COMMENTAIRE as id from COMMENTAIRE order by id desc limit 1");
+        comment.id = comment_id[0][0].id;
+        this.comments.push(comment);
     }
 
     delete_comment(comment) {

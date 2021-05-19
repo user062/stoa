@@ -224,7 +224,7 @@
                                                         {{/each}}
                                                     </div>      
                                                     <a href="/new_comment?{{post.id}}?{{response.id}}" class="text-muted small">Reply</a>       
-                                                    {{#each comments as |comment|}}
+                                                    {{#each response.comments as |comment|}}
                                                     <div class="mt-4 comment">
                                                         <a href="javascript:void(0)" class="card-link"></a>
                                                         <div class="ml-2 pt-1 comment-text">                                    
