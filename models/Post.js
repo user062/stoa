@@ -3,6 +3,7 @@ const Response = require('./Response');
 const File = require('./File');
 const fs = require('fs');
 const elapsed_time = require('./helpers/humanized_time_span');
+const path = require('path');
 
 
 class Post {
@@ -32,23 +33,19 @@ class Post {
     }
 
     async add_file(file) {
-        let path = `Uploads/${this.id}/`;
-        await connection.query('insert into file (POST_ID, file_path, file_name) values (?,?,?) ', [this.id, path + file.name, file.name]);
-        await fs.promises.mkdir('views/' + path, { recursive: true });
-        file.mv('views/' + path + file.name);
-        this.files.push(new File(file.name, path + file.name));
+        let location = path.join('Uploads', String(this.id));
+        await connection.query('insert into file (POST_ID, file_path, file_name) values (?,?,?) ', [this.id, path.join(location, file.name), file.name]);
+        await fs.promises.mkdir(path.join('views', location), { recursive: true });
+        file.mv(path.join('views', location, file.name));
+        this.files.push(new File(file.name, path.join(location, file.name)));
     }
 
-    add_response(response) {
-
+    async add_response(response) {
         let query = 'insert into REPONSE (COMPTEID, POST_ID, REPONSE_CORE) values (?, ?, ?);';
 
-        connection.query(query, [response.author_id, this.id, response.content]).then((results) => {
-            connection.query('SELECT LAST_INSERT_ID() as id').then((results) => {
-                response.id = results[0][0].id;
-            });
-        }
-        );
+        await connection.query(query, [response.author_id, this.id, response.content]);
+        let id_rep = await connection.query('SELECT ID_REPONSE as id from REPONSE order by id desc limit 1');
+        response.id = id_rep[0][0].id;
         this.responses.push(response);
     }
 

@@ -3,6 +3,7 @@ const Comment = require('./Comment');
 const fs = require('fs');
 const File = require('./File');
 const elapsed_time = require('./helpers/humanized_time_span');
+const path = require('path');
 
 class Response {
     constructor(id, creation_date, author_id, content, comments, files) {
@@ -41,11 +42,11 @@ class Response {
 
     async add_file(file) {
         let post_id = await connection.query('select POST_ID from REPONSE where ID_REPONSE=?', [this.id]);
-        let path = `Uploads/${post_id}/${this.id}/`;
-        await connection.query('insert into file (ID_REPONSE, file_path, file_name) values (?,?,?) ', [this.id, path + file.name, file.name]);
-        await fs.promises.mkdir('views/' + path, { recursive: true });
-        file.mv('views/' + path + file.name);
-        this.files.push(new File(file.name, path + file.name));
+        let location = path.join('Uploads', String(post_id[0][0].POST_ID), String(this.id));
+        await connection.query('insert into file (ID_REPONSE, file_path, file_name) values (?,?,?) ', [this.id, path.join(location, file.name), file.name]);
+        await fs.promises.mkdir(path.join('views', location), { recursive: true });
+        file.mv(path.join('views', location, file.name));
+        this.files.push(new File(file.name, path.join(location, file.name)));
     }
 
     get get_elapsed_time() {
