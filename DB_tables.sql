@@ -69,7 +69,7 @@ create table file
    POST_ID              int default null,
    ID_REPONSE           int default null,
    file_path            longtext,
-   file_name            varchar(255);
+   file_name            varchar(255)
 );
 
 
