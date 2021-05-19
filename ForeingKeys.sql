@@ -19,10 +19,10 @@ alter table DOSSIER add constraint FK_CREE foreign key (COMPTEID)
 alter table DOSSIER add constraint FK_FAIT_PARTI foreign key (ID_MODULE)
       references MODULE (ID_MODULE) on delete cascade;
 
-alter table file_1 add constraint FK_AJOUTE foreign key (POST_ID)
+alter table file add constraint FK_AJOUTE foreign key (POST_ID)
       references POST (POST_ID) on delete cascade;
 
-alter table file_1 add constraint FK_AJOUTE2 foreign key (ID_REPONSE)
+alter table file add constraint FK_AJOUTE2 foreign key (ID_REPONSE)
       references REPONSE (ID_REPONSE) on delete cascade;
 
 alter table INSCRET add constraint FK_INSCRET foreign key (COMPTEID)
