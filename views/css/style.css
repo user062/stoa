@@ -186,7 +186,7 @@ body {
 }
 
 .files {
-    width: 40%;    
+    width: max-content;    
     overflow: hidden;
 }
 

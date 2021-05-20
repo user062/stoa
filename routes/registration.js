@@ -32,39 +32,32 @@ router.post('/registration', async (req, res) => {
     let values = [email, hash, f_name, l_name, gender, birth, status, vcode].map((x) => "'" + x + "'").join(', ');
     let query = ["insert into COMPTE (EMAIL, PASSWORD, NOM, PRENOM, SEXE, DATE_NAISSANCE, TYPE, VCODE) values (", values, ")"].join('');
     let checkEmail = 'select compteID from COMPTE where email= ?';
-    connection.query(checkEmail, [email], (err, results) => {
-        if (err)
-            throw err;
+    let email_exists = await connection.query(checkEmail, [email]);
+    console.log(email_exists);
+    if (email_exists[0][0]) {
+        req.session.error = 'email exists';
+        res.redirect('/registration');
+    }
 
-        else if (results[0]) {
-            req.session.error = 'email exists';
-            res.redirect('/registration');
-        }
-        else {
+    else {
+        transporter.sendMail({
+            from: 'stoaSite@gmail.com',
+            to: req.body.email,
+            subject: 'validation code',
+            text: mail
+        });
 
-            transporter.sendMail({
-                from: 'stoaSite@gmail.com',
-                to: req.body.email,
-                subject: 'validation code',
-                text: mail
-            });
+        connection.query(query).then((results) => {
 
-            connection.query(query, (err, results) => {
-                if (err)
-                    throw err;
-                else {
+            req.session.loggedIn = false;
 
-                    req.session.loggedIn= false;
-
-                    req.session.userId = req.body.email;
+            req.session.userId = req.body.email;
 
 
-                    res.redirect('/validation');
-                }
-            });
-        }
-    });
+            res.redirect('/validation');
+        });
 
+    }
 });
 
 module.exports = router;

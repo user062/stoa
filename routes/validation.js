@@ -10,20 +10,13 @@ router.post('/validation', async (req, res) => {
     let sql_query = 'Select vcode, compteID from COMPTE where COMPTE.EMAIL=' + connection.escape(emadress);
     let sql_query1 = 'update COMPTE set vcode = 0 where compteID = ?';
 
-    connection.query(sql_query, async (error, results) => {
-        if (error)
-            throw error;
-
-        else if (results[0] && req.body.code == results[0].vcode) {
+    connection.query(sql_query).then((results) => {
+        if (results[0][0] && req.body.code == results[0][0].vcode) {
             req.session.loggedIn = true;
-            let cID = results[0].compteID;
-            connection.query(sql_query1, [cID], async (error, results) => {
-                if (error)
-                    throw error;
-                else {
-                    req.session.userId = cID;
-                    res.redirect('/');
-                }
+            let cID = results[0][0].compteID;
+            connection.query(sql_query1, [cID]).then((results) => {
+                req.session.userId = cID;
+                res.redirect('/');
             });
         }
 

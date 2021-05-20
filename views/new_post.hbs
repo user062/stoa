@@ -79,7 +79,7 @@
         <div class="col-10 mx-auto">
             <h5>Ajouter un post</h5>
             <hr>
-            <form action="new_post/new_post" method="POST">
+            <form action="new_post/new_post" method="POST" encType="multipart/form-data">
                 <label>Type</label>
                 <section class="post__types">                              
                     <div class="type active-type" id="question">
@@ -145,6 +145,15 @@
         </div>
     </div>
 
+    <!-- Script element sourcing TinyMCE -->
+    <script type="application/javascript" src= "/tinymce/tinymce.min.js"></script>
+    <!-- Script element sourcing the TinyMCE configuration -->
+    <script type="application/javascript" src= "/js/my-tinymce-config.js"></script>
+
+    <script src="js/main.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
     <script>
       function select_type(){
           let form = document.getElementsByTagName("form")[0];
@@ -164,16 +173,15 @@
               folder.setAttribute("value", selected_folder.getElementsByTagName("span")[0].innerHTML);
               form.appendChild(folder);
           }
+
+          let file = tinymce.activeEditor.dom.get('file_upload');
+
+          while(file){
+              file = tinymce.activeEditor.dom.get('file_upload');
+              tinymce.activeEditor.dom.remove(file);
+          }
       }
       
     </script>
-    <!-- Script element sourcing TinyMCE -->
-    <script type="application/javascript" src= "/tinymce/tinymce.min.js"></script>
-    <!-- Script element sourcing the TinyMCE configuration -->
-    <script type="application/javascript" src= "/js/my-tinymce-config.js"></script>
-
-    <script src="js/main.js"></script>
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
 </body>
 </html>
