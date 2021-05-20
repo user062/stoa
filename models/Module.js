@@ -8,28 +8,16 @@ class Module {
         this.posts = posts;
         this.folders = folders;
         if (posts.length === 0)
-            connection.query('select * from POST', (err, results) => {
-                console.log(results);
-                if (err)
-                    throw err;
-                else
-                    results.forEach((row) => { this.posts.unshift(new Post(row.POST_ID, row.COMPTEID, row.title, row.TYPE, row.POST_CORE, [], [])); });
+            connection.query('select * from POST').then((rows) => {
+                rows[0].forEach((row) => { this.posts.unshift(new Post(row.POST_ID, row.DATE_AJOUTE, row.COMPTEID, row.title, row.TYPE, row.POST_CORE, [], [])); });
             });
     }
 
-    add_post(post) {
+    async add_post(post) {
         let query = 'insert into POST (COMPTEID, title, TYPE, POST_CORE) values (?, ?, ?, ?);';
-        connection.query(query, [post.author, post.title, post.type[0], post.content], (err, results) => {
-            if (err)
-                throw err;
-
-            else {
-                connection.query('SELECT LAST_INSERT_ID() as id', (err, results) => {
-                    post.id = results[0].id;
-                });
-            }
-        });
-        console.log(post.id);
+        await connection.query(query, [post.author_id, post.title, post.type[0], post.content]);
+        let row = await connection.query('SELECT POST_ID AS id FROM POST ORDER BY id DESC LIMIT 1');
+        post.id = row[0][0].id;
         this.posts.unshift(post);
     }
 
@@ -40,6 +28,10 @@ class Module {
     add_folder(folder) {
         this.folders.push(folder);
 
+    }
+
+    get_post_by_id(id) {
+        return this.posts.filter((post) => post.id === id);
     }
 }
 

@@ -7,7 +7,7 @@ create table COMMENTAIRE
    ID_COMMENTAIRE       int auto_increment primary key,
    COMPTEID              int,
    ID_REPONSE           int,
-   DATE_AJOUTE        date,
+   DATE_AJOUTE        timestamp default current_timestamp,
    COMM_CORE            longtext
 );
 
@@ -24,7 +24,7 @@ create table COMPTE
    SEXE                 char(1) check (SEXE='F' or SEXE='H'),
    DATE_NAISSANCE    	date,
    vcode				int default 0,
-   date_inscrit			timestamp,
+   date_inscrit			timestamp default current_timestamp,
    TYPE                 char(1) check (TYPE='E' or TYPE='P')
 );
 
@@ -61,14 +61,15 @@ create table DOSSIER
 );
 
 /*==============================================================*/
-/* Table : FICHIER_1                                            */
+/* Table : FICHIER                                              */
 /*==============================================================*/
-create table file_1
+create table file
 (
    ID_file           int auto_increment primary key,
    POST_ID              int default null,
    ID_REPONSE           int default null,
-   file_CORE         LONGBLOB
+   file_path            longtext,
+   file_name            varchar(255)
 );
 
 
@@ -121,7 +122,7 @@ create table POST
    POST_ID              int auto_increment primary key,
    COMPTEID              int,
    title				varchar(200) not null,
-   DATE_AJOUTE          date,
+   DATE_AJOUTE          timestamp default current_timestamp,
    TYPE                 char(1),
    POST_CORE            longtext
 );
@@ -134,7 +135,7 @@ create table REPONSE
    ID_REPONSE           int auto_increment primary key,
    COMPTEID              int,
    POST_ID              int,
-   DATE_AJOUTE          date,
+   DATE_AJOUTE          timestamp default current_timestamp,
    REPONSE_CORE         longtext,
    VOTES             int default 0
 );
