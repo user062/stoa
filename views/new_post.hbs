@@ -136,6 +136,25 @@
                     <label>Détailes</label>
                     <textarea name="keyboard_cat" class="petMachine" id="my-expressjs-tinymce-app"></textarea>
                 </section>
+            
+
+
+                <section class="poll my-5">
+                    <label for="title">Sondage</label>                    
+                    <div class="add-poll mb-2" style="display: flex;justify-content: space-between">
+                        <input class="form-control col-8    " type="text" name="new-option" placeholder="Ajouter une option" id="new-option">
+                        <button class="btn btn-secondary col-2 mx-auto">Ajouter</button>                    
+                    </div>
+                    <ul class="list-group mb-5">                        
+                        {{!-- Loop here --}}
+                        <li class="list-group-item d-inline-flex justify-content-between">Mardi 15-06-2021 <a href="#" id="delete-option">Supprimer</a></li>
+                        <li class="list-group-item d-inline-flex justify-content-between">Dimanche 19-06-2021 <a href="#" id="delete-option">Supprimer</a></li>
+                        <li class="list-group-item d-inline-flex justify-content-between">Ne pas faire l'intérogation <a href="#" id="delete-option">Supprimer</a></li>
+                        {{!-- End loop --}}
+                    </ul>
+                        
+                </section>
+
                 <button class="btn btn-primary col-12 ml-auto mt-3 mb-5" onclick="select_type()">Ajouter</button>
             </form>
 

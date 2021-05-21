@@ -28,6 +28,7 @@ body {
     grid-template-rows: 80px auto;
     grid-template-areas: "navbar navbar"
                          "content sidebar";
+    min-height: 100vh;
 }
 /* Containers */
 .container {
@@ -324,5 +325,17 @@ body {
 
 .dossiers .dossier span {
     line-height: 32px;
+}
+
+.poll {
+    display: none;
+}
+
+.show-poll {
+    display: block;
+}
+
+#delete-option {
+    color: red;
 }
 
