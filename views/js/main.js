@@ -18,10 +18,11 @@ types.forEach(type => {
     type.addEventListener('click', () => {
         types.forEach(el => el.classList.remove('active-type'));
         type.classList.add('active-type');
+        //Show add poll section
         if(type.id == "poll") {
-            document.querySelector('.poll').classList.add('show-poll');
+            document.querySelector('.add-poll-section').classList.add('show-poll');
         } else {
-            document.querySelector('.poll').classList.remove('show-poll');
+            document.querySelector('.add-poll-section').classList.remove('show-poll');
         }
     });
 });
