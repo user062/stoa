@@ -245,12 +245,70 @@
                             </div>                            
                         </div>
                         {{/each}}
-                    {{!-- End post --}}                    
+                        {{!-- End post --}}                    
+                        </div>
                     </div>
-                </div>
-                <!-- /Inner main -->
-            </div>
-            <!-- Button trigger modal -->
+                {{!-- Poll --}}
+
+
+                   <div class="post">
+                            <div class="inner-main-body pt-2 collapse forum-content{{post.id}} show">
+                                <div class="card mb-2">
+                                    <div class="card__tag text-muted">ACOO</div>
+                                    <div class="card-body p-2 p-sm-3">
+                                        <div class="media forum-item">
+                                            <a href="#" data-toggle="collapse" data-target=".forum-content{{post.id}}"><img src="https://randomuser.me/api/portraits/men/88.jpg" class="mr-3 rounded-circle" width="50" alt="User" /></a>
+                                            <div class="media-body">
+                                                <h6><a href="#" data-toggle="collapse" data-target=".forum-content{{post.id}}" class="text-body">poll title</a></h6>
+                                                <p class="text-secondary">poll content</p>
+                                                <p class="post-time text-muted align-self-end m-0"><span class="text-secondary font-weight-bold">time</span></p>
+                                            </div>
+                                            <div class="text-muted small  text-center align-self-end">
+                                                <span><span id="comm-count">{{post.responses.length}}</span> <span class="material-icons" style="font-size: 16px">chat_bubble</span></span>                                        
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                    
+
+                            <!-- Forum Detail (replies) -->
+                            <div class="inner-main-body p-2 p-sm-3 collapse forum-content{{post.id}}" >
+                                <a href="#" class="btn btn-light btn-sm mb-3 has-icon" data-toggle="collapse" data-target=".forum-content{{post.id}}"><i class="fa fa-arrow-left mr-2"></i>Back</a>
+                                <div class="card mb-2">
+                                    <div class="card-body">
+                                        <div class="media forum-item">
+                                            <a href="javascript:void(0)" class="card-link">
+                                                <img src="https://randomuser.me/api/portraits/men/34.jpg" class="rounded-circle" width="50" alt="User" />                                        
+                                            </a>
+                                            <div class="media-body ml-3">
+                                                <a href="javascript:void(0)" class="text-secondary">poll author</a>
+                                                <small class="text-muted ml-2">poll tiime</small>
+                                                {{!-- <h5 class="mt-1">poll title</h5> --}}
+                                                <div class="mt-3 font-size-sm">                                                    
+                                                    {{!-- Start poll --}}
+                                                    <div class="poll mx-auto">
+                                                        <div class="question"></div>
+                                                        <div class="answers"></div>
+                                                    </div>
+                                                    {{!-- End Poll --}}
+                                                    {{!-- <p>poll content</p>           --}}
+                                               </div>
+                                                                                     
+                                            </div>
+                                        </div>                            
+                                    </div>                                              
+                                </div>
+                                {{!-- End post --}}      
+                           </div>
+                
+                
+               
+
+                
+
+                
+            
+            
 
 
 <!-- Modal -->
