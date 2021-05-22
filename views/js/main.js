@@ -119,7 +119,7 @@ function humanized_time_span(date) {
 }
 
 
-//Poll script
+  //Poll script
 let poll = {
     question:"What's your favorite programming language?",
     answers:[
@@ -176,3 +176,15 @@ let poll = {
     }
   }
 //End Poll script
+
+//Replies Upvote Downvote
+// var upvoteBtn = document.querySelectorAll('')
+
+// function upvote(voteType, voteNumber) {
+//   if(voteType == "upvote") {
+    
+//   } else {
+    
+//   }
+// }
+//End
