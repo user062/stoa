@@ -8,6 +8,7 @@ const session = require('express-session');
 const Handlebars = require("handlebars");
 const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-access');
 const fileUpload = require('express-fileupload');
+//const helpers = require('handlebars-helpers')({ handlebars: Handlebars });
 
 dotenv.config({ path: './config/config.env' });
 
@@ -16,7 +17,12 @@ const app = express();
 if (process.env.NODE_ENV === 'development')
     app.use(morgan('dev'));
 
-app.engine('.hbs', exphbs({ handlebars: allowInsecurePrototypeAccess(Handlebars), defaultLayout: '', extname: '.hbs' }));
+app.engine('.hbs', exphbs({
+    handlebars: allowInsecurePrototypeAccess(Handlebars), defaultLayout: '',
+    extname: '.hbs',
+    helpers: { eq: (param1, param2) => { return param1 === param2; } }
+}));
+
 app.set('view engine', '.hbs');
 
 app.use(express.static(path.join(__dirname, 'views')));

@@ -15,6 +15,7 @@ class Module {
 
     async add_post(post) {
         let query = 'insert into POST (COMPTEID, title, TYPE, POST_CORE) values (?, ?, ?, ?);';
+        console.log(post.type[0]);
         await connection.query(query, [post.author_id, post.title, post.type[0], post.content]);
         let row = await connection.query('SELECT POST_ID AS id FROM POST ORDER BY id DESC LIMIT 1');
         post.id = row[0][0].id;

@@ -1,13 +1,14 @@
 const connection = require('../config/db');
 const Response = require('./Response');
 const File = require('./File');
+const Poll = require('./Poll');
 const fs = require('fs');
 const elapsed_time = require('./helpers/humanized_time_span');
 const path = require('path');
 
 
 class Post {
-    constructor(id, creation_date, author_id, title, type, content, folders, responses, uploaded_files) {
+    constructor(id, creation_date, author_id, title, type, content, folders, responses, uploaded_files, poll_elements) {
         this.id = id;
         this.creation_date = new Date(Date.parse(creation_date));
         this.author_id = author_id;
@@ -30,6 +31,13 @@ class Post {
         connection.query('select file_name, file_path from file where POST_ID = ?', [this.id]).then((results) => {
             results[0].forEach((row) => { this.files.push(new File(row.file_name, row.file_path)); });
         });
+
+        if (type === 'p') {
+            if (!poll_elements)
+                this.poll = new Poll(this.id, this.author_id, []);
+            else
+                this.poll = new Poll(this.id, this.author_id, poll_elements);
+        }
     }
 
     async add_file(file) {

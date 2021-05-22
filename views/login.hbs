@@ -18,6 +18,11 @@
           <img src="images/online-platform.svg">
         </div>        
         <div class="col-lg-6 col-md-12 col-xs-12 my-auto">          
+          {{#if error}}
+          <div class="alert alert-danger">
+            <strong>{{error}}</strong>
+          </div>
+          {{/if}}
           <form id="login" method="POST" action ="/login/login">
             <h4 class="text-center my-4 mx-auto col-lg-6 col-xs-12">S'identifier</h4>
             <div class="form-group">
