@@ -147,20 +147,15 @@
                 <section class="add-poll-section my-5">
                     <label for="title">Sondage</label>                    
                     <div class="add-poll mb-2" style="display: flex;justify-content: space-between">
-                        <input class="form-control col-8    " type="text" name="new-option" placeholder="Ajouter une option" id="new-option">
-                        <button class="btn btn-secondary col-3 mx-auto" style="font-size: 14px!important">Ajouter</button>                    
+                        <input class="form-control col-8" type="text" name="new-option" placeholder="Ajouter une option" id="new-option">
+                        <button type="button" class="btn btn-secondary col-3 mx-auto" style="font-size: 14px!important" onclick="add_choice()">Ajouter</button>                    
                     </div>
-                    <ul class="list-group mb-5">                        
-                        {{!-- Loop here --}}
-                        <li class="list-group-item d-inline-flex justify-content-between">Mardi 15-06-2021 <a href="#" id="delete-option">Supprimer</a></li>
-                        <li class="list-group-item d-inline-flex justify-content-between">Dimanche 19-06-2021 <a href="#" id="delete-option">Supprimer</a></li>
-                        <li class="list-group-item d-inline-flex justify-content-between">Ne pas faire l'intérogation <a href="#" id="delete-option">Supprimer</a></li>
-                        {{!-- End loop --}}
+                    <ul id="choices" name="survey" class="list-group mb-5">                        
                     </ul>
                         
                 </section>
 
-                <button class="btn btn-primary col-12 ml-auto mt-3 mb-5" onclick="select_type()">Ajouter</button>
+                <button type="submit" class="btn btn-primary col-12 ml-auto mt-3 mb-5" onclick="select_type()">Ajouter</button>
             </form>
 
 
@@ -201,11 +196,53 @@
           let file = tinymce.activeEditor.dom.get('file_upload');
 
           while(file){
-              file = tinymce.activeEditor.dom.get('file_upload');
               tinymce.activeEditor.dom.remove(file);
+              file = tinymce.activeEditor.dom.get('file_upload');
+          }
+
+          let choices = document.getElementById("choices");
+          for(let choice of choices.children){
+              let choice_field = document.createElement('input');
+              choice_field.setAttribute("type", "hidden");
+              choice_field.setAttribute("name", "choices")
+              choice_field.setAttribute("value", choice.title);
+              form.appendChild(choice_field);
           }
       }
-      
+
+      function add_choice(){
+          let choices_list = document.getElementById('choices');
+          let id = choices_list.lastElementChild? Number(choices_list.lastElementChild.id)+1: 0;
+          let choice = document.createElement('li');
+          choice.setAttribute('id', id);
+          choice.classList.add('list-group-item');
+          choice.classList.add('d-inline-flex');
+          choice.classList.add('justify-content-between');
+          let text = document.getElementById('new-option');
+          
+          let choice_text = document.createTextNode(text.value);
+          let delete_button = document.createElement('button');
+          delete_button.appendChild(document.createTextNode('Supprimer'));
+          delete_button.setAttribute('onclick', `delete_choice(${id});`);
+          delete_button.setAttribute('type', 'button');
+          delete_button.classList.add('choice-delete');
+          choice.appendChild(choice_text);
+          choice.appendChild(delete_button);
+          choices_list.appendChild(choice);
+          choice.setAttribute('title', text.value);
+          text.value = '';
+      }
+
+      function delete_choice(id) {
+          let choices = document.getElementById('choices');
+
+          for(const choice of choices.children){
+              if(choice.id === String(id))
+                  return choice.remove();
+          }
+          
+      }
     </script>
+
 </body>
 </html>

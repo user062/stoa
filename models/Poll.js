@@ -7,8 +7,7 @@ class Poll {
         this.elements = elements;
 
         if (elements.length === 0) {
-            connection.query(`select COMPTEID, pe.POLL_ID, POST_ID, ELEMENT from POLL_ELEMENT pe join POLL_VOTE pv
-on pv.POLL_ID = pe.POLL_ID where POST_ID=?;`, this.id).then((result) => {
+            connection.query('select COMPTEID, pe.POLL_ID, POST_ID, ELEMENT from POLL_ELEMENT pe join POLL_VOTE pv on pv.POLL_ID = pe.POLL_ID where POST_ID=?;', this.id).then((result) => {
 
                 result[0].forEach((row) => {
                     if (this.elements[row.POLL_ID])

@@ -18,6 +18,7 @@ class Post {
         this.responses = responses;
         this.folders = folders;
         this.files = [];
+        this.poll_elements = poll_elements;
 
         connection.query('select NOM, PRENOM from COMPTE where COMPTEID = ?', [author_id]).then((results) => {
             this.author = results[0][0].PRENOM + ' ' + results[0][0].NOM;
@@ -31,13 +32,6 @@ class Post {
         connection.query('select file_name, file_path from file where POST_ID = ?', [this.id]).then((results) => {
             results[0].forEach((row) => { this.files.push(new File(row.file_name, row.file_path)); });
         });
-
-        if (type === 'p') {
-            if (!poll_elements)
-                this.poll = new Poll(this.id, this.author_id, []);
-            else
-                this.poll = new Poll(this.id, this.author_id, poll_elements);
-        }
     }
 
     async add_file(file) {
@@ -57,6 +51,12 @@ class Post {
         this.responses.push(response);
     }
 
+    add_poll() {
+        if (!this.poll_elements)
+            this.poll = new Poll(this.id, this.author_id, []);
+        else
+            this.poll = new Poll(this.id, this.author_id, this.poll_elements);
+    }
     delete_response(response) {
 
     }

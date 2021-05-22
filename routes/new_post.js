@@ -26,6 +26,13 @@ router.post('/new_post', async (req, res) => {
                 await added_post.add_file(file);
         else
             await added_post.add_file(uploaded_files);
+
+        if (post_type === 'p') {
+            let poll_elements = req.body.choices;
+            if (!Array.isArray(poll_elements))
+                poll_elements = [poll_elements];
+            added_post.add_poll(poll_elements);
+        }
         res.redirect('/');
 
     }

@@ -402,3 +402,14 @@ body {
     right:-12%;
     top:20%;
 }
+
+.choice-delete {
+  background: none!important;
+  border: none;
+  padding: 0!important;
+  color: red;
+  cursor: pointer;
+}
+.choice-delete:hover{
+         text-decoration:underline;
+}
