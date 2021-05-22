@@ -1,13 +1,14 @@
 const connection = require('../config/db');
 const Response = require('./Response');
 const File = require('./File');
+const Poll = require('./Poll');
 const fs = require('fs');
 const elapsed_time = require('./helpers/humanized_time_span');
 const path = require('path');
 
 
 class Post {
-    constructor(id, creation_date, author_id, title, type, content, folders, responses, uploaded_files) {
+    constructor(id, creation_date, author_id, title, type, content, folders, responses, uploaded_files, poll_elements) {
         this.id = id;
         this.creation_date = new Date(Date.parse(creation_date));
         this.author_id = author_id;
@@ -17,6 +18,7 @@ class Post {
         this.responses = responses;
         this.folders = folders;
         this.files = [];
+        this.poll_elements = poll_elements;
 
         connection.query('select NOM, PRENOM from COMPTE where COMPTEID = ?', [author_id]).then((results) => {
             this.author = results[0][0].PRENOM + ' ' + results[0][0].NOM;
@@ -49,6 +51,12 @@ class Post {
         this.responses.push(response);
     }
 
+    add_poll() {
+        if (!this.poll_elements)
+            this.poll = new Poll(this.id, this.author_id, []);
+        else
+            this.poll = new Poll(this.id, this.author_id, this.poll_elements);
+    }
     delete_response(response) {
 
     }

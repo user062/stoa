@@ -396,6 +396,7 @@ body {
 
 /* End Poll Style */
 
+
 /* Upvote Replies */
 
 .vote-answer {
@@ -420,3 +421,22 @@ body {
 }
 
 /* End */
+=======
+
+.tag {
+    position:absolute;
+    right:-12%;
+    top:20%;
+}
+
+.choice-delete {
+  background: none!important;
+  border: none;
+  padding: 0!important;
+  color: red;
+  cursor: pointer;
+}
+.choice-delete:hover{
+         text-decoration:underline;
+}
+

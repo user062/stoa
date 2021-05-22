@@ -56,7 +56,8 @@ router.get('/validation', (req, res) => {
 });
 
 router.get('/new_post', (req, res) => {
-    res.render('new_post', { layout: '' });
+    res.render('new_post', { layout: '', error: req.session.error });
+    req.session.error = null;
 });
 
 router.get('/new_reply', (req, res) => {
