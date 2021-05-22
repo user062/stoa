@@ -326,3 +326,9 @@ body {
     line-height: 32px;
 }
 
+
+.tag {
+    position:absolute;
+    right:-12%;
+    top:20%;
+}

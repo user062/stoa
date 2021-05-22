@@ -110,6 +110,11 @@
                 </section><br>
                 <section class="post__folder form-group">
                     <label for="title">Dossiers</label>
+                    {{#if error}}
+                    <div class="alert alert-danger">
+                      <strong>{{error}}</strong>
+                    </div>
+                    {{/if}}
                     <div class="dossiers">
                         <div class="dossier">
                             <span>devoires</span> 
@@ -123,14 +128,14 @@
                         <div class="dossier">
                             <span>notes</span>
                         </div>
-                        <div class="dossier">
+                        <div class="dossier" required>
                             <span>other</span>
                         </div>
                     </div>
                 </section><br>
                 <section class="post__title form-group">
                     <label for="title">Titre</label>
-                    <input class="form-control" type="text" name="title" placeholder="Titre du sujet" id="title">
+                    <input class="form-control" type="text" name="title" placeholder="Titre du sujet" id="title" required>
                 </section><br>
                 <section class="details">
                     <label>Détailes</label>

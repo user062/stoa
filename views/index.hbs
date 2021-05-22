@@ -150,6 +150,15 @@
                             <div class="inner-main-body pt-2 collapse forum-content{{post.id}} show">
                                 <div class="card mb-2">
                                     <div class="card__tag text-muted">ACOO</div>
+                                    <span class="material-icons text-muted tag">
+                                      {{#if (eq post.type 'p')}}
+                                          poll_icon
+                                      {{else if (eq post.type 'q')}}
+                                          help_icon
+                                      {{else}}
+                                          note_icon
+                                      {{/if}}
+                                    </span>
                                     <div class="card-body p-2 p-sm-3">
                                         <div class="media forum-item">
                                             <a href="#" data-toggle="collapse" data-target=".forum-content{{post.id}}"><img src="https://randomuser.me/api/portraits/men/88.jpg" class="mr-3 rounded-circle" width="50" alt="User" /></a>
@@ -158,9 +167,11 @@
                                                 <p class="text-secondary">{{{post.content}}}</p>
                                                 <p class="post-time text-muted align-self-end m-0"><span class="text-secondary font-weight-bold">{{{post.get_elapsed_time}}}</span></p>
                                             </div>
+                                            {{#if (eq post.type "question")}}
                                             <div class="text-muted small  text-center align-self-end">
                                                 <span><span id="comm-count">{{post.responses.length}}</span> <span class="material-icons" style="font-size: 16px">chat_bubble</span></span>                                        
                                             </div>
+                                            {{/if}}
                                         </div>
                                     </div>
                                 </div>
@@ -192,12 +203,16 @@
                                                         {{/each}}
                                                     </div>                                                
                                             </div>
-                                            <div class="text-muted small  text-right align-self-center">
+                                                {{#if (eq post.type "question")}}
+                                                <div class="text-muted small  text-right align-self-center">
                                               <span><span class="material-icons" style="font-size: 16px">forum</span> {{post.responses.length}} </span>                                        
-                                            </div>                                            
+                                                </div>                                            
+                                                {{/if}}
+                                            </div>
+                                            {{#if (eq post.type "question")}}
+                                            <a href="/new_reply?{{post.id}}" class="text-muted small">Reply</a>
+                                            {{/if}}
                                         </div>
-                                <a href="/new_reply?{{post.id}}" class="text-muted small">Reply</a>
-                                    </div>
                                 </div>                        
                                 {{#each post.responses as |response|}}
                                     {{!-- Replies --}}
