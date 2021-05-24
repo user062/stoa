@@ -68,4 +68,8 @@ router.get('/new_comment', (req, res) => {
     res.render('new_comment', { layout: '' });
 });
 
+router.get('/new_folder', (req, res) => {
+    res.render('new_folder');
+});
+
 module.exports = router;
