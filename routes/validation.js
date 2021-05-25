@@ -5,7 +5,7 @@ const connection = require('../config/db');
 // @desc login/Landing page
 // @route POST /login
 
-router.post('/validation', async (req, res) => {
+router.post('/validation', (req, res) => {
     let emadress = req.session.userId;
     let sql_query = 'Select vcode, compteID from COMPTE where COMPTE.EMAIL=' + connection.escape(emadress);
     let sql_query1 = 'update COMPTE set vcode = 0 where compteID = ?';
