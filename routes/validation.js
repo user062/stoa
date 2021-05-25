@@ -6,16 +6,15 @@ const connection = require('../config/db');
 // @route POST /login
 
 router.post('/validation', (req, res) => {
-    let emadress = req.session.userId;
-    let sql_query = 'Select vcode, compteID from COMPTE where COMPTE.EMAIL=' + connection.escape(emadress);
-    let sql_query1 = 'update COMPTE set vcode = 0 where compteID = ?';
+    let id = req.session.userId;
+    let sql_query = `Select vcode from COMPTE where  compteID=${id}`;
+    let sql_query1 = `update COMPTE set vcode = 0 where compteID = ${id}`;
 
     connection.query(sql_query).then((results) => {
         if (results[0][0] && req.body.code == results[0][0].vcode) {
             req.session.loggedIn = true;
-            let cID = results[0][0].compteID;
-            connection.query(sql_query1, [cID]).then((results) => {
-                req.session.userId = cID;
+            connection.query(sql_query1, [id]).then((results) => {
+                req.session.userId = id;
                 res.redirect('/');
             });
         }

@@ -45,7 +45,7 @@ function showResults(poll, user_choice) {
     let pollCount = poll.pollCount > 0 ? poll.pollCount : 1;
 
     for (let i = 0; i < answers.length; i++) {
-        percentage = poll.votes[i] * 100 / pollCount;
+        percentage = Math.round(poll.votes[i] * 100 / pollCount);
         answers[i].querySelector(".percentage-bar").style.width = percentage + "%";
         answers[i].querySelector(".percentage-value").innerText = percentage + "%";
     }

@@ -46,11 +46,11 @@ router.post('/registration', async (req, res) => {
             text: mail
         });
 
-        connection.query(query).then((results) => {
+        connection.query(query).then(async (results) => {
 
             req.session.loggedIn = false;
 
-            req.session.userId = req.body.email;
+            req.session.userId = await connection.query('select compteID from COMPTE where email= ?', req.body.email);
 
 
             res.redirect('/validation');
