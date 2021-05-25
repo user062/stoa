@@ -31,7 +31,8 @@ router.post('/new_post', async (req, res) => {
             let poll_elements = req.body.choices;
             if (!Array.isArray(poll_elements))
                 poll_elements = [poll_elements];
-            added_post.add_poll(poll_elements);
+            added_post.poll_elements = poll_elements;
+            await added_post.add_poll();
         }
         res.redirect('/');
 
