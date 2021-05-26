@@ -1,6 +1,7 @@
 function markAnswer(i, poll, user_choice) {
-    if (user_choice !== false)
+    if (user_choice === i)
         return;
+
     user_choice = +i;
     try {
         document.getElementById(`poll${poll.id}`).querySelector(`.poll .answers .answer.selected`).classList.remove("selected");

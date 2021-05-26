@@ -221,7 +221,14 @@
           choice.classList.add('d-inline-flex');
           choice.classList.add('justify-content-between');
           let text = document.getElementById('new-option');
-          
+
+          if (!text.value){
+              text.required = true;
+              text.reportValidity();
+              text.required = false;
+              return;
+          }
+
           let choice_text = document.createTextNode(text.value);
           let delete_button = document.createElement('button');
           delete_button.appendChild(document.createTextNode('Supprimer'));

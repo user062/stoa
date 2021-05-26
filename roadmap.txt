@@ -1,6 +1,5 @@
 roadmap:
-2- poll		
-5- épingler la meilleur réponse 
 6- upvote-downvote les réponses
-7- chaque réponse a un status(réponse du prof, réponse du etudiant)
 8- organiser les sujets de disscusion dans des dossiers
+5- pin post 
+7- chaque réponse a un status(réponse du prof, réponse du etudiant)

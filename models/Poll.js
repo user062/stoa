@@ -46,9 +46,16 @@ class Poll {
     }
 
     async vote(element_ind, voter) {
+        let previous_vote = this.did_vote(voter);
+        if (Number.isInteger(previous_vote)) {
+            let ind = this.elements[Object.keys(this.elements)[previous_vote]].indexOf(voter);
+            this.elements[Object.keys(this.elements)[previous_vote]].splice(ind, 1);
+        }
+
         this.elements[Object.keys(this.elements)[element_ind]].push(voter);
-        let query = `insert into POLL_VOTE (POLL_ID, COMPTEID) values (${Number(Object.keys(this.elements)[element_ind])}, ${voter});`;
+        let query = `call P1(${voter}, ${Number(Object.keys(this.elements)[element_ind])}, ${this.id})`;
         await connection.query(query);
+
     }
 
     did_vote(user_id) {
