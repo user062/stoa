@@ -9,13 +9,13 @@ join poll_element pe on pe.POLL_ID = pv.POLL_ID
 then            
  update poll_vote set POLL_ID= pollID where COMPTEID= comptID  ;                   
 else              
-insert into poll_vote (POLL_ID, COMPTEID) values (pollID, postID);
+insert into poll_vote (POLL_ID, COMPTEID) values (pollID, comptID);
 end if;
 end $$
 delimiter ;
 
 -- test
 select * from compte;
-call P1(2,5,2);
+call P1(3,7,2);
 select * from poll_element;
 select * from poll_vote;
