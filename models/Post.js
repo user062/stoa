@@ -51,11 +51,11 @@ class Post {
         this.responses.push(response);
     }
 
-    async add_poll() {
+    add_poll() {
         if (!this.poll_elements)
-            this.poll = await new Poll(this.id, this.author_id, []);
+            this.poll = new Poll(this.id, this.author_id, []);
         else
-            this.poll = await new Poll(this.id, this.author_id, this.poll_elements);
+            this.poll = new Poll(this.id, this.author_id, this.poll_elements);
     }
     delete_response(response) {
 

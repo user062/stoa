@@ -210,6 +210,23 @@
               choice_field.setAttribute("value", choice.title);
               form.appendChild(choice_field);
           }
+
+          if (chosen_type.id === 'poll'){
+              let text = document.getElementById('new-option');
+
+              if (choices.childElementCount <= 1){
+              text.value = '';
+              text.required = true;
+              text.setCustomValidity('please add at least 2 choices to the poll');
+              text.reportValidity();
+              return false;
+              }
+
+              else {
+                  text.setCustomValidity('');
+                  text.required = false;
+              }
+          }
       }
 
       function add_choice(){
@@ -222,11 +239,13 @@
           choice.classList.add('justify-content-between');
           let text = document.getElementById('new-option');
 
-          if (!text.value){
+          if (text.value === ''){
               text.required = true;
+              text.setCustomValidity('please fill out the choice');
               text.reportValidity();
+              text.setCustomValidity('');
               text.required = false;
-              return;
+              return false;
           }
 
           let choice_text = document.createTextNode(text.value);

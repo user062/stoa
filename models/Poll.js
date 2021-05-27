@@ -9,15 +9,15 @@ class Poll {
         this.vote_choices = [];
         this.elements_ids = [];
 
-        connection.query(`select ELEMENT, POLL_ID from POLL_ELEMENT where POST_ID=${this.id}`).then((results) => {
-            results[0].forEach((x) => {
-                this.vote_choices.push(x.ELEMENT);
-                this.elements[x.POLL_ID] = [];
-            });
-            this.elements_ids = Array.from(Array(Object.keys(this.elements).length).keys());
+        if (elements.length === 0)
+            connection.query(`select ELEMENT, POLL_ID from POLL_ELEMENT where POST_ID=${this.id}`).then(async (results) => {
+                results[0].forEach((row) => {
+                    this.vote_choices.push(row.ELEMENT);
+                    this.elements[row.POLL_ID] = [];
+                });
+                this.elements_ids = Array.from(Array(Object.keys(this.elements).length).keys());
 
-            if (elements.length === 0) {
-                connection.query('select COMPTEID, pe.POLL_ID, POST_ID, ELEMENT from POLL_ELEMENT pe join POLL_VOTE pv on pv.POLL_ID = pe.POLL_ID where POST_ID=?;', this.id).then((result) => {
+                connection.query('select COMPTEID, pe.POLL_ID from POLL_ELEMENT pe join POLL_VOTE pv on pv.POLL_ID = pe.POLL_ID where POST_ID=?;', this.id).then((result) => {
 
                     result[0].forEach((row) => {
                         this.elements[row.POLL_ID].push(row.COMPTEID);
@@ -26,23 +26,21 @@ class Poll {
                 }
                 );
             }
+            );
 
-            else {
-                elements.forEach((element) => {
-                    this.vote_choices.push(element);
-                    connection.query(`insert into POLL_ELEMENT (POST_ID, ELEMENT) values (${this.id}, '${element}');`).then(async (result) => {
-                        await connection.query(`select POLL_ID from POLL_ELEMENT where POST_ID=${this.id} and ELEMENT='${element}'`).then(
-                            (result) => {
-                                this.elements[result[0][0].POLL_ID] = [];
-                                this.elements_ids = Array.from(Array(Object.keys(this.elements).length).keys());
-                            });
-                    });
+        else {
+            elements = elements.map((element) => {
+                this.vote_choices.push(element); return `(${this.id}, '${element}')`;
+            }).join();
+
+            connection.query(`insert into POLL_ELEMENT (POST_ID, ELEMENT) values ${elements};`).then((result) => {
+                connection.query(`select POLL_ID from POLL_ELEMENT where POST_ID=${this.id}`).then((result) => {
+                    result[0].forEach((row) => { this.elements[row.POLL_ID] = []; });
+                    this.elements_ids = Array.from(Array(Object.keys(this.elements).length).keys());
                 }
                 );
-            }
+            });
         }
-        );
-
     }
 
     async vote(element_ind, voter) {
