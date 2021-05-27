@@ -13,6 +13,12 @@ class Response {
         this.content = content;
         this.comments = comments;
         this.files = files;
+        this.votes = { 1: [], '-1': [] };
+
+        if (id)
+            connection.query(`select vote, COMPTEID from UP_DOWN_VOTE where ID_REPONSE=${id}`).then((results) => {
+                results[0].forEach((row) => this.votes[row.vote].push(row.COMPTEID));
+            });
 
         connection.query('select NOM, PRENOM from COMPTE where COMPTEID=?', [author_id]).then((results) => {
             this.author = results[0][0].PRENOM + ' ' + results[0][0].NOM;
@@ -49,6 +55,30 @@ class Response {
 
     get get_elapsed_time() {
         return elapsed_time(this.creation_date);
+    }
+
+    vote(voter, vote) {
+        console.log(vote);
+        let previous_vote = this.votes[vote * -1].indexOf(voter);
+        if (previous_vote !== -1)
+            this.votes[vote * -1].splice(previous_vote, 1);
+        this.votes[vote].push(voter);
+        connection.query(`insert into UP_DOWN_VOTE values (${this.id}, ${voter}, ${vote}) on duplicate key update vote=${vote}`);
+    }
+
+    did_vote(user_id) {
+        console.log(this.votes);
+        if (this.votes[1].includes(user_id))
+            return 1;
+
+        else if (this.votes[-1].includes(user_id))
+            return -1;
+
+        return false;
+    }
+
+    get vote_count() {
+        return this.votes[1].length - this.votes[-1].length;
     }
 }
 
