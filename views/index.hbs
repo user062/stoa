@@ -135,13 +135,13 @@
                     <div class="container">
                         <!-- Inner main header -->
                         <div class="row inner-main-header mb-4">
-                            <select class="col-2 custom-select custom-select-sm mr-1">
+                            <!-- <select class="col-2 custom-select custom-select-sm mr-1">
                                 <option selected="">Latest</option>
                                 <option value="1">Popular</option>
                                 <option value="3">Solved</option>
                                 <option value="3">Unsolved</option>
                                 <option value="3">No Replies Yet</option>
-                            </select>
+                            </select> -->
                             <span class="col-xs-3 input-icon input-icon-sm ml-auto" id="search">
                                 <input type="text" class="form-control form-control-sm bg-gray-200 border-gray-200 shadow-none mb-4" placeholder="Search forum" />
                             </span>
@@ -152,7 +152,7 @@
                     <div class="posts">
                       {{#each posts as |post|}}
                         <div class="post">
-                            <div class="inner-main-body pt-2 collapse forum-content{{post.id}} show">
+                            <div class="inner-main-body pt-2 collapse forum-content{{post.id}} show" {{#if (eq post.type "p")}} onclick='showResults({{{post.poll.poll_representation.stringify}}}, {{call post.poll "did_vote" ../user }})'{{/if}}>
                                 <div class="card mb-2">
                                     <div class="card__tag text-muted">ACOO</div>
                                     <span class="material-icons text-muted tag">
@@ -172,7 +172,7 @@
                                                 <p class="text-secondary">{{{post.content}}}</p>
                                                 <p class="post-time text-muted align-self-end m-0"><span class="text-secondary font-weight-bold">{{{post.get_elapsed_time}}}</span></p>
                                             </div>
-                                            {{#if (eq post.type "question")}}
+                                            {{#if (eq post.type "q")}}
                                             <div class="text-muted small  text-center align-self-end">
                                                 <span><span id="comm-count">{{post.responses.length}}</span> <span class="material-icons" style="font-size: 16px">chat_bubble</span></span>                                        
                                             </div>
@@ -197,6 +197,21 @@
                                                 <h5 class="mt-1">{{post.title}}</h5>
                                                 <div class="mt-3 font-size-sm">
                                                     <p>{{{post.content}}}</p>
+                                                    <div id="Poll">
+                                                      {{#if (eq post.type "p")}}
+                                                      <div class="poll mx-auto" id="poll{{post.poll.poll_representation.id}}">
+                                                        <div class="answers" >
+                                                          {{#each post.poll.poll_representation.choices as |choice i|}}
+                                                          <div class="answer" onClick='markAnswer({{i}}, {{{post.poll.poll_representation.stringify}}}, {{call post.poll "did_vote" ../../user }})'>
+                                                            {{choice}}
+                                                            <span class="percentage-bar"></span>
+                                                            <span class="percentage-value"></span>
+                                                          </div>
+                                                          {{/each}}
+                                                        </div>
+                                                      </div>
+                                                      {{/if}}
+                                                    </div>
                                                     <div class="files mb-2">
                                                       {{#each post.files as |file|}}
                                                         <div class="file">
@@ -210,13 +225,13 @@
                                                </div>
                                             <div class="text-muted small  text-right align-self-center">
                                             </div>
-                                                {{#if (eq post.type "question")}}
+                                                {{#if (eq post.type "q")}}
                                                 <div class="text-muted small  text-right align-self-center">
                                               <span><span class="material-icons" style="font-size: 16px">forum</span> {{post.responses.length}} </span>                                        
                                                 </div>                                            
                                                 {{/if}}
                                             </div>
-                                            {{#if (eq post.type "question")}}
+                                            {{#if (eq post.type "q")}}
                                             <a href="/new_reply?{{post.id}}" class="text-muted small">Reply</a>
                                             {{/if}}
                                         </div>
@@ -226,10 +241,10 @@
                                     <div class="ml-3 card mb-2">
                                         <div class="card-body">
                                             <div class="media forum-item">
-                                                <div class="vote-answer">
-                                                    <span class="upvote material-icons">arrow_upward</span>
-                                                    <span class="vote-number">55</span> 
-                                                    <span class="downvote material-icons">arrow_downward</span>
+                                                <div class="vote-answer" id={{call response 'did_vote' ../../user}}>
+                                                    <button onClick="chose_vote({{post.id}}, {{response.id}}, 1, {{call response 'did_vote' ../../user}})" class="up_down_vote_button upvote material-icons">arrow_upward</button>
+                                                    <span class="vote-number">{{response.vote_count}}</span> 
+                                                    <button onClick="chose_vote({{post.id}}, {{response.id}}, -1, {{call response 'did_vote' ../../user}})" class="downvote material-icons up_down_vote_button">arrow_downward</button>
                                                 </div>
                                                 <a href="javascript:void(0)" class="card-link">
                                                     <img src="https://randomuser.me/api/portraits/men/42.jpg" class="rounded-circle" width="50" alt="User" />                                    
@@ -275,68 +290,6 @@
                         {{!-- End post --}}                    
                         </div>
                     </div>
-                {{!-- Poll --}}
-
-
-                   <div class="post">
-                            <div class="inner-main-body pt-2 collapse forum-content{{post.id}} show">
-                                <div class="card mb-2">
-                                    <div class="card__tag text-muted">ACOO</div>
-                                    <div class="card-body p-2 p-sm-3">
-                                        <div class="media forum-item">
-                                            <a href="#" data-toggle="collapse" data-target=".forum-content{{post.id}}"><img src="https://randomuser.me/api/portraits/men/88.jpg" class="mr-3 rounded-circle" width="50" alt="User" /></a>
-                                            <div class="media-body">
-                                                <h6><a href="#" data-toggle="collapse" data-target=".forum-content{{post.id}}" class="text-body">poll title</a></h6>
-                                                <p class="text-secondary">poll content</p>
-                                                <p class="post-time text-muted align-self-end m-0"><span class="text-secondary font-weight-bold">time</span></p>
-                                            </div>
-                                            <div class="text-muted small  text-center align-self-end">
-                                                <span><span id="comm-count">{{post.responses.length}}</span> <span class="material-icons" style="font-size: 16px">chat_bubble</span></span>                                        
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>                    
-
-                            <!-- Forum Detail (replies) -->
-                            <div class="inner-main-body p-2 p-sm-3 collapse forum-content{{post.id}}" >
-                                <a href="#" class="btn btn-light btn-sm mb-3 has-icon" data-toggle="collapse" data-target=".forum-content{{post.id}}"><i class="fa fa-arrow-left mr-2"></i>Back</a>
-                                <div class="card mb-2">
-                                    <div class="card-body">
-                                        <div class="media forum-item">
-                                            <a href="javascript:void(0)" class="card-link">
-                                                <img src="https://randomuser.me/api/portraits/men/34.jpg" class="rounded-circle" width="50" alt="User" />                                        
-                                            </a>
-                                            <div class="media-body ml-3">
-                                                <a href="javascript:void(0)" class="text-secondary">poll author</a>
-                                                <small class="text-muted ml-2">poll time</small>
-                                                {{!-- <h5 class="mt-1">poll title</h5> --}}
-                                                <div class="mt-3 font-size-sm">                                                    
-                                                    {{!-- Start poll --}}
-                                                    <div class="poll mx-auto">
-                                                        <div class="question"></div>
-                                                        <div class="answers"></div>
-                                                    </div>
-                                                    {{!-- End Poll --}}
-                                                    {{!-- <p>poll content</p>           --}}
-                                               </div>
-                                                                                     
-                                            </div>
-                                        </div>                            
-                                    </div>                                              
-                                </div>
-                                {{!-- End post --}}      
-                           </div>
-                
-                
-               
-
-                
-
-                
-            
-            
-
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -416,8 +369,9 @@
     <script type="application/javascript" src= "/tinymce/tinymce.min.js"></script>
     <!-- Script element sourcing the TinyMCE configuration -->
     <script type="application/javascript" src= "/js/my-tinymce-config.js"></script>
-
-    <script src="js/main.js"></script>
+    <script src="js/main.js"></script> 
+    <script src="js/poll_script.js"></script> 
+    <script src="js/up_down_vote.js"></script> 
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
 </body>

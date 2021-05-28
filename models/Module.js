@@ -9,13 +9,12 @@ class Module {
         this.folders = folders;
         if (posts.length === 0)
             connection.query('select * from POST').then((rows) => {
-                rows[0].forEach((row) => { this.posts.unshift(new Post(row.POST_ID, row.DATE_AJOUTE, row.COMPTEID, row.title, row.TYPE, row.POST_CORE, [], [])); });
+                rows[0].forEach(async (row) => { this.posts.unshift(new Post(row.POST_ID, row.DATE_AJOUTE, row.COMPTEID, row.title, row.TYPE, row.POST_CORE, [], [])); await this.posts[0].add_poll(); });
             });
     }
 
     async add_post(post) {
         let query = 'insert into POST (COMPTEID, title, TYPE, POST_CORE) values (?, ?, ?, ?);';
-        console.log(post.type[0]);
         await connection.query(query, [post.author_id, post.title, post.type[0], post.content]);
         let row = await connection.query('SELECT POST_ID AS id FROM POST ORDER BY id DESC LIMIT 1');
         post.id = row[0][0].id;

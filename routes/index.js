@@ -8,8 +8,9 @@ router.get('/', (req, res) => {
     if (!req.session.loggedIn)
         res.redirect('/login');
 
-    else
-        res.render('index', { layout: '', posts: Module.posts });
+    else {
+        res.render('index', { layout: '', user: req.session.userId, posts: Module.posts });
+    }
 });
 
 
