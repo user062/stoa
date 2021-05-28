@@ -37,9 +37,14 @@ function chose_vote(post_id, response_id, user_choice, previous_choice) {
     f.submit();
 }
 
-function show_vote(response_id, user_choice) {
-    if (!user_choice)
-        return false;
+function show_vote_all() {
+    let votes = document.getElementsByClassName("vote-answer");
     let choices = { '-1': 'downvote', 1: 'upvote' };
-    document.getElementById(`response${response_id}`).getElementsByClassName(`${choices[user_choice]}`)[0].classList.add("selected_vote");
+
+    for (const vote of votes)
+        if (vote.id !== "false") {
+            vote.getElementsByClassName(choices[vote.id])[0].classList.add("selected_vote");
+        }
 }
+
+show_vote_all();
