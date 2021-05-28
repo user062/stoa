@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stoa</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/material-icons.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">        
@@ -125,44 +124,33 @@
             </li> --}}
         </ul>
     </div>
-
+    
     <div class="content">        
         <div class="container">
         <div class="main-body p-0 col-11 mx-auto">
             <div class="inner-wrapper">    
                 <!-- Inner main -->
                 <div class="inner-main">
-                    <div class="container">
-                        <!-- Inner main header -->
-                        <div class="row inner-main-header mb-4">
-                            <!-- <select class="col-2 custom-select custom-select-sm mr-1">
-                                <option selected="">Latest</option>
-                                <option value="1">Popular</option>
-                                <option value="3">Solved</option>
-                                <option value="3">Unsolved</option>
-                                <option value="3">No Replies Yet</option>
-                            </select> -->
-                            <span class="col-xs-3 input-icon input-icon-sm ml-auto" id="search">
-                                <input type="text" class="form-control form-control-sm bg-gray-200 border-gray-200 shadow-none mb-4" placeholder="Search forum" />
-                            </span>
-                        </div>                    
+                    <div class="container">                        
+                        <h4 class="mb-4 module-title" style="font-weight: 800;">Module <span>'nom module'</span></h4>                      
+                        <h5>Coures :</h5>                             
                     </div>
                     
                     <!-- Forum List -->
                     <div class="posts">
-                      {{#each posts as |post|}}
+                      {{!-- {{#each posts as |post|}} --}}
                         <div class="post">
                             <div class="inner-main-body pt-2 collapse forum-content{{post.id}} show" {{#if (eq post.type "p")}} onclick='showResults({{{post.poll.poll_representation.stringify}}}, {{call post.poll "did_vote" ../user }})'{{/if}}>
                                 <div class="card mb-2">
                                     <div class="card__tag text-muted">ACOO</div>
                                     <span class="material-icons text-muted tag">
-                                      {{#if (eq post.type 'p')}}
+                                      {{!-- {{#if (eq post.type 'p')}}
                                           poll_icon
                                       {{else if (eq post.type 'q')}}
                                           help_icon
                                       {{else}}
                                           note_icon
-                                      {{/if}}
+                                      {{/if}} --}}
                                     </span>
                                     <div class="card-body p-2 p-sm-3">
                                         <div class="media forum-item">
@@ -172,11 +160,11 @@
                                                 <p class="text-secondary">{{{post.content}}}</p>
                                                 <p class="post-time text-muted align-self-end m-0"><span class="text-secondary font-weight-bold">{{{post.get_elapsed_time}}}</span></p>
                                             </div>
-                                            {{#if (eq post.type "q")}}
+                                            {{!-- {{#if (eq post.type "q")}} --}}
                                             <div class="text-muted small  text-center align-self-end">
                                                 <span><span id="comm-count">{{post.responses.length}}</span> <span class="material-icons" style="font-size: 16px">chat_bubble</span></span>                                        
                                             </div>
-                                            {{/if}}
+                                            {{!-- {{/if}} --}}
                                         </div>
                                     </div>
                                 </div>
@@ -235,74 +223,15 @@
                                             <a href="/new_reply?{{post.id}}" class="text-muted small">Reply</a>
                                             {{/if}}
                                         </div>
-                                </div>                        
-                                {{#each post.responses as |response|}}
-                                    {{!-- Replies --}}
-                                    <div class="ml-3 card mb-2">
-                                        <div class="card-body">
-                                            <div class="media forum-item">
-                                                <div class="vote-answer" id={{call response 'did_vote' ../../user}}>
-                                                    <button onClick="chose_vote({{post.id}}, {{response.id}}, 1, {{call response 'did_vote' ../../user}})" class="up_down_vote_button upvote material-icons">arrow_upward</button>
-                                                    <span class="vote-number">{{response.vote_count}}</span> 
-                                                    <button onClick="chose_vote({{post.id}}, {{response.id}}, -1, {{call response 'did_vote' ../../user}})" class="downvote material-icons up_down_vote_button">arrow_downward</button>
-                                                </div>
-                                                <a href="javascript:void(0)" class="card-link">
-                                                    <img src="https://randomuser.me/api/portraits/men/42.jpg" class="rounded-circle" width="50" alt="User" />                                    
-                                                </a>
-                                                <div class="media-body ml-3">
-                                                    <a href="javascript:void(0)" class="text-secondary">{{response.author}}</a>
-                                                    <small class="text-muted ml-2">{{response.get_elapsed_time}}</small>                                                    
-                                                    <div class="mt-3 font-size-sm">
-                                                        <p>{{{response.content}}}</p>
-                                                    </div>
-                                                    <div class="files mb-2">
-                                                      {{#each response.files as |file|}}
-                                                        <div class="file">
-                                                            <span class="material-icons icon">description</span>
-                                                            <span class="file-name">
-                                                            <a href={{file.path}}>{{file.name}}</a> 
-                                                            </span>
-                                                        </div>                                                          
-                                                        {{/each}}
-                                                    </div>      
-                                                    <a href="/new_comment?{{post.id}}?{{response.id}}" class="text-muted small">Reply</a>       
-                                                    {{#each response.comments as |comment|}}
-                                                    <div class="mt-4 comment">
-                                                        <a href="javascript:void(0)" class="card-link"></a>
-                                                        <div class="ml-2 pt-1 comment-text">                                    
-                                                          <p class="mb-1">{{{comment.content}}}</p>
-                                                            <div class="pb-1 comment-detail">
-                                                              <a href="javascript:void(0)" >{{comment.author}}</a>
-                                                              <small class="text-muted ml-2">{{comment.get_elapsed_time}}</small>
-                                                            </div>
-                                                        </div>                                            
-                                                    </div>
-                                                    {{/each}}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>                                    
-                                {{/each}}
-                                
+                                </div>                                                                                        
                             </div>                            
                         </div>
-                        {{/each}}
+                        {{!-- {{/each}} --}}
                         {{!-- End post --}}                    
                         </div>
                     </div>
         </div>
         </div>
-    </div>
-
-
-    <!-- Script element sourcing TinyMCE -->
-    <script type="application/javascript" src= "/tinymce/tinymce.min.js"></script>
-    <!-- Script element sourcing the TinyMCE configuration -->
-    <script type="application/javascript" src= "/js/my-tinymce-config.js"></script>
-    <script src="js/main.js"></script> 
-    <script src="js/poll_script.js"></script> 
-    <script src="js/up_down_vote.js"></script> 
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    </div>    
 </body>
 </html>
