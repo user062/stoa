@@ -76,20 +76,41 @@
 
     <div class="content">        
         <div class="container">
-        <div class="col-10 mx-auto">
-            <h5>Ajouter un dossier</h5>
-            <hr>
-            <form action="new_post/new_post" method="POST" encType="multipart/form-data">
-                <section class="post__title form-group">
-                    <label for="title">Nom</label>
-                    <input class="form-control" type="text" name="name" placeholder="Nom du dossier" id="name" required>
-                </section><br>
-                <div class="text-right">
-                    <button type="submit" class="btn btn-primary col-3">Ajouter</button>
-                </div>
-                
-            </form>
-        </div>
+            <div class="col-10 mx-auto">
+                <h5>Ajouter un dossier</h5>
+                <hr>
+                <form action="new_post/new_post" method="POST" encType="multipart/form-data">
+                    <section class="post__title form-group">
+                        <label for="title">Nom</label>
+                        <input class="form-control" type="text" name="name" placeholder="Nom du dossier" id="name" required>
+                    </section>
+                    <section class="post__folder form-group">
+                        <label for="title">Module</label>
+                        {{!-- {{#if error}}
+                        <div class="alert alert-danger">
+                            <strong>{{error}}</strong>
+                        </div>
+                        {{/if}} --}}
+                        <div class="dossiers">
+                            <div class="dossier">
+                                <span>IHM</span> 
+                            </div>
+                            <div class="dossier">
+                                <span>SSI</span>                            
+                            </div>
+                            <div class="dossier">
+                                <span>ALGO</span>
+                            </div>
+                            <div class="dossier">
+                                <span>notes</span>
+                            </div>            
+                        </div>
+                    </section>
+                    <div class="text-right">
+                        <button type="submit" class="btn btn-primary col-3">Ajouter</button>
+                    </div>                
+                </form>                
+            </div>
         </div>
     </div>
     <script src="js/main.js"></script>
