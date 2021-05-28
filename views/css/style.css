@@ -28,6 +28,7 @@ body {
     grid-template-rows: 80px auto;
     grid-template-areas: "navbar navbar"
                          "content sidebar";
+    min-height: 100vh;
 }
 /* Containers */
 .container {
@@ -324,5 +325,117 @@ body {
 
 .dossiers .dossier span {
     line-height: 32px;
+}
+
+.add-poll-section {
+    display: none;
+}
+
+.show-poll {
+    display: block;
+}
+
+#delete-option {
+    color: red;
+}
+
+/* Poll Style */
+
+.poll {
+  /* position:absolute; */
+  top:100%;  
+  transform:translateY(0);
+  width:100%;
+  max-width:400px;
+  
+}
+.poll .question {
+  padding:20px;
+  color:#111;
+  font-size:18px;
+  border-bottom:1px solid #eee;
+}
+.poll .answers {
+  padding:20px 20px 10px;
+}
+.poll .answers .answer {
+  position:relative;
+  width:100%;
+  height:40px;
+  padding:0px 10px;
+  line-height:40px;
+  color:#111;
+  margin-bottom:10px;
+  border:1px solid #d4d4d4;
+  border-radius:10px;
+  cursor:pointer;
+  overflow:hidden;
+}
+.poll .answers .answer.selected {
+  border:2px solid #8f9fe8;
+}
+.poll .answers .answer span.percentage-value {
+  position:absolute;
+  top:50%;
+  right:0px;
+  width:40px;
+  transform:translateY(-50%);
+  color:#111;
+  font-size:15px;
+}
+.poll .answers .answer span.percentage-bar {
+  position:absolute;
+  top:0px;
+  left:0px;
+  width:0%;
+  height:100%;
+  background:#ccd8f1;
+  z-index:-1;
+  transition:width 300ms ease-in-out;
+}
+
+/* End Poll Style */
+
+
+/* Upvote Replies */
+
+.vote-answer {
+    width: 6%;
+    color: #000;
+    display: flex;
+    flex-direction: column;
+    height: 75px;
+    align-items: center;    
+    justify-content: center;
+    margin-right: 15px;    
+}
+
+.vote-answer span {
+    color: #484a4c;
+    cursor: pointer;
+}
+
+.upvote:hover, .downvote:hover {
+    color: #448ab6;
+    transition: ease all .2s;
+}
+
+/* End */
+
+.tag {
+    position:absolute;
+    right:-12%;
+    top:20%;
+}
+
+.choice-delete {
+  background: none!important;
+  border: none;
+  padding: 0!important;
+  color: red;
+  cursor: pointer;
+}
+.choice-delete:hover{
+         text-decoration:underline;
 }
 

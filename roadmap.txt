@@ -1,5 +1,7 @@
 roadmap:
-2- poll		
-5- épingler la meilleur réponse 
-6- upvote-downvote les réponses
-8- organiser les sujets de disscusion dans des dossiers
+3- serach functionality
+4- delete post/reply/comment
+5- pin post 
+6- notifications (drop down in nav bar and maybe web notifications)
+7- add comment on post
+8- organiser les sujets de disscusion dans des dossiers/let prof create folders

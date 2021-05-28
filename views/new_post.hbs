@@ -79,6 +79,11 @@
         <div class="col-10 mx-auto">
             <h5>Ajouter un post</h5>
             <hr>
+            {{#if error}}
+            <div class="alert alert-danger">
+              <strong>{{error}}</strong>
+            </div>
+            {{/if}}
             <form action="new_post/new_post" method="POST" encType="multipart/form-data">
                 <label>Type</label>
                 <section class="post__types">                              
@@ -123,20 +128,36 @@
                         <div class="dossier">
                             <span>notes</span>
                         </div>
-                        <div class="dossier">
+                        <div class="dossier" required>
                             <span>other</span>
                         </div>
                     </div>
                 </section><br>
                 <section class="post__title form-group">
                     <label for="title">Titre</label>
-                    <input class="form-control" type="text" name="title" placeholder="Titre du sujet" id="title">
+                    <input class="form-control" type="text" name="title" placeholder="Titre du sujet" id="title" required>
                 </section><br>
                 <section class="details">
                     <label>Détailes</label>
                     <textarea name="keyboard_cat" class="petMachine" id="my-expressjs-tinymce-app"></textarea>
                 </section>
-                <button class="btn btn-primary col-12 ml-auto mt-3 mb-5" onclick="select_type()">Ajouter</button>
+            
+
+
+                <section class="add-poll-section my-5">
+                    <label for="title">Sondage</label>                    
+                    <div class="add-poll mb-2" style="display: flex;justify-content: space-between">
+                        <input class="form-control col-8" type="text" name="new-option" placeholder="Ajouter une option" id="new-option">
+                        <button type="button" class="btn btn-secondary col-3 mx-auto" style="font-size: 14px!important" onclick="add_choice()">Ajouter</button>                    
+                    </div>
+
+                    <ul id="choices" name="survey" class="list-group mb-5">                        
+                    </ul>
+                        
+
+                </section>
+
+                <button type="submit" class="btn btn-primary col-12 ml-auto mt-3 mb-5" onclick="select_type()">Ajouter</button>
             </form>
 
 
@@ -177,11 +198,63 @@
           let file = tinymce.activeEditor.dom.get('file_upload');
 
           while(file){
-              file = tinymce.activeEditor.dom.get('file_upload');
               tinymce.activeEditor.dom.remove(file);
+              file = tinymce.activeEditor.dom.get('file_upload');
           }
+
+          let choices = document.getElementById("choices");
+          for(let choice of choices.children){
+              let choice_field = document.createElement('input');
+              choice_field.setAttribute("type", "hidden");
+              choice_field.setAttribute("name", "choices")
+              choice_field.setAttribute("value", choice.title);
+              form.appendChild(choice_field);
+          }
+
       }
-      
+
+      function add_choice(){
+          let choices_list = document.getElementById('choices');
+          let id = choices_list.lastElementChild? Number(choices_list.lastElementChild.id)+1: 0;
+          let choice = document.createElement('li');
+          choice.setAttribute('id', id);
+          choice.classList.add('list-group-item');
+          choice.classList.add('d-inline-flex');
+          choice.classList.add('justify-content-between');
+          let text = document.getElementById('new-option');
+
+          if (text.value === ''){
+              text.required = true;
+              text.setCustomValidity('please fill out the choice');
+              text.reportValidity();
+              text.setCustomValidity('');
+              text.required = false;
+              return false;
+          }
+
+          let choice_text = document.createTextNode(text.value);
+          let delete_button = document.createElement('button');
+          delete_button.appendChild(document.createTextNode('Supprimer'));
+          delete_button.setAttribute('onclick', `delete_choice(${id});`);
+          delete_button.setAttribute('type', 'button');
+          delete_button.classList.add('choice-delete');
+          choice.appendChild(choice_text);
+          choice.appendChild(delete_button);
+          choices_list.appendChild(choice);
+          choice.setAttribute('title', text.value);
+          text.value = '';
+      }
+
+      function delete_choice(id) {
+          let choices = document.getElementById('choices');
+
+          for(const choice of choices.children){
+              if(choice.id === String(id))
+                  return choice.remove();
+          }
+          
+      }
     </script>
+
 </body>
 </html>

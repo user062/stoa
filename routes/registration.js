@@ -33,7 +33,6 @@ router.post('/registration', async (req, res) => {
     let query = ["insert into COMPTE (EMAIL, PASSWORD, NOM, PRENOM, SEXE, DATE_NAISSANCE, TYPE, VCODE) values (", values, ")"].join('');
     let checkEmail = 'select compteID from COMPTE where email= ?';
     let email_exists = await connection.query(checkEmail, [email]);
-    console.log(email_exists);
     if (email_exists[0][0]) {
         req.session.error = 'email exists';
         res.redirect('/registration');
@@ -47,11 +46,11 @@ router.post('/registration', async (req, res) => {
             text: mail
         });
 
-        connection.query(query).then((results) => {
+        connection.query(query).then(async (results) => {
 
             req.session.loggedIn = false;
 
-            req.session.userId = req.body.email;
+            req.session.userId = await connection.query('select compteID from COMPTE where email= ?', req.body.email);
 
 
             res.redirect('/validation');

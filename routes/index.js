@@ -8,8 +8,9 @@ router.get('/', (req, res) => {
     if (!req.session.loggedIn)
         res.redirect('/login');
 
-    else
-        res.render('index', { layout: '', posts: Module.posts });
+    else {
+        res.render('index', { layout: '', user: req.session.userId, posts: Module.posts });
+    }
 });
 
 
@@ -56,7 +57,8 @@ router.get('/validation', (req, res) => {
 });
 
 router.get('/new_post', (req, res) => {
-    res.render('new_post', { layout: '' });
+    res.render('new_post', { layout: '', error: req.session.error });
+    req.session.error = null;
 });
 
 router.get('/new_reply', (req, res) => {

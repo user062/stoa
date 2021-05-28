@@ -9,7 +9,7 @@ class Module {
         this.folders = folders;
         if (posts.length === 0)
             connection.query('select * from POST').then((rows) => {
-                rows[0].forEach((row) => { this.posts.unshift(new Post(row.POST_ID, row.DATE_AJOUTE, row.COMPTEID, row.title, row.TYPE, row.POST_CORE, [], [])); });
+                rows[0].forEach(async (row) => { this.posts.unshift(new Post(row.POST_ID, row.DATE_AJOUTE, row.COMPTEID, row.title, row.TYPE, row.POST_CORE, [], [])); await this.posts[0].add_poll(); });
             });
     }
 

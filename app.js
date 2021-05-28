@@ -1,7 +1,6 @@
 const express = require('express');
 const dotenv = require('dotenv');
-const morgan = require('morgan');
-const exphbs = require('express-handlebars');
+const morgan = require('morgan'); const exphbs = require('express-handlebars');
 const connectDB = require('./config/db');
 const path = require('path');
 const session = require('express-session');
@@ -16,8 +15,14 @@ const app = express();
 if (process.env.NODE_ENV === 'development')
     app.use(morgan('dev'));
 
-app.engine('.hbs', exphbs({ handlebars: allowInsecurePrototypeAccess(Handlebars), defaultLayout: '', extname: '.hbs' }));
+app.engine('.hbs', exphbs({
+    handlebars: allowInsecurePrototypeAccess(Handlebars), defaultLayout: '',
+    extname: '.hbs',
+    helpers: { eq: (param1, param2) => { return param1 === param2; }, call: (obj, f, v) => { return obj[f](v); } }
+}));
+
 app.set('view engine', '.hbs');
+
 
 app.use(express.static(path.join(__dirname, 'views')));
 app.use(express.urlencoded({ extended: false }));
@@ -39,6 +44,7 @@ app.use('/validation', require('./routes/validation'));
 app.use('/new_post', require('./routes/new_post'));
 app.use('/new_reply', require('./routes/new_reply'));
 app.use('/new_comment', require('./routes/new_comment'));
+app.use('/vote', require('./routes/vote'));
 
 
 
