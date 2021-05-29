@@ -131,6 +131,11 @@
         <div class="col-10 mx-auto">
             <h5>Ajouter un post</h5>
             <hr>
+            {{#if error}}
+            <div class="alert alert-danger">
+              <strong>{{error}}</strong>
+            </div>
+            {{/if}}
             <form action="new_post/new_post" method="POST" encType="multipart/form-data">
                 <label>Type</label>
                 <section class="post__types">                              
@@ -162,11 +167,6 @@
                 </section><br>
                 <section class="post__folder form-group">
                     <label for="title">Dossiers</label>
-                    {{#if error}}
-                    <div class="alert alert-danger">
-                      <strong>{{error}}</strong>
-                    </div>
-                    {{/if}}
                     <div class="dossiers">
                         <div class="dossier">
                             <span>devoires</span> 
@@ -273,6 +273,15 @@
           choice.classList.add('d-inline-flex');
           choice.classList.add('justify-content-between');
           let text = document.getElementById('new-option');
+
+          if(text.value === ''){
+              text.required = true;
+              text.setCustomValidity('please fill out the choice');
+              text.reportValidity();
+              text.setCustomValidity('');
+              text.required = false;
+              return;
+          }
 
           let choice_text = document.createTextNode(text.value);
           let delete_button = document.createElement('button');

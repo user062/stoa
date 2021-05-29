@@ -2,7 +2,6 @@ const connection = require('../config/db');
 const Response = require('./Response');
 const File = require('./File');
 const Poll = require('./Poll');
-const fs = require('fs');
 const elapsed_time = require('./helpers/humanized_time_span');
 const path = require('path');
 
@@ -20,43 +19,62 @@ class Post {
         this.files = [];
         this.poll_elements = poll_elements;
 
-        connection.query('select NOM, PRENOM from COMPTE where COMPTEID = ?', [author_id]).then((results) => {
-            this.author = results[0][0].PRENOM + ' ' + results[0][0].NOM;
-        });
+    }
 
-        if (responses.length === 0)
-            connection.query('select * from REPONSE where POST_ID=?', [this.id]).then((results) => {
-                results[0].forEach((row) => { this.responses.push(new Response(row.ID_REPONSE, row.DATE_AJOUTE, row.COMPTEID, row.REPONSE_CORE, [], [])); });
-            });
+    async init(author_id, responses) {
 
-        connection.query('select file_name, file_path from file where POST_ID = ?', [this.id]).then((results) => {
-            results[0].forEach((row) => { this.files.push(new File(row.file_name, row.file_path)); });
-        });
+        let results = await connection.query('select NOM, PRENOM from COMPTE where COMPTEID = ?', [author_id]);
+        this.author = results[0][0].PRENOM + ' ' + results[0][0].NOM;
+
+        if (responses.length === 0) {
+            results = await connection.query('select * from REPONSE where POST_ID=?', [this.id]);
+
+            for (const row of results[0]) {
+                let response = await Response(row.ID_REPONSE, this.id, row.DATE_AJOUTE, row.COMPTEID, row.REPONSE_CORE, [], []);
+                this.responses.push(response);
+            }
+        }
+
+        results = await connection.query('select file_name, file_path from file where POST_ID = ?', [this.id]);
+
+        for (const row of results[0])
+            this.files.push(new File(row.file_name, row.file_path));
+
+        if (this.type === 'p')
+            if (!this.poll_elements)
+                this.poll = await Poll(this.id, this.author_id, []);
+            else
+                this.poll = await Poll(this.id, this.author_id, this.poll_elements);
+
+        return this;
+    }
+
+
+    async add_to_db() {
+        let query = 'insert into POST (COMPTEID, title, TYPE, POST_CORE) values (?, ?, ?, ?);';
+        let row = await connection.query(query, [this.author_id, this.title, this.type[0], this.content]);
+        this.id = row[0].insertId;
     }
 
     async add_file(file) {
         let location = path.join('Uploads', String(this.id));
-        await connection.query('insert into file (POST_ID, file_path, file_name) values (?,?,?) ', [this.id, path.join(location, file.name), file.name]);
-        await fs.promises.mkdir(path.join('views', location), { recursive: true });
-        file.mv(path.join('views', location, file.name));
-        this.files.push(new File(file.name, path.join(location, file.name)));
+        let fi = new File(file.name, location);
+        await fi.add_to_db(this.id, file);
+        this.files.push(fi);
     }
 
     async add_response(response) {
-        let query = 'insert into REPONSE (COMPTEID, POST_ID, REPONSE_CORE) values (?, ?, ?);';
-
-        await connection.query(query, [response.author_id, this.id, response.content]);
-        let id_rep = await connection.query('SELECT ID_REPONSE as id from REPONSE order by id desc limit 1');
-        response.id = id_rep[0][0].id;
+        await response.add_to_db(this.id);
         this.responses.push(response);
     }
 
-    add_poll() {
+    async add_poll() {
         if (!this.poll_elements)
-            this.poll = new Poll(this.id, this.author_id, []);
+            this.poll = await Poll(this.id, this.author_id, []);
         else
-            this.poll = new Poll(this.id, this.author_id, this.poll_elements);
+            this.poll = await Poll(this.id, this.author_id, this.poll_elements);
     }
+
     delete_response(response) {
 
     }
@@ -69,4 +87,10 @@ class Post {
         return elapsed_time(this.creation_date);
     }
 }
-module.exports = Post;
+
+module.exports =
+    (id, creation_date, author_id, title, type, content, folders, responses, uploaded_files, poll_elements) => {
+        let post = new Post(id, creation_date, author_id, title,
+            type, content, folders, responses, uploaded_files, poll_elements);
+        return post.init(author_id, responses);
+    };

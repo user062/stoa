@@ -11,8 +11,9 @@ router.post('/new_comment', async (req, res) => {
     let response_id = post_reply_id[2];
     let creator = req.session.userId;
     let content = req.body.keyboard_cat;
-    let comment = new Comment(null, new Date(), creator, content, [], []);
-    let post = Module.get_post_by_id(parseInt(post_id))[0];
+    let comment = await Comment(null, new Date(), creator, content, [], []);
+    let module = await Module;
+    let post = module.get_post_by_id(parseInt(post_id))[0];
     let reply = post.get_response_by_id(parseInt(response_id))[0];
     await reply.add_comment(comment);
     res.redirect('/');

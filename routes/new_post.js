@@ -11,15 +11,16 @@ router.post('/new_post', async (req, res) => {
     let folders = req.body.folders;
 
     if (!folders) {
-        req.session.error = "please select atleast one folder";
+        req.session.error = "Please select at least one folder";
         res.redirect('/new_post');
     }
 
     else {
         let post_content = req.body.keyboard_cat;
         let uploaded_files = req.files ? req.files.uploads : [];
-        let added_post = new Post(null, new Date(), post_creator, post_title, post_type, post_content, folders, [], []);
-        await Module.add_post(added_post);
+        let added_post = await Post(null, new Date(), post_creator, post_title, post_type, post_content, folders, [], []);
+        let module = await Module;
+        await module.add_post(added_post);
 
         if (Array.isArray(uploaded_files))
             for (const file of uploaded_files)
@@ -29,8 +30,12 @@ router.post('/new_post', async (req, res) => {
 
         if (post_type === 'p') {
             let poll_elements = req.body.choices;
-            if (!Array.isArray(poll_elements))
-                poll_elements = [poll_elements];
+            if (!Array.isArray(poll_elements) || poll_elements.length < 2) {
+                req.session.error = "Please add at least 2 choices to the poll";
+                res.redirect('/new_post');
+                return false;
+            }
+
             added_post.poll_elements = poll_elements;
             await added_post.add_poll();
         }

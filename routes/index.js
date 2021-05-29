@@ -4,12 +4,13 @@ const Module = require('../models/Module');
 
 // @desc index/Landing page
 // @route GET /
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
     if (!req.session.loggedIn)
         res.redirect('/login');
 
     else {
-        res.render('index', { layout: '', user: req.session.userId, posts: Module.posts });
+        let module = await Module;
+        res.render('index', { layout: '', user: req.session.userId, posts: module.posts });
     }
 });
 

@@ -8,13 +8,21 @@ class Comment {
         this.author_id = author_id;
         this.content = content;
 
-        connection.query('select NOM, PRENOM from COMPTE where COMPTEID=?', [author_id]).then((results) => {
-            this.author = results[0][0].PRENOM + ' ' + results[0][0].NOM;
-        });
     }
+
+    async init(author_id) {
+        let results = await connection.query('select NOM, PRENOM from COMPTE where COMPTEID=?', [author_id]);
+        this.author = results[0][0].PRENOM + ' ' + results[0][0].NOM;
+        return this;
+    }
+
     get get_elapsed_time() {
         return elapsed_time(this.creation_date);
     }
 }
 
-module.exports = Comment;
+module.exports =
+    (id, creation_date, author_id, content) => {
+        let comment = new Comment(id, creation_date, author_id, content);
+        return comment.init(author_id);
+    };
