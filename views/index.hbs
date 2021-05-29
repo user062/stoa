@@ -52,33 +52,33 @@
                     Discussions
                 </a>                
             </li>
-            <hr style="background-color: #f6f6f6;height: 1px;width: 75%;margin: 1rem auto">      
-            {{!-- Button just for profs --}}
-            <a href="/new_folder" class="btn btn-secondary new__descussion">
-                <span class="material-icons">add</span>
-                <span class="new__descussion-text">Nouveau dossier</span>
-            </a>                              
-            <li class="module__link">                
+            <hr style="background-color: #f6f6f6;height: 1px;width: 75%;margin: 1rem auto">                                            
+            <li class="module__link">                                
                 <a class="sidebar__link" href="#">
                     <span class="material-icons">folder_open</span>           
                     IHM
                 </a>          
+                {{!-- Button just for profs --}}
+                <a href="/new_folder" style="font-size: 14px;">
+                    <span class="material-icons">add</span>
+                    <span class="new__descussion-text">Nouveau dossier</span>
+                </a>    
                 <div class="module__folders ml-4">
                     <a class="module__folder" href="#">
                         <span class="material-icons">folder_open</span>           
-                        Coures
+                        Resources
                     </a>          
-                </div>   
+                </div>                    
                 <div class="module__folders ml-4">
                     <a class="module__folder" href="#">
                         <span class="material-icons">folder_open</span>           
-                        TD
+                        serie1
                     </a>          
                 </div>      
                 <div class="module__folders ml-4">
                     <a class="module__folder" href="#">
                         <span class="material-icons">folder_open</span>           
-                        Notes
+                        Autre
                     </a>          
                 </div>      
             </li>
@@ -155,15 +155,16 @@
                             <div class="inner-main-body pt-2 collapse forum-content{{post.id}} show" {{#if (eq post.type "p")}} onclick='showResults({{{post.poll.poll_representation.stringify}}}, {{call post.poll "did_vote" ../user }})'{{/if}}>
                                 <div class="card mb-2">
                                     <div class="card__tag text-muted">ACOO</div>
-                                    <span class="material-icons text-muted tag">
+                                    <span class="text-muted tag">
                                       {{#if (eq post.type 'p')}}
-                                          poll_icon
+                                          #Vote
                                       {{else if (eq post.type 'q')}}
-                                          help_icon
+                                          #Question
                                       {{else}}
-                                          note_icon
+                                          #Note
                                       {{/if}}
                                     </span>
+                                    <span class="post-folder text-muted">coure1</span>
                                     <div class="card-body p-2 p-sm-3">
                                         <div class="media forum-item">
                                             <a href="#" data-toggle="collapse" data-target=".forum-content{{post.id}}"><img src="https://randomuser.me/api/portraits/men/88.jpg" class="mr-3 rounded-circle" width="50" alt="User" /></a>
@@ -173,7 +174,7 @@
                                                 <p class="post-time text-muted align-self-end m-0"><span class="text-secondary font-weight-bold">{{{post.get_elapsed_time}}}</span></p>
                                             </div>
                                             {{#if (eq post.type "q")}}
-                                            <div class="text-muted small  text-center align-self-end">
+                                            <div class="text-muted small  text-center align-self-start mt-2 comment-number">
                                                 <span><span id="comm-count">{{post.responses.length}}</span> <span class="material-icons" style="font-size: 16px">chat_bubble</span></span>                                        
                                             </div>
                                             {{/if}}
