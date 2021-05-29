@@ -14,11 +14,20 @@ class Response {
         this.content = content;
         this.comments = comments;
         this.files = files;
+        this.votes = { 1: [], '-1': [] };
     }
 
     async init(author_id, comments) {
+        let results;
 
-        let results = await connection.query('select NOM, PRENOM from COMPTE where COMPTEID=?', [author_id]);
+        if (this.id) {
+            let results = await connection.query(`select vote, COMPTEID from UP_DOWN_VOTE where ID_REPONSE=${this.id}`);
+
+            for (const row of results[0])
+                this.votes[row.vote].push(row.COMPTEID);
+        }
+
+        results = await connection.query('select NOM, PRENOM from COMPTE where COMPTEID=?', [author_id]);
         this.author = results[0][0].PRENOM + ' ' + results[0][0].NOM;
 
         if (comments.length === 0) {
@@ -65,6 +74,29 @@ class Response {
 
     get get_elapsed_time() {
         return elapsed_time(this.creation_date);
+    }
+
+    async vote(voter, vote) {
+        let previous_vote = this.votes[vote * -1].indexOf(voter);
+        if (previous_vote !== -1)
+            this.votes[vote * -1].splice(previous_vote, 1);
+        this.votes[vote].push(voter);
+        await connection.query(`insert into UP_DOWN_VOTE values (${this.id}, ${voter}, ${vote}) on duplicate key update vote=${vote}`);
+    }
+
+    did_vote(user_id) {
+        console.log(this.votes);
+        if (this.votes[1].includes(user_id))
+            return 1;
+
+        else if (this.votes[-1].includes(user_id))
+            return -1;
+
+        return false;
+    }
+
+    get vote_count() {
+        return this.votes[1].length - this.votes[-1].length;
     }
 }
 

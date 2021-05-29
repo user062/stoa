@@ -45,6 +45,7 @@ app.use('/new_post', require('./routes/new_post'));
 app.use('/new_reply', require('./routes/new_reply'));
 app.use('/new_comment', require('./routes/new_comment'));
 app.use('/vote', require('./routes/vote'));
+app.use('/reply_vote', require('./routes/reply_vote'));
 
 
 
