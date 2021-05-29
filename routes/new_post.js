@@ -18,8 +18,9 @@ router.post('/new_post', async (req, res) => {
     else {
         let post_content = req.body.keyboard_cat;
         let uploaded_files = req.files ? req.files.uploads : [];
-        let added_post = new Post(null, new Date(), post_creator, post_title, post_type, post_content, folders, [], []);
-        await Module.add_post(added_post);
+        let added_post = await Post(null, new Date(), post_creator, post_title, post_type, post_content, folders, [], []);
+        let module = await Module;
+        await module.add_post(added_post);
 
         if (Array.isArray(uploaded_files))
             for (const file of uploaded_files)

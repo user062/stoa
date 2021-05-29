@@ -439,3 +439,19 @@ body {
          text-decoration:underline;
 }
 
+.up_down_vote_button {
+ background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: none;   
+}
+
+.selected_vote{
+    color: #448ab6;
+}
+.up_down_vote_button:focus {
+    outline:none;
+}

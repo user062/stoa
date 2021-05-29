@@ -7,17 +7,22 @@ class Module {
         this.name = name;
         this.posts = posts;
         this.folders = folders;
-        if (posts.length === 0)
-            connection.query('select * from POST').then((rows) => {
-                rows[0].forEach(async (row) => { this.posts.unshift(new Post(row.POST_ID, row.DATE_AJOUTE, row.COMPTEID, row.title, row.TYPE, row.POST_CORE, [], [])); await this.posts[0].add_poll(); });
-            });
+    }
+
+    async init(posts) {
+        if (posts.length === 0) {
+            let results = await connection.query('select * from POST');
+
+            for (const row of results[0]) {
+                let post = await Post(row.POST_ID, row.DATE_AJOUTE, row.COMPTEID, row.title, row.TYPE, row.POST_CORE, [], []);
+                this.posts.unshift(post);
+            };
+        }
+        return this;
     }
 
     async add_post(post) {
-        let query = 'insert into POST (COMPTEID, title, TYPE, POST_CORE) values (?, ?, ?, ?);';
-        await connection.query(query, [post.author_id, post.title, post.type[0], post.content]);
-        let row = await connection.query('SELECT POST_ID AS id FROM POST ORDER BY id DESC LIMIT 1');
-        post.id = row[0][0].id;
+        await post.add_to_db();
         this.posts.unshift(post);
     }
 
@@ -35,10 +40,14 @@ class Module {
     }
 }
 
-let test_module = new Module(null, "ACOO", [], ['devoirs', 'coures', 'td', 'notes', 'other']);
+function createModule(id, name, posts, folders) {
+    let module = new Module(id, name, posts, folders);
+    return module.init(posts);
+};
 
-module.exports = test_module;
-/*
+let test_module = createModule(null, "ACOO", [], ['devoirs', 'coures', 'td', 'notes', 'other']);
+
+module.exports = test_module;/*
     let resps = [
         [new Response('john blow hmidat', "this is response 1 from blow"),
         new Response('john blow kader', "this is response 2 from blow"),

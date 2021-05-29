@@ -236,10 +236,10 @@
                                     <div class="ml-3 card mb-2">
                                         <div class="card-body">
                                             <div class="media forum-item">
-                                                <div class="vote-answer">
-                                                    <span class="upvote material-icons">arrow_upward</span>
-                                                    <span class="vote-number">55</span> 
-                                                    <span class="downvote material-icons">arrow_downward</span>
+                                                <div class="vote-answer" id={{call response 'did_vote' ../../user}}>
+                                                    <button onClick="chose_vote({{post.id}}, {{response.id}}, 1, {{call response 'did_vote' ../../user}})" class="up_down_vote_button upvote material-icons">arrow_upward</button>
+                                                    <span class="vote-number">{{response.vote_count}}</span> 
+                                                    <button onClick="chose_vote({{post.id}}, {{response.id}}, -1, {{call response 'did_vote' ../../user}})" class="downvote material-icons up_down_vote_button">arrow_downward</button>
                                                 </div>
                                                 <a href="javascript:void(0)" class="card-link">
                                                     <img src="https://randomuser.me/api/portraits/men/42.jpg" class="rounded-circle" width="50" alt="User" />                                    
@@ -366,6 +366,7 @@
     <script type="application/javascript" src= "/js/my-tinymce-config.js"></script>
     <script src="js/main.js"></script> 
     <script src="js/poll_script.js"></script> 
+    <script src="js/up_down_vote.js"></script> 
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
 </body>

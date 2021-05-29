@@ -3,10 +3,6 @@ function markAnswer(i, poll, user_choice) {
         return;
 
     user_choice = +i;
-    try {
-        document.getElementById(`poll${poll.id}`).querySelector(`.poll .answers .answer.selected`).classList.remove("selected");
-    } catch (msg) { }
-    document.getElementById(`poll${poll.id}`).querySelectorAll(`.poll .answers .answer`)[+i].classList.add("selected");
 
     let f = document.createElement("form");
     f.setAttribute('name', 'f');

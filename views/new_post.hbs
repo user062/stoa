@@ -210,7 +210,6 @@
               choice_field.setAttribute("value", choice.title);
               form.appendChild(choice_field);
           }
-
       }
 
       function add_choice(){
@@ -223,13 +222,13 @@
           choice.classList.add('justify-content-between');
           let text = document.getElementById('new-option');
 
-          if (text.value === ''){
+          if(text.value === ''){
               text.required = true;
               text.setCustomValidity('please fill out the choice');
               text.reportValidity();
               text.setCustomValidity('');
               text.required = false;
-              return false;
+              return;
           }
 
           let choice_text = document.createTextNode(text.value);
