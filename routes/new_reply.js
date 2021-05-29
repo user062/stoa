@@ -10,8 +10,9 @@ router.post('/new_reply', async (req, res) => {
     let reply_creator = req.session.userId;
     let reply_content = req.body.keyboard_cat;
     let uploaded_files = req.files ? req.files.uploads : [];
-    let added_reply = new Response(null, new Date(), reply_creator, reply_content, [], []);
-    await Module.get_post_by_id(parseInt(post_replied_to))[0].add_response(added_reply);
+    let added_reply = await Response(null, post_replied_to, new Date(), reply_creator, reply_content, [], []);
+    let module = await Module;
+    await module.get_post_by_id(parseInt(post_replied_to))[0].add_response(added_reply);
 
     if (Array.isArray(uploaded_files))
         for (const file of uploaded_files)
