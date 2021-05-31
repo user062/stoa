@@ -7,7 +7,7 @@
     <title>Stoa</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/material-icons.css">
-    <link rel="stylesheet" href="css/bootstrap.min.css">        
+    <link rel="stylesheet" href="css/bootstrap.min.css">            
 </head>
 <body>
 
@@ -43,26 +43,20 @@
                     <span class="material-icons">home</span>
                     Home
                 </a>                
-            </li>
-            <li>                
-                <a class="sidebar__link" href="#">
-                    <span class="material-icons">
-                    chat_bubble_outline
-                    </span>           
-                    Discussions
-                </a>                
-            </li>
+            </li>                        
             <hr style="background-color: #f6f6f6;height: 1px;width: 75%;margin: 1rem auto">                                            
-            <li class="module__link">                                
-                <a class="sidebar__link" href="/module">
+            {{!-- Button just for profs --}}              
+            <li>
+            <a href="/new_folder" style="font-size: 14px;">
+                <span class="material-icons">add</span>
+                <span class="new__descussion-text">Nouveau dossier</span>
+            </a>                    
+            </li>              
+            <li class="module__link">                                                
+                <a class="sidebar__link" href="#">
                     <span class="material-icons">folder_open</span>           
                     IHM
-                </a>          
-                {{!-- Button just for profs --}}
-                {{!--<a href="/new_folder" style="font-size: 14px;">
-                    <span class="material-icons">add</span>
-                    <span class="new__descussion-text">Nouveau dossier</span>
-                 </a>    
+                </a>                          
                 <div class="module__folders ml-4">
                     <a class="module__folder" href="#">
                         <span class="material-icons">folder_open</span>           
@@ -80,24 +74,8 @@
                         <span class="material-icons">folder_open</span>           
                         Autre
                     </a>          
-                </div>       --}}
-            </li>
-            <li class="module__link">                
-                <a class="sidebar__link" href="/module">
-                    <span class="material-icons">
-                    folder_open
-                    </span>           
-                    Acoo
-                </a>                
-            </li>
-            <li class="module__link">                
-                <a class="sidebar__link" href="/module">
-                    <span class="material-icons">
-                    folder_open
-                    </span>           
-                    Algo
-                </a>                
-            </li>
+                </div>      
+            </li>            
         </ul>
     </div>
 
@@ -107,9 +85,9 @@
             <div class="inner-wrapper">    
                 <!-- Inner main -->
                 <div class="inner-main">
-                    <div class="container">
+                    <div class="container">                         
                         <!-- Inner main header -->
-                        <div class="row inner-main-header mb-4">
+                        <div class="row inner-main-header">
                             <!-- <select class="col-2 custom-select custom-select-sm mr-1">
                                 <option selected="">Latest</option>
                                 <option value="1">Popular</option>
@@ -120,7 +98,8 @@
                             <span class="col-xs-3 input-icon input-icon-sm ml-auto" id="search">
                                 <input type="text" class="form-control form-control-sm bg-gray-200 border-gray-200 shadow-none mb-4" placeholder="Search forum" />
                             </span>
-                        </div>                    
+                        </div>         
+                        <h4 class="mb-4 module-title" style="font-weight: 800;">IHM</h4>                            
                     </div>
                     
                     <!-- Forum List -->
