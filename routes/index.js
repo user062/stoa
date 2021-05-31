@@ -44,8 +44,16 @@ router.get('/registration', (req, res) => {
         res.render('registration', { layout: 'registration' });
 });
 
+router.get('/module', (req, res) => {
+    res.render('module');
+});
+
 router.get('/module_folder', (req, res) => {
     res.render('module_folder');
+});
+
+router.get('/resources', (req, res) => {
+    res.render('module_resources');
 });
 
 router.get('/validation', (req, res) => {

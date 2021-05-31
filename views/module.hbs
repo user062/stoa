@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stoa</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/material-icons.css">
-    <link rel="stylesheet" href="css/bootstrap.min.css">        
+    <link rel="stylesheet" href="css/bootstrap.min.css">            
 </head>
 <body>
 
@@ -63,7 +64,7 @@
                     </a>          
                 </div>                    
                 <div class="module__folders ml-4">
-                    <a class="module__folder" href="#">
+                    <a class="module__folder" href="/module_folder">
                         <span class="material-icons">folder_open</span>           
                         serie1
                     </a>          
@@ -77,16 +78,28 @@
             </li>            
         </ul>
     </div>
-    
+
     <div class="content">        
         <div class="container">
         <div class="main-body p-0 col-11 mx-auto">
             <div class="inner-wrapper">    
                 <!-- Inner main -->
                 <div class="inner-main">
-                    <div class="container">                                                
-                        {{!-- Folder name --}}
-                        <h5 style="font-weight: 800">Discussions Serie1 :</h5>                             
+                    <div class="container">                         
+                        <!-- Inner main header -->
+                        <div class="row inner-main-header">
+                            <!-- <select class="col-2 custom-select custom-select-sm mr-1">
+                                <option selected="">Latest</option>
+                                <option value="1">Popular</option>
+                                <option value="3">Solved</option>
+                                <option value="3">Unsolved</option>
+                                <option value="3">No Replies Yet</option>
+                            </select> -->
+                            <span class="col-xs-3 input-icon input-icon-sm ml-auto" id="search">
+                                <input type="text" class="form-control form-control-sm bg-gray-200 border-gray-200 shadow-none mb-4" placeholder="Search forum" />
+                            </span>
+                        </div>         
+                        <h4 class="mb-4 module-title" style="font-weight: 800;">IHM</h4>                            
                     </div>
                     
                     <!-- Forum List -->
@@ -234,6 +247,17 @@
                     </div>
         </div>
         </div>
-    </div>    
+    </div>
+
+
+    <!-- Script element sourcing TinyMCE -->
+    <script type="application/javascript" src= "/tinymce/tinymce.min.js"></script>
+    <!-- Script element sourcing the TinyMCE configuration -->
+    <script type="application/javascript" src= "/js/my-tinymce-config.js"></script>
+    <script src="js/main.js"></script> 
+    <script src="js/poll_script.js"></script> 
+    <script src="js/up_down_vote.js"></script> 
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
 </body>
 </html>

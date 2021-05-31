@@ -44,20 +44,8 @@
                     Home
                 </a>                
             </li>
-            <li>                
-                <a class="sidebar__link" href="#">
-                    <span class="material-icons">
-                    chat_bubble_outline
-                    </span>           
-                    Discussions
-                </a>                
-            </li>
             <hr style="background-color: #f6f6f6;height: 1px;width: 75%;margin: 1rem auto">      
-            {{!-- Button just for profs --}}
-            <a href="/new_folder" class="btn btn-secondary new__descussion">
-                <span class="material-icons">add</span>
-                <span class="new__descussion-text">Nouveau dossier</span>
-            </a>                              
+                                   
             <li class="module__link">                
                 <a class="sidebar__link" href="#">
                     <span class="material-icons">folder_open</span>           
@@ -82,47 +70,6 @@
                     </a>          
                 </div>      
             </li>
-            <li class="module__link">                
-                <a class="sidebar__link" href="#">
-                    <span class="material-icons">
-                    folder_open
-                    </span>           
-                    Acoo
-                </a>                
-            </li>
-            <li class="module__link">                
-                <a class="sidebar__link" href="#">
-                    <span class="material-icons">
-                    folder_open
-                    </span>           
-                    Algo
-                </a>                
-            </li>
-
-            {{!-- <li>                
-                <a class="sidebar__link" href="#">
-                    <span class="material-icons">local_library</span>
-                    Modules
-                </a>                
-            </li>
-            <li>                
-                <a class="sidebar__link" href="#">
-                    <span class="material-icons">poll</span>
-                    Poll
-                </a>                
-            </li>
-            <li>                
-                <a class="sidebar__link" href="#">
-                    <span class="material-icons">note</span>
-                    Notes
-                </a>                
-            </li>
-            <li>                
-                <a class="sidebar__link" href="#">
-                    <span class="material-icons">article</span>
-                    Devoires
-                </a>                
-            </li> --}}
         </ul>
     </div>
 
@@ -136,13 +83,8 @@
                         <label for="title">Nom</label>
                         <input class="form-control" type="text" name="name" placeholder="Nom du dossier" id="name" required>
                     </section>
-                    <section class="post__folder form-group">
-                        <label for="title">Module</label>
-                        {{!-- {{#if error}}
-                        <div class="alert alert-danger">
-                            <strong>{{error}}</strong>
-                        </div>
-                        {{/if}} --}}
+                    {{!-- <section class="post__folder form-group">
+                        <label for="title">Module</label>                        
                         <div class="dossiers">
                             <div class="dossier">
                                 <span>devoire 1</span> 
@@ -157,7 +99,7 @@
                                 <span>coure1 algo</span>
                             </div>            
                         </div>
-                    </section>
+                    </section> --}}
                     <div class="text-right">
                         <button type="submit" class="btn btn-primary col-3">Ajouter</button>
                     </div>                
