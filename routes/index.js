@@ -51,6 +51,10 @@ router.get('/module_folder', (req, res) => {
     res.render('module_folder');
 });
 
+router.get('/resources', (req, res) => {
+    res.render('module_resources');
+});
+
 router.get('/validation', (req, res) => {
     if (req.session.error) {
         res.render('validation', { error: req.session.error, layout: '' });
