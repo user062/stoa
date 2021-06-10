@@ -487,3 +487,25 @@ body {
 .up_down_vote_button:focus {
     outline:none;
 }
+
+/* Module infos page */
+.info-title {
+    background-color: #efefef;
+    padding: 0.3rem 0.5rem;
+    border-radius: 2px;
+    font-size: 18px;
+}
+
+.last-announcement {
+    background-color: #f7f7f7;
+    min-height: 150px;
+    padding: 1rem 1rem;
+    position: relative;
+}
+
+.last-annonce-date {
+    bottom: 5px;
+    position: absolute;
+    left: 1rem;
+    font-style: italic;
+}

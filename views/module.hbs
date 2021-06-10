@@ -56,13 +56,19 @@
                 <a class="sidebar__link" href="/module">
                     <span class="material-icons">folder_open</span>           
                     IHM
-                </a>                          
-                <div class="module__folders ml-4">
+                </a>       
+                <div class="module__folders ml-4">                         
                     <a class="module__folder" href="/resources">
                         <span class="material-icons">folder_open</span>           
                         Resources
                     </a>          
-                </div>                    
+                </div>                     
+                <div class="module__folders ml-4">                         
+                    <a class="module__folder" href="/resources">
+                        <span class="material-icons">folder_open</span>           
+                        Discussions
+                    </a>          
+                </div>                                        
                 <div class="module__folders ml-4">
                     <a class="module__folder" href="/module_folder">
                         <span class="material-icons">folder_open</span>           
@@ -80,32 +86,41 @@
     </div>
 
     <div class="content">        
+        <div style="background-color: #F2F2F2;height:100px;margin-top:-1.9rem">
+            <div class="container" style="height:100px">
+                <h4 class="my-auto module-title" style="font-weight: 800;font-size: 32px;line-height:100px;color:#373838">Module : IHM</h4>                                
+            </div>            
+        </div>                           
         <div class="container">
         <div class="main-body p-0 col-11 mx-auto">
             <div class="inner-wrapper">    
                 <!-- Inner main -->
                 <div class="inner-main">
-                    <div class="container">
-                        <!-- Inner main header -->
-                        <div class="row inner-main-header mb-4">
-                            <!-- <select class="col-2 custom-select custom-select-sm mr-1">
-                                <option selected="">Latest</option>
-                                <option value="1">Popular</option>
-                                <option value="3">Solved</option>
-                                <option value="3">Unsolved</option>
-                                <option value="3">No Replies Yet</option>
-                            </select> -->
-                            <span class="col-xs-3 input-icon input-icon-sm ml-auto" id="search">
-                                <input type="text" class="form-control form-control-sm bg-gray-200 border-gray-200 shadow-none mb-4" placeholder="Search forum" />
-                            </span>
-                        </div>                    
+                    <div class="container">                         
+                        
+                        {{!-- Course Information --}}
+                        <div class="row mt-5">
+                            <div class="col-md-6">
+                                <div class="info-title">Informations Générales</div>
+                                <div class="info-content mt-3">Ce module a 5 Chapitres, 2 serie de TD et 3 TPS. son coefficient est de 3</div>
+                                
+                                <div class="info-title mt-5">Description</div>
+                                <div class="info-content mt-3 mb-5">Le module IHM aide l'étudaint a apprendre comment faire un boutton est comment clicker sue ce boutton, le temp de reflex, le temp de click et beaucoup de choses.</div>                                
+                            </div>
+                            
+                            <div class="col-md-6">                                
+                                <div class="info-title">Annonces</div>
+                                <div class="info-content last-announcement mt-2 mb-5">
+                                    Note au étudians : il y'aura un interogation.
+                                    <span class="last-annonce-date">30 Juin 2021</span>
+                                </div>
+                            </div>                            
+                        </div>
+
+
                     </div>
                     
-                    <!-- Forum List -->
-                    <div class="posts">
-                      {{> post_partial module=module user=user}}
-                    </div>
-                </div>
+                    
         </div>
         </div>
     </div>
