@@ -535,15 +535,15 @@ th, td {
 
 .actions {
     right: 0;
-    width: 20%;    
-    text-align: right;    
+    width: 10%;    
+    text-align: center;    
 }
 
 .actions .btn-group button{
     color: #212529;
     background-color: #e2e6ea;
     border-color: #dae0e5;
-    width: 90px;
+    width: 40px;
     font-size: 11px;
 }
 
@@ -561,7 +561,5 @@ th, td {
     font-size: 15px;
 }
 
-#file-upload-label {
-}
 
 /* End Resources Page */
