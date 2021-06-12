@@ -245,7 +245,7 @@
           }
 
           let choices = document.getElementById("choices");
-          for(let choice of choices.children){
+          for(let choice of choices.children) {
               let choice_field = document.createElement('input');
               choice_field.setAttribute("type", "hidden");
               choice_field.setAttribute("name", "choices")
@@ -289,7 +289,7 @@
       function delete_choice(id) {
           let choices = document.getElementById('choices');
 
-          for(const choice of choices.children){
+          for(const choice of choices.children) {
               if(choice.id === String(id))
                   return choice.remove();
           }

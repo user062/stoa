@@ -108,14 +108,103 @@
                     </div>
 
                     {{!-- Coures --}}
-                    <h5 class="mb-4 module-title" style="font-weight: 800;">Coures</h5>
-                    posts    
-                    {{!-- TDs --}}
-                    <hr><h5 class="mb-4 module-title" style="font-weight: 800;">TDs</h5>
-                    {{!-- Notes --}}
-                    <hr><h5 class="mb-4 module-title" style="font-weight: 800;">Notes</h5>
-                    {{!-- Votes --}}
-                    <hr><h5 class="mb-4 module-title" style="font-weight: 800;">Votes</h5>
+                    <section class="courses" style="margin-bottom: 100px">
+                        <hr><h5 class="mb-4 module-title" style="font-weight: 800;">Coures</h5>
+                        {{!-- if no files exits --}}
+                        <div class="alert alert-primary" role="alert">
+                            Rien n'a été ajouté
+                        </div>
+                        {{!-- else  --}}
+                        <table class="table">
+                            <thead>
+                                <tr>      
+                                    <th class="thead" scope="col">Coure</th>
+                                    <th class="thead" scope="col">Action</th>                            
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>      
+                                    <td class="file-container">
+                                        <a href="#" class="link-to-file">coure1.pdf</a>                                    
+                                    </td>
+                                    
+                                    <td class="actions">
+                                        <div class="btn-group">
+                                            <button class="btn btn-sm mr-1">
+                                                <span class="material-icons" style="font-size: 14px;">edit</span>
+                                                Modifier
+                                            </button>    
+                                            </button>
+                                            <button class="btn btn-sm">
+                                                <span class="material-icons" style="font-size: 14px;">delete</span>
+                                                Supprimer
+                                            </button>                                            
+                                        </div>
+                                        
+                                    </td>                        
+                                </tr>                            
+                            </tbody>
+                        </table> 
+                        <div class="row">
+                            <div class="col-4"></div>
+                            <div class="col-8 text-right">
+                                <button class="btn btn-primary btn-sm add-file">
+                                    <i class="material-icons">description</i>                                    
+                                    <input type="file" id="file-upload" hidden>
+                                    Ajouter
+                                </button>
+                            </div>
+                        </div>
+                        {{!-- <script>
+                            var uploadButton = document.querySelector(".add-file");
+                            var uploadInput = document.querySelector("#file-upload");
+                            var fileContainer = document.querySelector(".file-container");
+                            uploadButton.addEventListener("click", () => {
+                                uploadInput.click();                       
+                                uploadInput.addEventListener('change', () => {
+                                    if(uploadInput.value) {
+                                        var filePath = uploadInput.value;
+                                        var a = document.createElement("a");
+                                        var td = document.createElement("td");
+                                        td.className = "file-container";                                        
+                                        a.href = "#";
+                                        a.className = "link-to-file";
+                                        a.innerHTML = filePath;
+                                        td.appendChild(a);
+                                    }
+                                })                                                                  
+                            });
+                          
+                            
+                        </script> --}}
+                        
+                    </section>
+                    
+
+                    <section class="tds" style="margin-bottom: 100px">
+                        {{!-- TDs --}}
+                        <hr><h5 class="mb-4 module-title" style="font-weight: 800;">TDs</h5>
+                        <div class="alert alert-primary" role="alert">
+                            Rien n'a été ajouté
+                        </div>
+                    </section>
+                    
+
+                    <section class="notes" style="margin-bottom: 100px">
+                        {{!-- Notes --}}
+                        <hr><h5 class="mb-4 module-title" style="font-weight: 800;">Notes</h5>
+                        <div class="alert alert-primary" role="alert">
+                            Rien n'a été ajouté
+                        </div>
+                    </section>
+                    
+
+
+                    {{!-- Devoires de maison --}}
+                    <hr><h5 class="mb-4 module-title" style="font-weight: 800;">Devoires</h5>
+                    <div class="alert alert-primary" role="alert">
+                        Rien n'a été ajouté
+                    </div>
 
                     <!-- Forum List -->
                     <div class="posts">
@@ -263,7 +352,15 @@
         </div>
         </div>
     </div>
-
+    {{!-- Click event of custome upload button --}}
+    <script>
+        var uploadButton = document.querySelector(".add-file");
+        var uploadInput = document.querySelector("#file-upload");
+        uploadButton.addEventListener("click", () => {
+        uploadInput.click();                                                                
+        });                                                        
+    </script>
+    {{!-- End --}}
 
     <!-- Script element sourcing TinyMCE -->
     <script type="application/javascript" src= "/tinymce/tinymce.min.js"></script>

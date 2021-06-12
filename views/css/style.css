@@ -509,3 +509,59 @@ body {
     left: 1rem;
     font-style: italic;
 }
+/* End Module infos page */
+
+/* Resources Page */
+.link-to-file {
+    color: #3e7aab!important;
+    font-weight: 700;    
+    width: 100%;
+    overflow: hidden;    
+}
+
+.table {
+    border-bottom: 1px solid #dee2e6;
+    border-left: 1px solid #dee2e6;
+    border-right: 1px solid #dee2e6;
+}
+
+.thead {
+    border-bottom: 0!important;
+}
+
+th, td {
+    border-right: 1px solid #dee2e6;    
+}
+
+.actions {
+    right: 0;
+    width: 20%;    
+    text-align: right;    
+}
+
+.actions .btn-group button{
+    color: #212529;
+    background-color: #e2e6ea;
+    border-color: #dae0e5;
+    width: 90px;
+    font-size: 11px;
+}
+
+.actions .btn-group button:hover {
+    background-color: #dae0e5;
+    border-color: #d3d9df;    
+    color: #212529;    
+}
+
+.add-file {
+    font-size: 12px!important;
+}
+
+.add-file i {
+    font-size: 15px;
+}
+
+#file-upload-label {
+}
+
+/* End Resources Page */
