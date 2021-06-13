@@ -18,33 +18,35 @@ class Post {
         this.folders = folders;
         this.files = [];
         this.poll_elements = poll_elements;
-
     }
 
     async init(author_id, responses) {
+        if (this.folders.length === 0) {
+            let results = await connection.query('select * from DOSSIER D join CONCERNE C on D.ID_DOSSIER=C.ID_DOSSIER where C.POST_ID=?', [this.id]);
 
-        let results = await connection.query('select NOM, PRENOM from COMPTE where COMPTEID = ?', [author_id]);
-        this.author = results[0][0].PRENOM + ' ' + results[0][0].NOM;
+            for (const row of results[0])
+                this.folders.push({ id: row.ID_DOSSIER, name: row.nom_dossier });
+            results = await connection.query('select NOM, PRENOM from COMPTE where COMPTEID = ?', [author_id]);
 
-        if (responses.length === 0) {
-            results = await connection.query('select * from REPONSE where POST_ID=?', [this.id]);
+            this.author = results[0][0].PRENOM + ' ' + results[0][0].NOM;
 
-            for (const row of results[0]) {
-                let response = await Response(row.ID_REPONSE, this.id, row.DATE_AJOUTE, row.COMPTEID, row.REPONSE_CORE, [], []);
-                this.responses.push(response);
+            if (responses.length === 0) {
+                results = await connection.query('select * from REPONSE where POST_ID=?', [this.id]);
+
+                for (const row of results[0]) {
+                    let response = await Response(row.ID_REPONSE, this.id, row.DATE_AJOUTE, row.COMPTEID, row.REPONSE_CORE, [], []);
+                    this.responses.push(response);
+                }
             }
-        }
 
-        results = await connection.query('select file_name, file_path from file where POST_ID = ?', [this.id]);
+            results = await connection.query('select file_name, file_path from file where POST_ID = ?', [this.id]);
 
-        for (const row of results[0])
-            this.files.push(new File(row.file_name, row.file_path));
+            for (const row of results[0])
+                this.files.push(new File(row.file_name, row.file_path));
 
-        if (this.type === 'p')
-            if (!this.poll_elements)
+            if (this.type === 'p')
                 this.poll = await Poll(this.id, this.author_id, []);
-            else
-                this.poll = await Poll(this.id, this.author_id, this.poll_elements);
+        }
 
         return this;
     }
@@ -54,6 +56,9 @@ class Post {
         let query = 'insert into POST (COMPTEID, title, TYPE, POST_CORE) values (?, ?, ?, ?);';
         let row = await connection.query(query, [this.author_id, this.title, this.type[0], this.content]);
         this.id = row[0].insertId;
+
+        for (const folder of this.folders)
+            await connection.query(`insert into CONCERNE (POST_ID, ID_DOSSIER) values (${this.id}, ${folder.id})`);
     }
 
     async add_file(file) {

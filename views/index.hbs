@@ -40,60 +40,15 @@
                     Home
                 </a>                
             </li>
-            {{!-- <li>                
-                <a class="sidebar__link" href="#">
-                    <span class="material-icons">
-                    chat_bubble_outline
-                    </span>           
-                    Discussions
-                </a>                
-            </li> --}}
             <hr style="background-color: #f6f6f6;height: 1px;width: 75%;margin: 1rem auto">                                            
+              {{#each modules as |module|}}
             <li class="module__link">                                
-                <a class="sidebar__link" href="/module">
+                <a class="sidebar__link" href="/{{module.id}}">
                     <span class="material-icons">folder_open</span>           
-                    IHM
+                    {{module.name}}
                 </a>          
-                {{!-- Button just for profs --}}
-                {{!--<a href="/new_folder" style="font-size: 14px;">
-                    <span class="material-icons">add</span>
-                    <span class="new__descussion-text">Nouveau dossier</span>
-                 </a>    
-                <div class="module__folders ml-4">
-                    <a class="module__folder" href="#">
-                        <span class="material-icons">folder_open</span>           
-                        Resources
-                    </a>          
-                </div>                    
-                <div class="module__folders ml-4">
-                    <a class="module__folder" href="#">
-                        <span class="material-icons">folder_open</span>           
-                        serie1
-                    </a>          
-                </div>      
-                <div class="module__folders ml-4">
-                    <a class="module__folder" href="#">
-                        <span class="material-icons">folder_open</span>           
-                        Autre
-                    </a>          
-                </div>       --}}
             </li>
-            <li class="module__link">                
-                <a class="sidebar__link" href="/module">
-                    <span class="material-icons">
-                    folder_open
-                    </span>           
-                    Acoo
-                </a>                
-            </li>
-            <li class="module__link">                
-                <a class="sidebar__link" href="/module">
-                    <span class="material-icons">
-                    folder_open
-                    </span>           
-                    Algo
-                </a>                
-            </li>
+            {{/each}}
         </ul>
     </div>
 
@@ -121,144 +76,9 @@
                     
                     <!-- Forum List -->
                     <div class="posts">
-                      {{#each posts as |post|}}
-                        <div class="post">
-                            <div class="inner-main-body pt-2 collapse forum-content{{post.id}} show" {{#if (eq post.type "p")}} onclick='showResults({{{post.poll.poll_representation.stringify}}}, {{call post.poll "did_vote" ../user }})'{{/if}}>
-                                <div class="card mb-2">
-                                    <div class="card__tag text-muted">ACOO</div>
-                                    <span class="text-muted tag">
-                                      {{#if (eq post.type 'p')}}
-                                          #Vote
-                                      {{else if (eq post.type 'q')}}
-                                          #Question
-                                      {{else}}
-                                          #Note
-                                      {{/if}}
-                                    </span>
-                                    <span class="post-folder text-muted">coure1</span>
-                                    <div class="card-body p-2 p-sm-3">
-                                        <div class="media forum-item">
-                                            <a href="#" data-toggle="collapse" data-target=".forum-content{{post.id}}"><img src="https://randomuser.me/api/portraits/men/88.jpg" class="mr-3 rounded-circle" width="50" alt="User" /></a>
-                                            <div class="media-body">
-                                                <h6><a href="#" data-toggle="collapse" data-target=".forum-content{{post.id}}" class="text-body">{{post.title}}</a></h6>
-                                                <p class="text-secondary">{{{post.content}}}</p>
-                                                <p class="post-time text-muted align-self-end m-0"><span class="text-secondary font-weight-bold">{{{post.get_elapsed_time}}}</span></p>
-                                            </div>
-                                            {{#if (eq post.type "q")}}
-                                            <div class="text-muted small  text-center align-self-start mt-2 comment-number">
-                                                <span><span id="comm-count">{{post.responses.length}}</span> <span class="material-icons" style="font-size: 16px">chat_bubble</span></span>                                        
-                                            </div>
-                                            {{/if}}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>                    
-
-                            <!-- Forum Detail (replies) -->
-                            <div class="inner-main-body p-2 p-sm-3 collapse forum-content{{post.id}}" >
-                                <a href="#" class="btn btn-light btn-sm mb-3 has-icon" data-toggle="collapse" data-target=".forum-content{{post.id}}"><i class="fa fa-arrow-left mr-2"></i>Back</a>
-                                <div class="card mb-2">
-                                    <div class="card-body">
-                                        <div class="media forum-item">
-                                            <a href="javascript:void(0)" class="card-link">
-                                                <img src="https://randomuser.me/api/portraits/men/34.jpg" class="rounded-circle" width="50" alt="User" />                                        
-                                            </a>
-                                            <div class="media-body ml-3">
-                                                <a href="javascript:void(0)" class="text-secondary">{{post.author}}</a>
-                                                <small class="text-muted ml-2">{{post.get_elapsed_time}}</small>
-                                                <h5 class="mt-1">{{post.title}}</h5>
-                                                <div class="mt-3 font-size-sm">
-                                                    <p>{{{post.content}}}</p>
-                                                    <div id="Poll">
-                                                      {{#if (eq post.type "p")}}
-                                                      <div class="poll mx-auto" id="poll{{post.poll.poll_representation.id}}">
-                                                        <div class="answers" >
-                                                          {{#each post.poll.poll_representation.choices as |choice i|}}
-                                                          <div class="answer" onClick='markAnswer({{i}}, {{{post.poll.poll_representation.stringify}}}, {{call post.poll "did_vote" ../../user }})'>
-                                                            {{choice}}
-                                                            <span class="percentage-bar"></span>
-                                                            <span class="percentage-value"></span>
-                                                          </div>
-                                                          {{/each}}
-                                                        </div>
-                                                      </div>
-                                                      {{/if}}
-                                                    </div>
-                                                    <div class="files mb-2">
-                                                      {{#each post.files as |file|}}
-                                                        <div class="file">
-                                                            <span class="material-icons icon">description</span>
-                                                            <span class="file-name">
-                                                            <a href={{file.path}}>{{file.name}}</a> 
-                                                            </span>
-                                                        </div>                                                          
-                                                        {{/each}}
-                                                    </div>                                                
-                                               </div>
-                                            <div class="text-muted small  text-right align-self-center">
-                                            </div>
-                                                {{#if (eq post.type "q")}}
-                                                <div class="text-muted small  text-right align-self-center">
-                                              <span><span class="material-icons" style="font-size: 16px">forum</span> {{post.responses.length}} </span>                                        
-                                                </div>                                            
-                                                {{/if}}
-                                            </div>
-                                            {{#if (eq post.type "q")}}
-                                            <a href="/new_reply?{{post.id}}" class="text-muted small">Reply</a>
-                                            {{/if}}
-                                        </div>
-                                </div>                        
-                                {{#each post.responses as |response|}}
-                                    {{!-- Replies --}}
-                                    <div class="ml-3 card mb-2">
-                                        <div class="card-body">
-                                            <div class="media forum-item">
-                                                <div class="vote-answer" id={{call response 'did_vote' ../../user}}>
-                                                    <button onClick="chose_vote({{post.id}}, {{response.id}}, 1, {{call response 'did_vote' ../../user}})" class="up_down_vote_button upvote material-icons">arrow_upward</button>
-                                                    <span class="vote-number">{{response.vote_count}}</span> 
-                                                    <button onClick="chose_vote({{post.id}}, {{response.id}}, -1, {{call response 'did_vote' ../../user}})" class="downvote material-icons up_down_vote_button">arrow_downward</button>
-                                                </div>
-                                                <a href="javascript:void(0)" class="card-link">
-                                                    <img src="https://randomuser.me/api/portraits/men/42.jpg" class="rounded-circle" width="50" alt="User" />                                    
-                                                </a>
-                                                <div class="media-body ml-3">
-                                                    <a href="javascript:void(0)" class="text-secondary">{{response.author}}</a>
-                                                    <small class="text-muted ml-2">{{response.get_elapsed_time}}</small>                                                    
-                                                    <div class="mt-3 font-size-sm">
-                                                        <p>{{{response.content}}}</p>
-                                                    </div>
-                                                    <div class="files mb-2">
-                                                      {{#each response.files as |file|}}
-                                                        <div class="file">
-                                                            <span class="material-icons icon">description</span>
-                                                            <span class="file-name">
-                                                            <a href={{file.path}}>{{file.name}}</a> 
-                                                            </span>
-                                                        </div>                                                          
-                                                        {{/each}}
-                                                    </div>      
-                                                    <a href="/new_comment?{{post.id}}?{{response.id}}" class="text-muted small">Reply</a>       
-                                                    {{#each response.comments as |comment|}}
-                                                    <div class="mt-4 comment">
-                                                        <a href="javascript:void(0)" class="card-link"></a>
-                                                        <div class="ml-2 pt-1 comment-text">                                    
-                                                          <p class="mb-1">{{{comment.content}}}</p>
-                                                            <div class="pb-1 comment-detail">
-                                                              <a href="javascript:void(0)" >{{comment.author}}</a>
-                                                              <small class="text-muted ml-2">{{comment.get_elapsed_time}}</small>
-                                                            </div>
-                                                        </div>                                            
-                                                    </div>
-                                                    {{/each}}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>                                    
-                                {{/each}}
-                                
-                            </div>                            
-                        </div>
-                        {{/each}}
+                      {{#each modules as |module|}}
+                      {{> post_partial module=module user=../user}}
+                      {{/each}}
                         {{!-- End post --}}                    
                         </div>
                     </div>

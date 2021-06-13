@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Module = require('../models/Module');
+const Modules = require('../models/ModuleRepository');
 
 // @desc index/Landing page
 // @route GET /
@@ -9,8 +9,8 @@ router.get('/', async (req, res) => {
         res.redirect('/login');
 
     else {
-        let module = await Module;
-        res.render('index', { layout: '', user: req.session.userId, posts: module.posts });
+        let modules = await Modules;
+        res.render('index', { layout: '', user: req.session.userId, modules: modules.all_posts });
     }
 });
 
@@ -44,14 +44,6 @@ router.get('/registration', (req, res) => {
         res.render('registration', { layout: 'registration' });
 });
 
-router.get('/module', (req, res) => {
-    res.render('module');
-});
-
-router.get('/module_folder', (req, res) => {
-    res.render('module_folder');
-});
-
 router.get('/resources', (req, res) => {
     res.render('module_resources');
 });
@@ -65,8 +57,10 @@ router.get('/validation', (req, res) => {
         res.render('validation', { layout: '' });
 });
 
-router.get('/new_post', (req, res) => {
-    res.render('new_post', { layout: '', error: req.session.error });
+router.get('/new_post', async (req, res) => {
+    let module_id = Number(Object.keys(req.query));
+    let module = (await Modules).get_module_by_id(module_id)[0];
+    res.render('new_post', { layout: '', error: req.session.error, module: module });
     req.session.error = null;
 });
 
@@ -79,7 +73,20 @@ router.get('/new_comment', (req, res) => {
 });
 
 router.get('/new_folder', (req, res) => {
+    console.log(req);
     res.render('new_folder');
 });
 
+router.get('/error', (req, res) => {
+    res.render('not_found');
+});
+
+router.get('/:module', async (req, res) => {
+    let params = req.params;
+    let modules = await Modules;
+    let module = modules.get_module_by_id(Number(params.module))[0];
+    if (!module)
+        return res.redirect('/error');
+    res.render('module', { layout: '', module: module, user: req.session.userId });
+});
 module.exports = router;

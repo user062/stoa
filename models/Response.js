@@ -85,7 +85,6 @@ class Response {
     }
 
     did_vote(user_id) {
-        console.log(this.votes);
         if (this.votes[1].includes(user_id))
             return 1;
 

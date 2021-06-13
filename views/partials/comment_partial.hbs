@@ -1,0 +1,12 @@
+{{#each comments as |comment|}}
+<div class="mt-4 comment">
+    <a href="javascript:void(0)" class="card-link"></a>
+    <div class="ml-2 pt-1 comment-text">                                    
+      <p class="mb-1">{{{comment.content}}}</p>
+        <div class="pb-1 comment-detail">
+          <a href="javascript:void(0)" >{{comment.author}}</a>
+          <small class="text-muted ml-2">{{comment.get_elapsed_time}}</small>
+        </div>
+    </div>                                            
+</div>
+{{/each}}

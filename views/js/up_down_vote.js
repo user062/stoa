@@ -1,8 +1,6 @@
-function chose_vote(post_id, response_id, user_choice, previous_choice) {
+function chose_vote(module_id, post_id, response_id, user_choice, previous_choice) {
     if (user_choice === previous_choice)
         return;
-
-    let choices = { '-1': 'downvote', 1: 'upvote' };
 
     let f = document.createElement("form");
     f.setAttribute('name', 'f');
@@ -15,6 +13,12 @@ function chose_vote(post_id, response_id, user_choice, previous_choice) {
     choice.setAttribute('name', "choice");
     choice.setAttribute('value', user_choice);
     f.appendChild(choice);
+
+    let module = document.createElement("input");
+    module.setAttribute('type', "hidden");
+    module.setAttribute('name', "module_id");
+    module.setAttribute('value', module_id);
+    f.appendChild(module);
 
     let post = document.createElement("input");
     post.setAttribute('type', "hidden");

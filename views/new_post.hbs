@@ -168,21 +168,11 @@
                 <section class="post__folder form-group">
                     <label for="title">Dossiers</label>
                     <div class="dossiers">
-                        <div class="dossier">
-                            <span>devoires</span> 
+                      {{#each module.all_folders as |folder|}}
+                        <div class="dossier" id={{folder.id}}>
+                            <span>{{folder.name}}</span> 
                         </div>
-                        <div class="dossier">
-                            <span>coures</span>                            
-                        </div>
-                        <div class="dossier">
-                            <span>td</span>
-                        </div>
-                        <div class="dossier">
-                            <span>notes</span>
-                        </div>
-                        <div class="dossier" required>
-                            <span>other</span>
-                        </div>
+                        {{/each}}
                     </div>
                 </section><br>
                 <section class="post__title form-group">
@@ -243,7 +233,7 @@
               let folder = document.createElement('input');
               folder.setAttribute("type", "hidden");
               folder.setAttribute("name", "folders")
-              folder.setAttribute("value", selected_folder.getElementsByTagName("span")[0].innerHTML);
+              folder.setAttribute("value", selected_folder.id);
               form.appendChild(folder);
           }
 

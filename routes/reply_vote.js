@@ -1,13 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const Module = require('../models/Module');
+const Modules = require('../models/ModuleRepository');
 
 router.post('/reply_vote', async (req, res) => {
-    let post_id = req.body.post_id;
-    let reply_id = req.body.reply_id;
-    let choice = req.body.choice;
-    let module = await Module;
-    await module.get_post_by_id(Number(post_id))[0].get_response_by_id(Number(reply_id))[0].vote(Number(req.session.userId), Number(choice));
+    let module_id = Number(req.body.module_id);
+    let post_id = Number(req.body.post_id);
+    let reply_id = Number(req.body.reply_id);
+    let choice = Number(req.body.choice);
+    let module = (await Modules).get_module_by_id(module_id)[0];
+    let post = module.get_post_by_id(post_id)[0];
+    let reply = post.get_response_by_id(reply_id)[0];
+    await reply.vote(Number(req.session.userId), choice);
     res.redirect('/');
 });
 module.exports = router;

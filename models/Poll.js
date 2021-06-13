@@ -36,7 +36,6 @@ class Poll {
                     this.vote_choices.push(element);
                     return `(${this.id}, '${element}')`;
                 }).join();
-
             await connection.query(`insert into POLL_ELEMENT (POST_ID, ELEMENT) values ${elements};`);
             let results = await connection.query(`select POLL_ID from POLL_ELEMENT where POST_ID=${this.id}`);
 
@@ -45,7 +44,6 @@ class Poll {
 
             this.elements_ids = Array.from(Array(Object.keys(this.elements).length).keys());
         }
-
         return this;
     }
 

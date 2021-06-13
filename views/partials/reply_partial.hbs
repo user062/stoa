@@ -1,0 +1,36 @@
+                                {{#each responses as |response|}}
+                                    {{!-- Replies --}}
+                                    <div class="ml-3 card mb-2">
+                                        <div class="card-body">
+                                            <div class="media forum-item">
+                                                <div class="vote-answer" id={{call response 'did_vote' ../user}}>
+                                                    <button onClick="chose_vote({{../moduleId}}, {{../postId}}, {{response.id}}, 1, {{call response 'did_vote' ../user}})" class="up_down_vote_button upvote material-icons">arrow_upward</button>
+                                                    <span class="vote-number">{{response.vote_count}}</span> 
+                                                    <button onClick="chose_vote({{../moduleId}}, {{../postId}}, {{response.id}}, -1, {{call response 'did_vote' ../user}})" class="downvote material-icons up_down_vote_button">arrow_downward</button>
+                                                </div>
+                                                <a href="javascript:void(0)" class="card-link">
+                                                    <img src="https://randomuser.me/api/portraits/men/42.jpg" class="rounded-circle" width="50" alt="User" />                                    
+                                                </a>
+                                                <div class="media-body ml-3">
+                                                    <a href="javascript:void(0)" class="text-secondary">{{response.author}}</a>
+                                                    <small class="text-muted ml-2">{{response.get_elapsed_time}}</small>                                                    
+                                                    <div class="mt-3 font-size-sm">
+                                                        <p>{{{response.content}}}</p>
+                                                    </div>
+                                                    <div class="files mb-2">
+                                                      {{#each response.files as |file|}}
+                                                        <div class="file">
+                                                            <span class="material-icons icon">description</span>
+                                                            <span class="file-name">
+                                                            <a href={{file.path}}>{{file.name}}</a> 
+                                                            </span>
+                                                        </div>                                                          
+                                                        {{/each}}
+                                                    </div>      
+                                                    <a href="/new_comment?{{../moduleId}}&{{../postId}}&{{response.id}}" class="text-muted small">Reply</a>       
+                                                    {{> comment_partial comments=response.comments user=../user}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>                                    
+                                {{/each}}

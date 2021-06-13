@@ -1,4 +1,4 @@
-function markAnswer(i, poll, user_choice) {
+function markAnswer(module, i, poll, user_choice) {
     if (user_choice === i)
         return;
 
@@ -14,6 +14,12 @@ function markAnswer(i, poll, user_choice) {
     choice.setAttribute('name', "choice");
     choice.setAttribute('value', user_choice);
     f.appendChild(choice);
+
+    let module_id = document.createElement("input");
+    module_id.setAttribute('type', "hidden");
+    module_id.setAttribute('name', "module_id");
+    module_id.setAttribute('value', module);
+    f.appendChild(module_id);
 
     let post_id = document.createElement("input");
     post_id.setAttribute('type', "hidden");
