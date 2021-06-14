@@ -81,6 +81,14 @@ router.get('/error', (req, res) => {
     res.render('not_found');
 });
 
+router.get('/account', (req, res) => {
+    res.render('account');
+});
+
+router.get('/profile', (req, res) => {
+    res.render('profile');
+});
+
 router.get('/:module', async (req, res) => {
     let params = req.params;
     let modules = await Modules;
@@ -89,12 +97,6 @@ router.get('/:module', async (req, res) => {
         return res.redirect('/error');
     res.render('module', { layout: '', module: module, user: req.session.userId });
 });
-router.get('/account', (req, res) => {
-    res.render('account');
-});
 
-router.get('/profile', (req, res) => {
-    res.render('profile');
-});
 
 module.exports = router;
