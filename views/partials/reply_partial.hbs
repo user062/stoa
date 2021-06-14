@@ -1,12 +1,12 @@
                                 {{#each responses as |response|}}
                                     {{!-- Replies --}}
-                                    <div class="ml-3 card mb-2">
+                                    <div class="ml-3 card mb-2" id="reply{{response.id}}">
                                         <div class="card-body">
                                             <div class="media forum-item">
-                                                <div class="vote-answer" id={{call response 'did_vote' ../user}}>
-                                                    <button onClick="chose_vote({{../moduleId}}, {{../postId}}, {{response.id}}, 1, {{call response 'did_vote' ../user}})" class="up_down_vote_button upvote material-icons">arrow_upward</button>
+                                                <div class="vote-answer" user_choice={{call response 'did_vote' ../user}}>
+                                                    <button onClick="chose_vote({{../moduleId}}, {{../postId}}, {{response.id}}, 1)" class="up_down_vote_button upvote material-icons">arrow_upward</button>
                                                     <span class="vote-number">{{response.vote_count}}</span> 
-                                                    <button onClick="chose_vote({{../moduleId}}, {{../postId}}, {{response.id}}, -1, {{call response 'did_vote' ../user}})" class="downvote material-icons up_down_vote_button">arrow_downward</button>
+                                                    <button onClick="chose_vote({{../moduleId}}, {{../postId}}, {{response.id}}, -1)" class="downvote material-icons up_down_vote_button">arrow_downward</button>
                                                 </div>
                                                 <a href="javascript:void(0)" class="card-link">
                                                     <img src="https://randomuser.me/api/portraits/men/42.jpg" class="rounded-circle" width="50" alt="User" />                                    

@@ -1,7 +1,7 @@
 
                       {{#each module.posts as |post|}}
                         <div class="post">
-                            <div class="inner-main-body pt-2 collapse forum-content{{post.id}} show" {{#if (eq post.type "p")}} onclick='showResults({{{post.poll.poll_representation.stringify}}}, {{call post.poll "did_vote" ../user }})'{{/if}}>
+                            <div class="inner-main-body pt-2 collapse forum-content{{post.id}} show" {{#if (eq post.type "p")}} onclick='showResults({{post.id}})'{{/if}}>
                                 <div class="card mb-2">
                                     <div class="card__tag text-muted">{{../module.name}}</div>
                                     <span class="text-muted tag">
@@ -24,7 +24,7 @@
                                             <div class="media-body">
                                                 <h6><a href="#" data-toggle="collapse" data-target=".forum-content{{post.id}}" class="text-body">{{post.title}}</a></h6>
                                                 <p class="text-secondary">{{{post.content}}}</p>
-                                                <p class="post-time text-muted align-self-end m-0"><span class="text-secondary font-weight-bold">{{{post.get_elapsed_time}}}</span></p>
+                                                <p class="post-time text-muted align-self-end m-0"><span name="time_since" creation_time='{{post.creation_date}}' class="text-secondary font-weight-bold time_since">{{{post.get_elapsed_time}}}</span></p>
                                             </div>
                                             {{#if (eq post.type "q")}}
                                             <div class="text-muted small  text-center align-self-start mt-2 comment-number">
@@ -54,9 +54,9 @@
                                                     <div id="Poll">
                                                       {{#if (eq post.type "p")}}
                                                       <div class="poll mx-auto" id="poll{{post.poll.poll_representation.id}}">
-                                                        <div class="answers" >
+                                                        <div class="answers" all_votes={{post.poll.poll_representation.pollCount}} user_choice={{call post.poll "did_vote" ../user }}>
                                                           {{#each post.poll.poll_representation.choices as |choice i|}}
-                                                          <div class="answer" onClick='markAnswer({{../../module.id}}, {{i}}, {{{post.poll.poll_representation.stringify}}}, {{call post.poll "did_vote" ../../user }})'>
+                                                          <div choice={{i}} class="answer" onClick='markAnswer({{../../module.id}}, {{post.id}}, {{i}})' votes={{lookup post.poll.poll_representation.votes @index}}>
                                                             {{choice}}
                                                             <span class="percentage-bar"></span>
                                                             <span class="percentage-value"></span>

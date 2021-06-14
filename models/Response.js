@@ -77,11 +77,20 @@ class Response {
     }
 
     async vote(voter, vote) {
-        let previous_vote = this.votes[vote * -1].indexOf(voter);
-        if (previous_vote !== -1)
-            this.votes[vote * -1].splice(previous_vote, 1);
-        this.votes[vote].push(voter);
-        await connection.query(`insert into UP_DOWN_VOTE values (${this.id}, ${voter}, ${vote}) on duplicate key update vote=${vote}`);
+        let maybe_vote = this.votes[vote].indexOf(voter);
+
+        if (this.votes[vote].indexOf(voter) !== -1) {
+            await connection.query(`delete from UP_DOWN_VOTE where ID_REPONSE=${this.id} and COMPTEID=${voter}`);
+            this.votes[vote].splice(maybe_vote, 1);
+        }
+
+        else {
+            let previous_vote = this.votes[vote * -1].indexOf(voter);
+            if (previous_vote !== -1)
+                this.votes[vote * -1].splice(previous_vote, 1);
+            this.votes[vote].push(voter);
+            await connection.query(`insert into UP_DOWN_VOTE values (${this.id}, ${voter}, ${vote}) on duplicate key update vote=${vote}`);
+        }
     }
 
     did_vote(user_id) {
