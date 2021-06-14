@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stoa</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/material-icons.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">        
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-md bg-light sticky-top">
+        <div class="container">
+            <a href="/" class="navbar-brand">
+                <img src="images/stoa2.png" alt="stoa">
+            </a>
+            {{!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#toggleMobileMenu" aria-controls="toggleMobileMenu" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button> --}}            
+            <div class="collapse navbar-collapse">
+                {{!-- <form class="form-inline ml-5">
+                    <input class="search-bar form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">                    
+                </form>           --}}
+                <ul class="navbar-nav text-center ml-auto">                    
+                    <li>
+                        <a class="nav-link" href="#">Account</a>
+                    </li>                  
+                </ul>                      
+            </div>
+        </div>
+    </nav>
+        
+    <div class="sidebar">
+        <ul class="links">            
+            <li>                                
+                <a class="sidebar__link active" href="/">
+                    <span class="material-icons">home</span>
+                    Home
+                </a>                
+            </li>
+            {{!-- <li>                
+                <a class="sidebar__link" href="#">
+                    <span class="material-icons">
+                    chat_bubble_outline
+                    </span>           
+                    Discussions
+                </a>                
+            </li> --}}
+            <hr style="background-color: #f6f6f6;height: 1px;width: 75%;margin: 1rem auto">                                            
+            <li class="module__link">                                
+                <a class="sidebar__link" href="/module">
+                    <span class="material-icons">folder_open</span>           
+                    IHM
+                </a>                          
+            </li>
+            <li class="module__link">                
+                <a class="sidebar__link" href="/module">
+                    <span class="material-icons">
+                    folder_open
+                    </span>           
+                    Acoo
+                </a>                
+            </li>
+            <li class="module__link">                
+                <a class="sidebar__link" href="/module">
+                    <span class="material-icons">
+                    folder_open
+                    </span>           
+                    Algo
+                </a>                
+            </li>
+        </ul>
+    </div>
+
+    <div class="content">        
+        <div class="container">
+        <div class="main-body p-0 col-11 mx-auto">
+            <div class="inner-wrapper">    
+                <!-- Inner main -->
+                <div class="inner-main">
+                    <div class="container user-infos">     
+                        <div class="row text-left mt-3">                            
+                            <div class="col-3"></div>
+                            <div class="col-6">
+                                <div style="font-weight: 800;font-size: 20px">Informations</div>                                               
+                                <hr>
+                            </div>                            
+                        </div>                                                
+                        <div class="row text-left mt-4">                            
+                            <div class="col-3"></div>
+                            <div class="col-6">                                
+                                <div class="user-info name"><span>Nom : </span>cherbal</div>
+                            </div>                                                                                                                                           
+                        </div>
+                        <div class="row text-left mt-4">                              
+                            <div class="col-3"></div>
+                            <div class="col-6">                                
+                                <div class="user-info prenom"><span>Prénom : </span>djamel boumediene</div>
+                            </div>                                                                                                               
+                        </div>
+                        <div class="row text-left mt-4">                              
+                            <div class="col-3"></div>
+                            <div class="col-6">                                
+                                <div class="user-info email"><span>Email : </span>djamelcher14@gmail.com</div>
+                            </div>                                                                                                               
+                        </div>
+                        <div class="row text-left mt-4">                              
+                            <div class="col-3"></div>
+                            <div class="col-6">
+                                <div class="user-info status"><span>Status : </span>étudiant</div>
+                            </div>                                                                                                               
+                        </div>                                                                        
+                    </div>
+                    
+        </div>
+        </div>
+    </div>
+
+
+    <!-- Script element sourcing TinyMCE -->
+    <script type="application/javascript" src= "/tinymce/tinymce.min.js"></script>
+    <!-- Script element sourcing the TinyMCE configuration -->
+    <script type="application/javascript" src= "/js/my-tinymce-config.js"></script>
+    <script src="js/main.js"></script> 
+    <script src="js/poll_script.js"></script> 
+    <script src="js/up_down_vote.js"></script> 
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</body>
+</html>

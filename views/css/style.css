@@ -556,12 +556,29 @@ th, td {
 }
 
 .add-file {
-    font-size: 12px!important;
+    font-size: 14px!important;
 }
 
 .add-file i {
     font-size: 15px;
 }
-
-
 /* End Resources Page */
+
+/* Profile */
+.user-infos {
+    font-size: 1rem;
+    height: 30rem;
+    max-width: 40rem!important;
+    border: solid 1px #d3d9df;
+    background-color: #FFF;    
+    padding: 3rem 0rem;
+}
+
+.user-infos span {
+    font-weight: 800;
+    color: rgb(90, 90, 90);
+}
+
+.user-info {
+    
+}

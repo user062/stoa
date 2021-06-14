@@ -89,4 +89,12 @@ router.get('/:module', async (req, res) => {
         return res.redirect('/error');
     res.render('module', { layout: '', module: module, user: req.session.userId });
 });
+router.get('/account', (req, res) => {
+    res.render('account');
+});
+
+router.get('/profile', (req, res) => {
+    res.render('profile');
+});
+
 module.exports = router;

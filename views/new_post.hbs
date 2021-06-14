@@ -43,86 +43,45 @@
                     <span class="material-icons">home</span>
                     Home
                 </a>                
-            </li>
-            <li>                
-                <a class="sidebar__link" href="#">
-                    <span class="material-icons">
-                    chat_bubble_outline
-                    </span>           
-                    Discussions
-                </a>                
-            </li>
-            <hr style="background-color: #f6f6f6;height: 1px;width: 75%;margin: 1rem auto">      
-            {{!-- Button just for profs --}}
-            <a href="/new_folder" class="btn btn-secondary new__descussion">
+            </li>                        
+            <hr style="background-color: #f6f6f6;height: 1px;width: 75%;margin: 1rem auto">                                            
+            {{!-- Button just for profs --}}              
+            <li>
+            <a href="/new_folder" style="font-size: 14px;">
                 <span class="material-icons">add</span>
                 <span class="new__descussion-text">Nouveau dossier</span>
-            </a>                              
-            <li class="module__link">                
-                <a class="sidebar__link" href="#">
+            </a>                    
+            </li>              
+            <li class="module__link">                                                
+                {{!-- <a class="sidebar__link" href="/module">
                     <span class="material-icons">folder_open</span>           
                     IHM
-                </a>          
-                <div class="module__folders ml-4">
-                    <a class="module__folder" href="#">
+                </a>        --}}
+                <div class="module__folders">                         
+                    <a class="module__folder" href="/resources">
                         <span class="material-icons">folder_open</span>           
-                        Coures
+                        Resources
                     </a>          
-                </div>   
-                <div class="module__folders ml-4">
-                    <a class="module__folder" href="#">
+                </div>                     
+                <div class="module__folders">                              
+                    <a class="module__folder" href="/module_folder">
                         <span class="material-icons">folder_open</span>           
-                        TD
+                        Discussions
+                    </a>          
+                </div>                                        
+                <div class="module__folders">                         
+                    <a class="module__folder" href="/module_folder">
+                        <span class="material-icons">folder_open</span>           
+                        serie1
                     </a>          
                 </div>      
-                <div class="module__folders ml-4">
-                    <a class="module__folder" href="#">
+                <div class="module__folders">                         
+                    <a class="module__folder" href="module_folder">
                         <span class="material-icons">folder_open</span>           
-                        Notes
+                        Autre
                     </a>          
                 </div>      
-            </li>
-            <li class="module__link">                
-                <a class="sidebar__link" href="#">
-                    <span class="material-icons">
-                    folder_open
-                    </span>           
-                    Acoo
-                </a>                
-            </li>
-            <li class="module__link">                
-                <a class="sidebar__link" href="#">
-                    <span class="material-icons">
-                    folder_open
-                    </span>           
-                    Algo
-                </a>                
-            </li>
-
-            {{!-- <li>                
-                <a class="sidebar__link" href="#">
-                    <span class="material-icons">local_library</span>
-                    Modules
-                </a>                
-            </li>
-            <li>                
-                <a class="sidebar__link" href="#">
-                    <span class="material-icons">poll</span>
-                    Poll
-                </a>                
-            </li>
-            <li>                
-                <a class="sidebar__link" href="#">
-                    <span class="material-icons">note</span>
-                    Notes
-                </a>                
-            </li>
-            <li>                
-                <a class="sidebar__link" href="#">
-                    <span class="material-icons">article</span>
-                    Devoires
-                </a>                
-            </li> --}}
+            </li>            
         </ul>
     </div>
 
