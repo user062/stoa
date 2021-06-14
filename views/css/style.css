@@ -597,8 +597,12 @@ th, td {
 
 .profile-infos tr td {
     border: none;    
+    opacity: .8;
 }
 
 .profile-infos tr td.info {
     padding-left: 3rem;    
+    color: #484a4c;
+    opacity: 1;
+    font-weight: 600;
 }
