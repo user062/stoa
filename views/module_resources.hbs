@@ -34,7 +34,7 @@
         
     <div class="sidebar">
         <ul class="links">
-            <a href="/new_post" class="btn btn-primary new__descussion">
+            <a href="/new_post?{{module.id}}" class="btn btn-primary new__descussion">
                 <span class="material-icons">add</span>
                 <span class="new__descussion-text">Nouvelle Discussion</span>
             </a>
@@ -47,7 +47,7 @@
             <hr style="background-color: #f6f6f6;height: 1px;width: 75%;margin: 1rem auto">                                            
             {{!-- Button just for profs --}}              
             <li>
-            <a href="/new_folder" style="font-size: 14px;">
+            <a href="/new_folder?{{module.id}}" style="font-size: 14px;">
                 <span class="material-icons">add</span>
                 <span class="new__descussion-text">Nouveau dossier</span>
             </a>                    
@@ -64,7 +64,7 @@
                     </a>          
                 </div>                     
                 <div class="module__folders">                              
-                    <a class="module__folder" href="#">
+                    <a class="module__folder" href="/module_folder">
                         <span class="material-icons">folder_open</span>           
                         Discussions
                     </a>          
@@ -76,7 +76,7 @@
                     </a>          
                 </div>      
                 <div class="module__folders">                         
-                    <a class="module__folder" href="/module_folder">
+                    <a class="module__folder" href="module_folder">
                         <span class="material-icons">folder_open</span>           
                         Autre
                     </a>          

@@ -76,18 +76,23 @@
                                                         </div>                                                          
                                                         {{/each}}
                                                     </div>                                                
-                                               </div>
-                                            <div class="text-muted small  text-right align-self-center">
+                                               </div>                                                                                                    
                                             </div>
+                                            <div class="right">                                                
                                                 {{#if (eq post.type "q")}}
-                                                <div class="text-muted small  text-right align-self-center">
-                                              <span><span class="material-icons" style="font-size: 16px">forum</span> {{post.responses.length}} </span>                                        
+                                                <a href="/new_reply?{{../module.id}}&{{post.id}}" class="text-muted small">Reply</a>
+                                                {{/if}}
+
+                                                {{#if (eq post.type "q")}}
+                                                <div class="text-muted small" style="margin-top: 5rem">
+                                                    <span>
+                                                        <span class="material-icons" style="font-size: 16px">forum</span>
+                                                        {{post.responses.length}} 
+                                                    </span>                                        
                                                 </div>                                            
                                                 {{/if}}
-                                            </div>
-                                            {{#if (eq post.type "q")}}
-                                            <a href="/new_reply?{{../module.id}}&{{post.id}}" class="text-muted small">Reply</a>
-                                            {{/if}}
+
+                                            </div>                                            
                                         </div>
                                 </div>                        
                                 {{>reply_partial moduleId=../module.id postId=post.id responses=post.responses user=../user}}
