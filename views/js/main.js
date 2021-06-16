@@ -45,31 +45,30 @@ modules.forEach(module => {
     })
 })
 
+//Edit & delete post menu
+let dots = document.querySelectorAll('.dots');
+let moreMenu = document.querySelectorAll('.more-menu');
+let tag = document.querySelectorAll('.tag');
+let commentNumber = document.querySelectorAll('.comment-number');
 
-//toggle sidebar
-//  const hamburger = document.querySelector('.navbar__toggle');
-//  const sidebar = document.querySelector('.sidebar');
-//  const navbarBrand = document.querySelector('.navbar__brand');
-//  const sidebarLink = document.querySelector('.sidebar__link');
-//  const sidebarList = document.querySelector('.sidebar__list');
+dots.forEach(dot => {
+    dot.addEventListener('click', (e) => {
+        let moreMenu = dot.parentNode.querySelector(".more-menu");
+        let tag = getPost(dot).querySelector(".tag");
+        let commentNumber = getPost(dot).querySelector(".comment-number");                
 
-//  hamburger.addEventListener('click', () => {
-//      if(sidebar.style.width < 150 + 'px') {
-//          sidebar.classList.toggle('desktop-width');
-//          navbarBrand.classList.toggle('desktop-width');
-//          sidebarLink.classList.toggle('desktop-width');
-//          sidebarList.classList.toggle('desktop-width');
-//      }
-//  });
+        //Get the parent post
+        function getPost(dot) {        
+            let parent = dot.parentNode;
+            for(i=0;i<4;i++) {
+                parent = parent.parentNode;
+            }            
+            return parent;
+        }
 
-//Replies Upvote Downvote
-// var upvoteBtn = document.querySelectorAll('')
+        moreMenu.classList.toggle("show");
+        tag.classList.toggle("hide");
+        commentNumber.classList.toggle("hide");
+    });    
+});
 
-// function upvote(voteType, voteNumber) {
-//   if(voteType == "upvote") {
-
-//   } else {
-
-//   }
-// }
-//End

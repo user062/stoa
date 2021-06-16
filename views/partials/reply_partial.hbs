@@ -30,7 +30,16 @@
                                                     <a href="/new_comment?{{../moduleId}}&{{../postId}}&{{response.id}}" class="text-muted small">Reply</a>       
                                                     {{> comment_partial comments=response.comments user=../user}}
                                                 </div>
+                                                {{!-- Edit or delete reply --}}
+                                                <div class="text-muted post-more">
+                                                    <span class="material-icons dots" style="font-size: 16px">more_vert</span>                                        
+                                                    <div class="more-menu">
+                                                        <a href="#">Modifier</a>
+                                                        <a href="#">Supprimer</a>
+                                                    </div>                                                    
+                                                </div>
+                                                {{!-- End Edit or delete reply --}}
                                             </div>
-                                        </div>
-                                    </div>                                    
+                                        </div>        
+                                    </div>                            
                                 {{/each}}

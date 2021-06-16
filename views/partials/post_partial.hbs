@@ -4,7 +4,7 @@
                             <div class="inner-main-body pt-2 collapse forum-content{{post.id}} show" {{#if (eq post.type "p")}} onclick='showResults({{{post.poll.poll_representation.stringify}}}, {{call post.poll "did_vote" ../user }})'{{/if}}>
                                 <div class="card mb-2">
                                     <div class="card__tag text-muted">{{../module.name}}</div>
-                                    <span class="text-muted tag">
+                                    <span class="text-muted tag mr-5">
                                       {{#if (eq post.type 'p')}}
                                           #Vote
                                       {{else if (eq post.type 'q')}}
@@ -26,11 +26,20 @@
                                                 <p class="text-secondary">{{{post.content}}}</p>
                                                 <p class="post-time text-muted align-self-end m-0"><span class="text-secondary font-weight-bold">{{{post.get_elapsed_time}}}</span></p>
                                             </div>
+                                            {{!-- Edit or delete reply --}}
+                                            <div class="text-muted post-more">
+                                                <span class="material-icons dots" style="font-size: 16px">more_vert</span>                                        
+                                                <div class="more-menu">
+                                                    <a href="#">Modifier</a>
+                                                    <a href="#">Supprimer</a>
+                                                </div>
+                                            </div>
+                                            {{!-- End Edit or delete reply --}}
                                             {{#if (eq post.type "q")}}
-                                            <div class="text-muted small  text-center align-self-start mt-2 comment-number">
+                                            <div class="text-muted small mt-2 comment-number mt-auto">
                                                 <span><span id="comm-count">{{post.responses.length}}</span> <span class="material-icons" style="font-size: 16px">chat_bubble</span></span>                                        
                                             </div>
-                                            {{/if}}
+                                            {{/if}} 
                                         </div>
                                     </div>
                                 </div>

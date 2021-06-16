@@ -14,10 +14,16 @@
 
     <nav class="navbar navbar-expand-md bg-light sticky-top">
         <div class="container">
-            <a href="#" class="navbar-brand">
+            <a href="/" class="navbar-brand">
                 <img src="images/stoa2.png" alt="stoa">
-            </a>            
-            <div class="collapse navbar-collapse">                
+            </a>
+            {{!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#toggleMobileMenu" aria-controls="toggleMobileMenu" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button> --}}            
+            <div class="collapse navbar-collapse">
+                {{!-- <form class="form-inline ml-5">
+                    <input class="search-bar form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">                    
+                </form>           --}}
                 <ul class="navbar-nav text-center ml-auto">                    
                     <li>
                         <a class="nav-link" href="#">Account</a>
@@ -28,50 +34,22 @@
     </nav>
         
     <div class="sidebar">
-        <ul class="links">
-            <button class="btn btn-primary new__descussion">
-                <span class="material-icons">add</span>
-                <span class="new__descussion-text">Nouvelle Discussion</span>
-                </button>
+        <ul class="links">            
             <li>                                
-                <a class="sidebar__link active" href="#">
+                <a class="sidebar__link active" href="/">
                     <span class="material-icons">home</span>
                     Home
                 </a>                
             </li>
-            <li>                
-                <a class="sidebar__link" href="#">
-                    <span class="material-icons">
-                    chat_bubble_outline
-                    </span>           
-                    Discussions
-                </a>                
+            <hr style="background-color: #f6f6f6;height: 1px;width: 75%;margin: 1rem auto">                                            
+              {{#each modules as |module|}}
+            <li class="module__link">                                
+                <a class="sidebar__link" href="/{{module.id}}">
+                    <span class="material-icons">folder_open</span>           
+                    {{module.name}}
+                </a>          
             </li>
-            <hr style="background-color: #f6f6f6;height: 1px;width: 75%;margin: 1rem auto">
-            <li>                
-                <a class="sidebar__link" href="#">
-                    <span class="material-icons">
-                    folder_open
-                    </span>           
-                    IHM
-                </a>                
-            </li>
-            <li>                
-                <a class="sidebar__link" href="#">
-                    <span class="material-icons">
-                    folder_open
-                    </span>           
-                    Acoo
-                </a>                
-            </li>
-            <li>                
-                <a class="sidebar__link" href="#">
-                    <span class="material-icons">
-                    folder_open
-                    </span>           
-                    Algo
-                </a>                
-            </li>            
+            {{/each}}
         </ul>
     </div>
 
