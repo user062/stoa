@@ -54,7 +54,8 @@ let commentNumber = document.querySelectorAll('.comment-number');
 dots.forEach(dot => {
     dot.addEventListener('click', (e) => {
         let moreMenu = dot.parentNode.querySelector(".more-menu");
-        let tag = getPost(dot).querySelector(".tag");
+        let bottomSection = getPost(dot).querySelector(".bottom_section");
+        //let tag = getPost(dot).querySelector(".tag");
         let commentNumber = getPost(dot).querySelector(".comment-number");                
 
         //Get the parent post
@@ -67,7 +68,8 @@ dots.forEach(dot => {
         }
 
         moreMenu.classList.toggle("show");
-        tag.classList.toggle("hide");
+        bottomSection.classList.toggle("hide");
+        // tag.classList.toggle("hide");
         commentNumber.classList.toggle("hide");
     });    
 });

@@ -4,19 +4,21 @@
                             <div class="inner-main-body pt-2 collapse forum-content{{post.id}} show" {{#if (eq post.type "p")}} onclick='showResults({{{post.poll.poll_representation.stringify}}}, {{call post.poll "did_vote" ../user }})'{{/if}}>
                                 <div class="card mb-2">
                                     <div class="card__tag text-muted">{{../module.name}}</div>
-                                    <span class="text-muted tag mr-5">
-                                      {{#if (eq post.type 'p')}}
-                                          #Vote
-                                      {{else if (eq post.type 'q')}}
-                                          #Question
-                                      {{else}}
-                                          #Note
-                                      {{/if}}
-                                    </span>
-                                    <div class="post-folders">
-                                    {{#each post.folders as |folder|}}
-                                    <span class="post-folder text-muted">{{folder.name}}</span>
-                                    {{/each}}
+                                    <div class="bottom_section">
+                                        <span class="text-muted tag">
+                                            {{#if (eq post.type 'p')}}
+                                                #Vote
+                                            {{else if (eq post.type 'q')}}
+                                                #Question
+                                            {{else}}
+                                                #Note
+                                            {{/if}}
+                                        </span>
+                                        <div class="post-folders">
+                                            {{#each post.folders as |folder|}}
+                                            <span class="post-folder text-muted">{{folder.name}}</span>
+                                            {{/each}}
+                                        </div>
                                     </div>
                                     <div class="card-body p-2 p-sm-3">
                                         <div class="media forum-item">
