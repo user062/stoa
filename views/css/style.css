@@ -77,6 +77,20 @@ body {
     font-size: 14px;
 }
 
+#navbarDropdownMenuLink-5::after{
+    display: none;
+}
+
+.notification-menu {
+    max-width: 20rem!important;
+}
+
+.navbar-notification-item {
+    font-size: 14px;
+    height: 3rem!important;
+    line-height: 2rem;    
+}
+
 .sidebar {        
     right: 0;
     height: 100vh;
