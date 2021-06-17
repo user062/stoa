@@ -73,6 +73,10 @@ body {
     cursor: pointer;
 }
 
+.navbar-account-item {
+    font-size: 14px;
+}
+
 .sidebar {        
     right: 0;
     height: 100vh;
