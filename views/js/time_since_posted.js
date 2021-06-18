@@ -1,12 +1,12 @@
-function humanized_time_span(date, ref_date) {
+function humanized_time_span(date) {
     //Date Formats must be be ordered smallest -> largest and must end in a format with ceiling of null
     let date_formats = [
-        { ceiling: 60, text: "depuis $seconds seconds" },
-        { ceiling: 3600, text: "depuis $minutes minutes" },
-        { ceiling: 86400, text: "depuis $hours hours" },
-        { ceiling: 2629744, text: "depuis $days jours" },
-        { ceiling: 31556926, text: "depuis $months mois" },
-        { ceiling: Infinity, text: "depuis $years années" }
+        { ceiling: 60 },
+        { ceiling: 3600 },
+        { ceiling: 86400 },
+        { ceiling: 2629744 },
+        { ceiling: 31556926 },
+        { ceiling: Infinity }
     ];
     //Time units must be be ordered largest -> smallest
     let time_units = [
@@ -19,8 +19,7 @@ function humanized_time_span(date, ref_date) {
     ];
 
     date = (new Date(date)).getTime();
-    ref_date = (new Date(ref_date)).getTime();
-    var seconds_difference = (ref_date - date) / 1000;
+    var seconds_difference = ((new Date()).getTime() - date) / 1000;
 
 
     function get_format() {
@@ -42,16 +41,21 @@ function humanized_time_span(date, ref_date) {
 
     function get_representation() {
         let time = get_time_breakdown();
-        let relevant_time = [(time.years, 'year'),
-        (time.months, 'month'),
-        (time.days, 'day'),
-        (time.hours, 'hour'),
-        (time.minutes, 'minute'),
-        (time.seconds, 'second')];
+        let relevant_time = [[time.years, 'year'],
+        [time.months, 'month'],
+        [time.days, 'day'],
+        [time.hours, 'hour'],
+        [time.minutes, 'minute']
+        ];
 
-        for (var i = 0; i < relevant_time.length - 1; i++)
-            if (relevant_time[i][0] !== 0)
-                return (new Intl.RelativeTimeFormat('fr')).format(relevant_time[i][0], relevant_time[i][1]);
+        let rtf = (new Intl.RelativeTimeFormat('fr', { numeric: "auto" }));
 
+        for (var i = 0; i < relevant_time.length; i++)
+            if (relevant_time[i][0] !== 0) {
+                return rtf.format(-relevant_time[i][0], relevant_time[i][1]);
+
+            }
+        return rtf.format(0, 'second');
     }
+    return get_representation();
 }

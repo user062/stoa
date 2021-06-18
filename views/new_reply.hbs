@@ -89,12 +89,7 @@
 
     <script>
       function clean_file_placeholder(){
-          let file = tinymce.activeEditor.dom.get('file_upload');
-
-          while(file){
-              file = tinymce.activeEditor.dom.get('file_upload');
-              tinymce.activeEditor.dom.remove(file);
-          }
+          let file = tinymce.activeEditor.dom.remove('files');
       }
     </script>
     <!-- Script element sourcing TinyMCE -->

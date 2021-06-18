@@ -1,7 +1,7 @@
 
                       {{#each module.posts as |post|}}
-                        <div class="post">
-                            <div class="inner-main-body pt-2 collapse forum-content{{post.id}} show" {{#if (eq post.type "p")}} onclick='showResults({{{post.poll.poll_representation.stringify}}}, {{call post.poll "did_vote" ../user }})'{{/if}}>
+                        <div class="post" >
+                            <div class="inner-main-body pt-2 collapse forum-content{{post.id}} show" {{#if (eq post.type "p")}} onclick='showResults({{post.id}})'{{/if}} id='post{{post.id}}'>
                                 <div class="card mb-2">
                                     <div class="card__tag text-muted">{{../module.name}}</div>
                                     <div class="bottom_section">
@@ -26,14 +26,14 @@
                                             <div class="media-body">
                                                 <h6><a href="#" data-toggle="collapse" data-target=".forum-content{{post.id}}" class="text-body">{{post.title}}</a></h6>
                                                 <p class="text-secondary">{{{post.content}}}</p>
-                                                <p class="post-time text-muted align-self-end m-0"><span class="text-secondary font-weight-bold">{{{post.get_elapsed_time}}}</span></p>
+                                                <p class="post-time text-muted align-self-end m-0"><span name="time_since" creation_time='{{post.creation_date}}' edit_time='{{post.get_edit_time}}' class="text-secondary font-weight-bold time_since_posted">{{{post.get_elapsed_time}}}</span></p>
                                             </div>
                                             {{!-- Edit or delete reply --}}
                                             <div class="text-muted post-more">
                                                 <span class="material-icons dots" style="font-size: 16px">more_vert</span>                                        
                                                 <div class="more-menu">
-                                                    <a href="#">Modifier</a>
-                                                    <a href="#">Supprimer</a>
+                                                    <a href="/edit_post?module_id={{../module.id}}&post_id={{post.id}}">Modifier</a>
+                                                    <div onClick="delete_post({{../module.id}}, {{post.id}})">Supprimer</div>
                                                 </div>
                                             </div>
                                             {{!-- End Edit or delete reply --}}
@@ -48,7 +48,7 @@
                             </div>                    
 
                             <!-- Forum Detail (replies) -->
-                            <div class="inner-main-body p-2 p-sm-3 collapse forum-content{{post.id}}" >
+                            <div class="inner-main-body p-2 p-sm-3 collapse forum-content{{post.id}}" id='inner_post{{post.id}}' >
                                 <a href="#" class="btn btn-light btn-sm mb-3 has-icon" data-toggle="collapse" data-target=".forum-content{{post.id}}"><i class="fa fa-arrow-left mr-2"></i>Back</a>
                                 <div class="card mb-2">
                                     <div class="card-body">
@@ -58,16 +58,16 @@
                                             </a>
                                             <div class="media-body ml-3">
                                                 <a href="javascript:void(0)" class="text-secondary">{{post.author}}</a>
-                                                <small class="text-muted ml-2">{{post.get_elapsed_time}}</small>
+                                                <small class="text-muted ml-2 time_since_posted_inner">{{post.get_elapsed_time}}</small>
                                                 <h5 class="mt-1">{{post.title}}</h5>
                                                 <div class="mt-3 font-size-sm">
                                                     <p>{{{post.content}}}</p>
                                                     <div id="Poll">
                                                       {{#if (eq post.type "p")}}
                                                       <div class="poll mx-auto" id="poll{{post.poll.poll_representation.id}}">
-                                                        <div class="answers" >
+                                                        <div class="answers" all_votes={{post.poll.poll_representation.pollCount}} user_choice={{call post.poll "did_vote" ../user }}>
                                                           {{#each post.poll.poll_representation.choices as |choice i|}}
-                                                          <div class="answer" onClick='markAnswer({{../../module.id}}, {{i}}, {{{post.poll.poll_representation.stringify}}}, {{call post.poll "did_vote" ../../user }})'>
+                                                          <div choice={{i}} class="answer" onClick='markAnswer({{../../module.id}}, {{post.id}}, {{i}})' votes={{lookup post.poll.poll_representation.votes @index}}>
                                                             {{choice}}
                                                             <span class="percentage-bar"></span>
                                                             <span class="percentage-value"></span>
@@ -82,7 +82,7 @@
                                                         <div class="file">
                                                             <span class="material-icons icon">description</span>
                                                             <span class="file-name">
-                                                            <a href={{file.path}}>{{file.name}}</a> 
+                                                            <a href={{file.file_location}}>{{file.name}}</a> 
                                                             </span>
                                                         </div>                                                          
                                                         {{/each}}

@@ -211,12 +211,7 @@
               form.appendChild(folder);
           }
 
-          let file = tinymce.activeEditor.dom.get('file_upload');
-
-          while(file){
-              tinymce.activeEditor.dom.remove(file);
-              file = tinymce.activeEditor.dom.get('file_upload');
-          }
+          let file = tinymce.activeEditor.dom.remove('files');
 
           let choices = document.getElementById("choices");
           for(let choice of choices.children) {
