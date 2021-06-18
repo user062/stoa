@@ -52,33 +52,50 @@ modules.forEach(module => {
 })
 
 //Edit & delete post menu
-let dots = document.querySelectorAll('.dots');
-let moreMenu = document.querySelectorAll('.more-menu');
-let tag = document.querySelectorAll('.tag');
-let commentNumber = document.querySelectorAll('.comment-number');
+var dots = document.querySelectorAll('.dots');
+var moreMenu = document.querySelectorAll('.more-menu');
+var tag = document.querySelectorAll('.tag');
+var commentNumber = document.querySelectorAll('.comment-number');
 
 dots.forEach(dot => {
     dot.addEventListener('click', (e) => {
-        let moreMenu = dot.parentNode.querySelector(".more-menu");
-        let bottomSection = getPost(dot).querySelector(".bottom_section");
+        var moreMenu = dot.parentNode.querySelector(".more-menu");
+        var bottomSection = getPost(dot).querySelector(".bottom_section");
         //let tag = getPost(dot).querySelector(".tag");
-        let commentNumber = getPost(dot).querySelector(".comment-number");
+        var commentNumber = getPost(dot).querySelector(".comment-number");
 
         //Get the parent post
         function getPost(dot) {
-            let parent = dot.parentNode;
+            var parent = dot.parentNode;
             for (i = 0; i < 4; i++) {
                 parent = parent.parentNode;
             }
             return parent;
         }
 
-
         moreMenu.classList.toggle("show");
-        bottomSection.classList.toggle("hide");
-        // tag.classList.toggle("hide");
-        commentNumber.classList.toggle("hide");
-    });
+        if(bottomSection && commentNumber) {
+            bottomSection.classList.toggle("hide");
+            // tag.classList.toggle("hide");
+            commentNumber.classList.toggle("hide"); 
+        }
+        
+        
+        document.addEventListener('click', (e) => {
+        if(e.target != dot && moreMenu.classList.contains("show")) {
+            moreMenu.classList.remove("show");
+            if(bottomSection && commentNumber) {
+                bottomSection.classList.remove("hide");        
+                commentNumber.classList.remove("hide");
+            }
+             
+        }
+            
+            
+        });
+
+    });    
+
 });
 
 function humanized_time_span(date) {
