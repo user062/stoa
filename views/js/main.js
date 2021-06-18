@@ -1,15 +1,22 @@
 
 //Sidebar activate links
-var sidebarLinks = document.querySelectorAll('.sidebar__link');
+var home = document.getElementById('home');
 
-sidebarLinks.forEach(e => {
-    e.addEventListener('click', () => {
-        //Remove .active class from all Sidebar Links
-        sidebarLinks.forEach(el => el.classList.remove('active'));
-        //Add .active class to clicked Sidebar Link
-        e.classList.add('active');
-    });
-});
+if(window.location.pathname == "/") {
+    home.classList.add("active");
+} else {
+    home.classList.remove("active");
+}
+// var sidebarLinks = document.querySelectorAll('.sidebar__link');
+
+// sidebarLinks.forEach(e => {
+//     e.addEventListener('click', () => {
+//         //Remove .active class from all Sidebar Links
+//         sidebarLinks.forEach(el => el.classList.remove('active'));
+//         //Add .active class to clicked Sidebar Link
+//         e.classList.add('active');
+//     });
+// });
 
 
 //Post on click event
@@ -73,4 +80,23 @@ dots.forEach(dot => {
         commentNumber.classList.toggle("hide");
     });    
 });
+
+// Select sidebar items
+var moduleFolders = document.querySelectorAll('.module__folder');
+let url = window.location.pathname;
+
+moduleFolders.forEach(e => {    
+
+    e.addEventListener('click', () => {
+        //Remove .active class from all Sidebar Links
+        moduleFolders.forEach(el => el.classList.remove('active'));
+        //Add .active class to clicked Sidebar Link
+        e.classList.add('active');
+    });
+
+    if(e.getAttribute('href') == url) {
+        e.classList.add('active');
+    }
+});
+
 
