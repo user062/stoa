@@ -13,7 +13,7 @@
                                                 </a>
                                                 <div class="media-body ml-3">
                                                     <a href="javascript:void(0)" class="text-secondary">{{response.author}}</a>
-                                                    <small class="text-muted ml-2">{{response.get_elapsed_time}}</small>                                                    
+                                                    <small class="time_since_replied text-muted ml-2" creation_time='{{response.creation_date}}' edit_time='{{response.get_edit_time}}'></small>                                                    
                                                     <div class="mt-3 font-size-sm">
                                                         <p>{{{response.content}}}</p>
                                                     </div>
@@ -22,7 +22,7 @@
                                                         <div class="file">
                                                             <span class="material-icons icon">description</span>
                                                             <span class="file-name">
-                                                            <a href={{file.path}}>{{file.name}}</a> 
+                                                            <a href={{file.file_location}}>{{file.name}}</a> 
                                                             </span>
                                                         </div>                                                          
                                                         {{/each}}

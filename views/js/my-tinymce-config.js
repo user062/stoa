@@ -1,4 +1,5 @@
 tinymce.init({
+    content_css: '../css/file_upload.css',
     selector: 'textarea#my-expressjs-tinymce-app',
     height: 350,
     skin: '../../../css/tinymce_css',
@@ -23,6 +24,8 @@ tinymce.init({
         'alignright alignjustify | bullist numlist outdent indent | ' +
         'removeformat | help'
 });
+
+var current_file_id = 0;
 
 var file_upload_dialog_config = {
     title: 'File Upload',
@@ -56,24 +59,37 @@ var file_upload_dialog_config = {
     },
     onSubmit: (api) => {
         var data = api.getData();
-        if (typeof this.bottom == 'undefined') {
-            this.bottom = 2;
-            this.margin = 8;
-        }
-        tinymce.activeEditor.execCommand('mceInsertContent', false, '<a id="file_upload" href=' + data.file_name.value + ' style="display:block; position:absolute; background-color: #f5f5f5; bottom:' + this.bottom + 'px; padding-top:4px; padding-bottom:4px; padding-left:8px; padding-right:4px;  width:444px; margin-bottom:' + this.margin + 'px;">' + data.file_name.meta.title + '</a>');
-        this.bottom += 25;
-        this.margin += 12;
+
+        if (current_file_id === 0)
+            tinymce.activeEditor.dom.add(tinymce.activeEditor.getBody(), 'div', { 'class': 'files', 'id': 'files' });
+
+        tinymce.activeEditor.dom.add('files', 'div', { 'class': 'file', 'id': 'file' + current_file_id });
+
+        tinymce.activeEditor.dom.add('file' + current_file_id, 'div', { 'class': 'file_name' }, data.file_name.meta.title);
+
+        let del_button = tinymce.activeEditor.dom.add('file' + current_file_id, 'div', { 'class': 'del_button' }, 'x');
+        let id = 'file' + current_file_id;
+        let upload_id = 'uploaded_file' + current_file_id;
+        tinymce.activeEditor.dom.bind(del_button, 'click',
+            () => tinymce.activeEditor.dom.remove(id) && document.getElementById(upload_id).remove()
+        );
+
+        current_file_id++;
+
         api.close();
+
     }
 };
 
 function file_picker(cb, value, meta) {
     var input = document.createElement('input');
     input.setAttribute("name", "uploads");
+    input.setAttribute('id', 'uploaded_file' + current_file_id);
     input.setAttribute('type', 'file');
     input.setAttribute('accept', '*');
     input.style.visibility = "hidden";
     document.getElementsByTagName("form")[0].appendChild(input);
+
     input.onchange = function() {
         var file = this.files[0];
         var reader = new FileReader();

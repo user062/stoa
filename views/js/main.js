@@ -107,13 +107,76 @@ function humanized_time_span(date) {
     return get_representation();
 }
 
-var posts = document.querySelectorAll('.time_since');
+var posts = document.getElementsByClassName('time_since_posted');
+var posts_inner = document.getElementsByClassName('time_since_posted_inner');
 var time_posts = [];
+var time_posts_inner = [];
 
-for (const post of posts)
-    time_posts.push([post.getAttribute('creation_time'), post]);
+for (let i = 0; i < posts.length; i++) {
+    time_posts.push([posts[i].getAttribute('creation_time'), posts[i].getAttribute('edit_time'), posts[i]]);
+    time_posts_inner.push([posts[i].getAttribute('creation_time'), posts[i].getAttribute('edit_time'), posts_inner[i]]);
+}
 
-time_posts.forEach((post) => setInterval(() => post[1].textContent = humanized_time_span(post[0]), 60000));
+
+time_posts.forEach((post) => {
+
+    var update_post_time = () => post[2].textContent = humanized_time_span(post[0]) + (post[1] ? ` (modifier le ${post[1]})` : '');
+    update_post_time();
+    setInterval(update_post_time, 60000);
+});
+
+
+time_posts_inner.forEach((post) => {
+    var update_post_inner_time = () => post[2].textContent = humanized_time_span(post[0]) + (post[1] ? ` (modifier le ${post[1]})` : '');
+    update_post_inner_time();
+    setInterval(update_post_inner_time, 60000);
+});
+
+var replies = document.getElementsByClassName('time_since_replied');
+var time_replies = [];
+
+
+for (let i = 0; i < replies.length; i++) {
+    time_replies.push([replies[i].getAttribute('creation_time'), replies[i].getAttribute('edit_time'), replies[i]]);
+}
+
+time_replies.forEach((reply) => {
+    var update_reply_time = () => reply[2].textContent = humanized_time_span(reply[0]) + (reply[1] ? ` (modifier le ${reply[1]})` : '');
+    update_reply_time();
+    setInterval(update_reply_time, 60000);
+});
+
+
+
+var comments = document.getElementsByClassName('time_since_commented');
+var time_comments = [];
+
+for (let i = 0; i < comments.length; i++) {
+    time_comments.push([comments[i].getAttribute('creation_time'), comments[i].getAttribute('edit_time'), comments[i]]);
+}
+
+time_comments.forEach((comment) => {
+    var update_comment_time = () => comment[2].textContent = humanized_time_span(comment[0]) + (comment[1] ? ` (modifier le ${comment[1]})` : '');
+    update_comment_time();
+    setInterval(update_comment_time, 60000);
+});
+
+
+var delete_post = (module_id, post_id) => {
+    $.post('/delete_post/delete_post', { 'module': module_id, 'post': post_id }, (data) => data);
+    document.getElementById(`post${post_id}`).remove();
+    document.getElementById(`inner_post${post_id}`).remove();
+};
+
+var delete_reply = (module_id, post_id, reply_id) => {
+    $.post('/delete_reply/delete_reply', { 'module': module_id, 'post': post_id, 'reply': reply_id }, (data) => data);
+    document.getElementById(`reply${reply_id}`).remove();
+};
+
+var delete_comment = (module_id, post_id, reply_id, comment_id) => {
+    $.post('/delete_comment/delete_comment', { 'module': module_id, 'post': post_id, 'reply': reply_id, 'comment': comment_id }, (data) => data);
+    document.getElementById(`comment${comment_id}`).remove();
+};
 
 //toggle sidebar
 //  const hamburger = document.querySelector('.navbar__toggle');
