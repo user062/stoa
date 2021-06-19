@@ -1,19 +1,12 @@
 //Sidebar activate links
 var home = document.getElementById('home');
 
-<<<<<<< HEAD
 if(home) {
     if(window.location.pathname == "/") {
         home.classList.add("active");
     } else {
         home.classList.remove("active");
     }    
-=======
-if (window.location.pathname == "/") {
-    home.classList.add("active");
-} else {
-    home.classList.remove("active");
->>>>>>> b7eeefc688a99bd75b3e856edb227d58387918b8
 }
 
 // var sidebarLinks = document.querySelectorAll('.sidebar__link');
