@@ -25,6 +25,10 @@ class ModuleRepository {
     get all_modules() {
         return this.modules;
     }
+
+    get get_all_posts() {
+        return this.modules.reduce((x, y) => x.concat(y.posts), []);
+    }
 }
 
 function createModules() {

@@ -14,7 +14,7 @@ router.post('/new_post', async (req, res) => {
 
     if (!folders) {
         req.session.error = "Please select at least one folder";
-        return res.redirect('/new_post');
+        return res.redirect('/new_post?' + module_id);
     }
 
     folders = module.folders.filter((folder) => folders.includes(String(folder.id)));
@@ -30,11 +30,10 @@ router.post('/new_post', async (req, res) => {
         added_post.poll_elements = poll_elements;
         if (!Array.isArray(poll_elements) || poll_elements.length < 2) {
             req.session.error = "Please add at least 2 choices to the poll";
-            res.redirect('/new_post');
+            res.redirect('/new_post?' + module_id);
             return false;
         }
     }
-
     await module.add_post(added_post);
     await added_post.add_poll();
 

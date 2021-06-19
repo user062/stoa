@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/material-icons.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">        
+    <title>Modifier Poste</title>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-md bg-light sticky-top">
+        <div class="container">
+            <a href="/" class="navbar-brand">
+                <img src="images/stoa2.png" alt="stoa">
+            </a>
+            {{!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#toggleMobileMenu" aria-controls="toggleMobileMenu" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button> --}}            
+            <div class="collapse navbar-collapse">
+                {{!-- <form class="form-inline ml-5">
+                    <input class="search-bar form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">                    
+                </form>           --}}
+                <ul class="navbar-nav text-center ml-auto">                    
+                    <li>
+                        <a class="nav-link" href="#">Account</a>
+                    </li>                  
+                </ul>                      
+            </div>
+        </div>
+    </nav>
+        
+    <div class="sidebar">
+        <ul class="links">
+            <a href="/new_post" class="btn btn-primary new__descussion">
+                <span class="material-icons">add</span>
+                <span class="new__descussion-text">Nouvelle Discussion</span>
+            </a>
+            <li>                                
+                <a class="sidebar__link active" href="/">
+                    <span class="material-icons">home</span>
+                    Home
+                </a>                
+            </li>
+            <li>                
+                <a class="sidebar__link" href="#">
+                    <span class="material-icons">
+                    chat_bubble_outline
+                    </span>           
+                    Discussions
+                </a>                
+            </li>
+            <hr style="background-color: #f6f6f6;height: 1px;width: 75%;margin: 1rem auto">      
+            {{!-- Button just for profs --}}
+            <a href="/new_folder" class="btn btn-secondary new__descussion">
+                <span class="material-icons">add</span>
+                <span class="new__descussion-text">Nouveau dossier</span>
+            </a>                              
+            <li class="module__link">                
+                <a class="sidebar__link" href="#">
+                    <span class="material-icons">folder_open</span>           
+                    IHM
+                </a>          
+                <div class="module__folders ml-4">
+                    <a class="module__folder" href="#">
+                        <span class="material-icons">folder_open</span>           
+                        Coures
+                    </a>          
+                </div>   
+                <div class="module__folders ml-4">
+                    <a class="module__folder" href="#">
+                        <span class="material-icons">folder_open</span>           
+                        TD
+                    </a>          
+                </div>      
+                <div class="module__folders ml-4">
+                    <a class="module__folder" href="#">
+                        <span class="material-icons">folder_open</span>           
+                        Notes
+                    </a>          
+                </div>      
+            </li>
+            <li class="module__link">                
+                <a class="sidebar__link" href="#">
+                    <span class="material-icons">
+                    folder_open
+                    </span>           
+                    Acoo
+                </a>                
+            </li>
+            <li class="module__link">                
+                <a class="sidebar__link" href="#">
+                    <span class="material-icons">
+                    folder_open
+                    </span>           
+                    Algo
+                </a>                
+            </li>
+
+            {{!-- <li>                
+                <a class="sidebar__link" href="#">
+                    <span class="material-icons">local_library</span>
+                    Modules
+                </a>                
+            </li>
+            <li>                
+                <a class="sidebar__link" href="#">
+                    <span class="material-icons">poll</span>
+                    Poll
+                </a>                
+            </li>
+            <li>                
+                <a class="sidebar__link" href="#">
+                    <span class="material-icons">note</span>
+                    Notes
+                </a>                
+            </li>
+            <li>                
+                <a class="sidebar__link" href="#">
+                    <span class="material-icons">article</span>
+                    Devoires
+                </a>                
+            </li> --}}
+        </ul>
+    </div>
+
+    <div class="content">        
+        <div class="container">
+        <div class="col-10 mx-auto">
+            <h5>Modifier un post</h5>
+            <hr>
+            {{#if error}}
+            <div class="alert alert-danger">
+              <strong>{{error}}</strong>
+            </div>
+            {{/if}}
+            <form action="edit_post/edit_post" method="POST" encType="multipart/form-data">
+                <section class="post__folder form-group">
+                    <label for="title">Dossiers</label>
+                    <div class="dossiers">
+                      {{#each module.all_folders as |folder|}}
+                        <div class="dossier {{#each ../post.folders as |selected_folder|}}{{#if (eq selected_folder.id folder.id)}}selected-folder{{/if}}{{/each}}" id={{folder.id}}>
+                            <span>{{folder.name}}</span> 
+                        </div>
+                        {{/each}}
+                    </div>
+                </section><br>
+                <section class="post__title form-group">
+                    <label for="title">Titre</label>
+                    <input class="form-control" type="text" name="title" placeholder="Titre du sujet" value={{post.title}} id="title" required>
+                </section><br>
+                <section class="details">
+                    <label>Détailes</label>
+                    <textarea name="keyboard_cat" class="petMachine" id="my-expressjs-tinymce-app"></textarea>
+                </section>
+                <button type="submit" class="btn btn-primary col-12 ml-auto mt-3 mb-5" onclick="select_type()">Modifier</button>
+            </form>
+
+
+            
+        </div>
+        </div>
+    </div>
+
+    <!-- Script element sourcing TinyMCE -->
+    <script type="application/javascript" src= "/tinymce/tinymce.min.js"></script>
+    <!-- Script element sourcing the TinyMCE configuration -->
+    <script type="application/javascript" src= "/js/my-tinymce-config.js"></script>
+
+    <script src="js/main.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <script src="/js/post_edit.js"></script>
+    <script>
+      function select_type(){
+          let form = document.getElementsByTagName("form")[0];
+
+          let selected_folders = document.getElementsByClassName("selected-folder");
+          for(let selected_folder of selected_folders){
+              let folder = document.createElement('input');
+              folder.setAttribute("type", "hidden");
+              folder.setAttribute("name", "folders")
+              folder.setAttribute("value", selected_folder.id);
+              form.appendChild(folder);
+          }
+
+          let file = tinymce.activeEditor.dom.remove('files');
+      }
+
+    </script>
+
+</body>
+</html>

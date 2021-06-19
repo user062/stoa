@@ -73,8 +73,61 @@ router.get('/new_comment', (req, res) => {
 });
 
 router.get('/new_folder', (req, res) => {
-    console.log(req);
     res.render('new_folder');
+});
+
+router.get('/edit_post', async (req, res) => {
+    let module = (await Modules).get_module_by_id(Number(req.query.module_id))[0];
+    let post = module.get_post_by_id(Number(req.query.post_id))[0];
+    if (post.author_id !== Number(req.session.userId))
+        return res.redirect('/error');
+
+    res.render('edit_post', { layout: '', module: module, post: post });
+});
+
+router.get('/edit_reply', async (req, res) => {
+    let module = (await Modules).get_module_by_id(Number(req.query.module_id))[0];
+    let post = module.get_post_by_id(Number(req.query.post_id))[0];
+    let reply = post.get_response_by_id(Number(req.query.reply_id))[0];
+    if (reply.author_id !== Number(req.session.userId))
+        return res.redirect('/error');
+
+    res.render('edit_reply', { layout: '' });
+});
+
+router.get('/edit_comment', async (req, res) => {
+    let module = (await Modules).get_module_by_id(Number(req.query.module_id))[0];
+    let post = module.get_post_by_id(Number(req.query.post_id))[0];
+    let reply = post.get_response_by_id(Number(req.query.reply_id))[0];
+    let comment = reply.get_comment_by_id(Number(req.query.comment_id))[0];
+    if (comment.author_id !== Number(req.session.userId))
+        return res.redirect('/error');
+
+    res.render('edit_comment', { layout: '' });
+});
+
+router.get('/post_content', async (req, res) => {
+    let module = (await Modules).get_module_by_id(Number(req.query.module_id))[0];
+    let post = module.get_post_by_id(Number(req.query.post_id))[0];
+
+    res.send({ text: post.content, files: post.files });
+});
+
+router.get('/reply_content', async (req, res) => {
+    let module = (await Modules).get_module_by_id(Number(req.query.module_id))[0];
+    let post = module.get_post_by_id(Number(req.query.post_id))[0];
+    let reply = post.get_response_by_id(Number(req.query.reply_id))[0];
+
+    res.send({ text: reply.content, files: reply.files });
+});
+
+router.get('/comment_content', async (req, res) => {
+    let module = (await Modules).get_module_by_id(Number(req.query.module_id))[0];
+    let post = module.get_post_by_id(Number(req.query.post_id))[0];
+    let reply = post.get_response_by_id(Number(req.query.reply_id))[0];
+    let comment = reply.get_comment_by_id(Number(req.query.comment_id))[0];
+
+    res.send({ text: comment.content });
 });
 
 router.get('/error', (req, res) => {

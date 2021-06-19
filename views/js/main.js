@@ -1,13 +1,19 @@
-
 //Sidebar activate links
 var home = document.getElementById('home');
 
+<<<<<<< HEAD
 if(home) {
     if(window.location.pathname == "/") {
         home.classList.add("active");
     } else {
         home.classList.remove("active");
     }    
+=======
+if (window.location.pathname == "/") {
+    home.classList.add("active");
+} else {
+    home.classList.remove("active");
+>>>>>>> b7eeefc688a99bd75b3e856edb227d58387918b8
 }
 
 // var sidebarLinks = document.querySelectorAll('.sidebar__link');
@@ -56,41 +62,198 @@ modules.forEach(module => {
 })
 
 //Edit & delete post menu
-let dots = document.querySelectorAll('.dots');
-let moreMenu = document.querySelectorAll('.more-menu');
-let tag = document.querySelectorAll('.tag');
-let commentNumber = document.querySelectorAll('.comment-number');
+var dots = document.querySelectorAll('.dots');
+var moreMenu = document.querySelectorAll('.more-menu');
+var tag = document.querySelectorAll('.tag');
+var commentNumber = document.querySelectorAll('.comment-number');
 
 dots.forEach(dot => {
     dot.addEventListener('click', (e) => {
-        let moreMenu = dot.parentNode.querySelector(".more-menu");
-        let bottomSection = getPost(dot).querySelector(".bottom_section");
+        var moreMenu = dot.parentNode.querySelector(".more-menu");
+        var bottomSection = getPost(dot).querySelector(".bottom_section");
         //let tag = getPost(dot).querySelector(".tag");
-        let commentNumber = getPost(dot).querySelector(".comment-number");                
+        var commentNumber = getPost(dot).querySelector(".comment-number");
 
         //Get the parent post
-        function getPost(dot) {        
-            let parent = dot.parentNode;
-            for(i=0;i<4;i++) {
+        function getPost(dot) {
+            var parent = dot.parentNode;
+            for (i = 0; i < 4; i++) {
                 parent = parent.parentNode;
-            }            
+            }
             return parent;
         }
 
         moreMenu.classList.toggle("show");
         if(bottomSection && commentNumber) {
-            bottomSection.classList.toggle("hide");        
-            commentNumber.classList.toggle("hide");
+            bottomSection.classList.toggle("hide");
+            // tag.classList.toggle("hide");
+            commentNumber.classList.toggle("hide"); 
         }
         
+        
+        document.addEventListener('click', (e) => {
+        if(e.target != dot && moreMenu.classList.contains("show")) {
+            moreMenu.classList.remove("show");
+            if(bottomSection && commentNumber) {
+                bottomSection.classList.remove("hide");        
+                commentNumber.classList.remove("hide");
+            }
+             
+        }
+            
+            
+        });
+
     });    
+
 });
+
+function humanized_time_span(date) {
+    //Date Formats must be be ordered smallest -> largest and must end in a format with ceiling of null
+    let date_formats = [
+        { ceiling: 60 },
+        { ceiling: 3600 },
+        { ceiling: 86400 },
+        { ceiling: 2629744 },
+        { ceiling: 31556926 },
+        { ceiling: Infinity }
+    ];
+    //Time units must be be ordered largest -> smallest
+    let time_units = [
+        [31556926, 'years'],
+        [2629744, 'months'],
+        [86400, 'days'],
+        [3600, 'hours'],
+        [60, 'minutes'],
+        [1, 'seconds']
+    ];
+
+    date = (new Date(date)).getTime();
+    var seconds_difference = ((new Date()).getTime() - date) / 1000;
+
+
+    function get_format() {
+        for (var i = 0; i < date_formats.length; i++)
+            if (seconds_difference <= date_formats[i].ceiling)
+                return date_formats[i];
+    }
+
+    function get_time_breakdown() {
+        var seconds = seconds_difference;
+        var breakdown = {};
+        for (var i = 0; i < time_units.length; i++) {
+            var occurences_of_unit = Math.floor(seconds / time_units[i][0]);
+            seconds = seconds - (time_units[i][0] * occurences_of_unit);
+            breakdown[time_units[i][1]] = occurences_of_unit;
+        }
+        return breakdown;
+    }
+
+    function get_representation() {
+        let time = get_time_breakdown();
+        let relevant_time = [[time.years, 'year'],
+        [time.months, 'month'],
+        [time.days, 'day'],
+        [time.hours, 'hour'],
+        [time.minutes, 'minute']
+        ];
+
+        let rtf = (new Intl.RelativeTimeFormat('fr', { numeric: "auto" }));
+
+        for (var i = 0; i < relevant_time.length; i++)
+            if (relevant_time[i][0] !== 0) {
+                return rtf.format(-relevant_time[i][0], relevant_time[i][1]);
+
+            }
+        return rtf.format(0, 'second');
+    }
+    return get_representation();
+}
+
+var posts = document.getElementsByClassName('time_since_posted');
+var posts_inner = document.getElementsByClassName('time_since_posted_inner');
+var time_posts = [];
+var time_posts_inner = [];
+
+for (let i = 0; i < posts.length; i++) {
+    time_posts.push([posts[i].getAttribute('creation_time'), posts[i].getAttribute('edit_time'), posts[i]]);
+    time_posts_inner.push([posts[i].getAttribute('creation_time'), posts[i].getAttribute('edit_time'), posts_inner[i]]);
+}
+
+
+time_posts.forEach((post) => {
+
+    var update_post_time = () => post[2].textContent = humanized_time_span(post[0]) + (post[1] ? ` (modifier le ${post[1]})` : '');
+    update_post_time();
+    setInterval(update_post_time, 60000);
+});
+
+
+time_posts_inner.forEach((post) => {
+    var update_post_inner_time = () => post[2].textContent = humanized_time_span(post[0]) + (post[1] ? ` (modifier le ${post[1]})` : '');
+    update_post_inner_time();
+    setInterval(update_post_inner_time, 60000);
+});
+
+var replies = document.getElementsByClassName('time_since_replied');
+var time_replies = [];
+
+
+for (let i = 0; i < replies.length; i++) {
+    time_replies.push([replies[i].getAttribute('creation_time'), replies[i].getAttribute('edit_time'), replies[i]]);
+}
+
+time_replies.forEach((reply) => {
+    var update_reply_time = () => reply[2].textContent = humanized_time_span(reply[0]) + (reply[1] ? ` (modifier le ${reply[1]})` : '');
+    update_reply_time();
+    setInterval(update_reply_time, 60000);
+});
+
+
+
+var comments = document.getElementsByClassName('time_since_commented');
+var time_comments = [];
+
+for (let i = 0; i < comments.length; i++) {
+    time_comments.push([comments[i].getAttribute('creation_time'), comments[i].getAttribute('edit_time'), comments[i]]);
+}
+
+time_comments.forEach((comment) => {
+    var update_comment_time = () => comment[2].textContent = humanized_time_span(comment[0]) + (comment[1] ? ` (modifier le ${comment[1]})` : '');
+    update_comment_time();
+    setInterval(update_comment_time, 60000);
+});
+
+
+var delete_post = (module_id, post_id) => {
+    $.post('/delete_post/delete_post', { 'module': module_id, 'post': post_id }, (data) => data);
+    document.getElementById(`post${post_id}`).remove();
+    document.getElementById(`inner_post${post_id}`).remove();
+};
+
+var delete_reply = (module_id, post_id, reply_id) => {
+    $.post('/delete_reply/delete_reply', { 'module': module_id, 'post': post_id, 'reply': reply_id }, (data) => data);
+    document.getElementById(`reply${reply_id}`).remove();
+};
+
+var delete_comment = (module_id, post_id, reply_id, comment_id) => {
+    $.post('/delete_comment/delete_comment', { 'module': module_id, 'post': post_id, 'reply': reply_id, 'comment': comment_id }, (data) => data);
+    document.getElementById(`comment${comment_id}`).remove();
+};
+
+//toggle sidebar
+//  const hamburger = document.querySelector('.navbar__toggle');
+//  const sidebar = document.querySelector('.sidebar');
+//  const navbarBrand = document.querySelector('.navbar__brand');
+//  const sidebarLink = document.querySelector('.sidebar__link');
+//  const sidebarList = document.querySelector('.sidebar__list');
+
 
 // Select sidebar items
 var moduleFolders = document.querySelectorAll('.module__folder');
 let url = window.location.pathname;
 
-moduleFolders.forEach(e => {    
+moduleFolders.forEach(e => {
 
     e.addEventListener('click', () => {
         //Remove .active class from all Sidebar Links
@@ -99,9 +262,7 @@ moduleFolders.forEach(e => {
         e.classList.add('active');
     });
 
-    if(e.getAttribute('href') == url) {
+    if (e.getAttribute('href') == url) {
         e.classList.add('active');
     }
 });
-
-

@@ -642,14 +642,21 @@ th, td {
     visibility: hidden;
 }
 
-.post-more .more-menu a {
+.post-more .more-menu a, .more-menu div{
     padding: .3rem .7rem;    
     color: #6c757d;
     text-decoration: none;
 }
 
-.post-more .more-menu a:hover {
+.more-menu div {
+    color:#bd2130;
+}
+
+.post-more .more-menu a:hover, .more-menu div:hover {
     background-color: #eeeeee;
+}
+.more-menu div:hover {
+    
 }
 
 .show {

@@ -49,7 +49,12 @@ app.use('/new_comment', require('./routes/new_comment'));
 app.use('/vote', require('./routes/vote'));
 app.use('/reply_vote', require('./routes/reply_vote'));
 app.use('/add_folder', require('./routes/add_folder'));
-
+app.use('/edit_post', require('./routes/edit_post'));
+app.use('/edit_reply', require('./routes/edit_reply'));
+app.use('/edit_comment', require('./routes/edit_comment'));
+app.use('/delete_post', require('./routes/delete_post'));
+app.use('/delete_reply', require('./routes/delete_reply'));
+app.use('/delete_comment', require('./routes/delete_comment'));
 
 
 

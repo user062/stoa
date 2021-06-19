@@ -19,7 +19,7 @@ class Module {
 
 
         for (const row of results[0]) {
-            let post = await Post(row.POST_ID, row.DATE_AJOUTE, row.COMPTEID, row.title, row.TYPE, row.POST_CORE, [], []);
+            let post = await Post(row.POST_ID, row.DATE_AJOUTE, row.COMPTEID, row.title, row.TYPE, row.POST_CORE, [], [], [], [], row.DATE_EDIT);
             this.posts.unshift(post);
         };
 
@@ -36,8 +36,21 @@ class Module {
         this.posts.unshift(post);
     }
 
-    delete_post(post) {
+    async delete_post(post_id) {
+        let post = this.get_post_by_id(post_id)[0];
+        let files = post.files;
+        files = files ? files : [];
 
+        for (const file of files)
+            await file.delete_from_disk_db();
+
+        for (const response of post.responses)
+            await post.delete_response(response.id);
+
+        let query = `delete from POST where POST_ID=${post_id}`;
+        await connection.query(query);
+
+        this.posts.splice(this.posts.indexOf(post), 1);
     }
 
     async add_folder(folder, folder_creator) {
