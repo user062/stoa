@@ -2,11 +2,14 @@
 //Sidebar activate links
 var home = document.getElementById('home');
 
-if(window.location.pathname == "/") {
-    home.classList.add("active");
-} else {
-    home.classList.remove("active");
+if(home) {
+    if(window.location.pathname == "/") {
+        home.classList.add("active");
+    } else {
+        home.classList.remove("active");
+    }    
 }
+
 // var sidebarLinks = document.querySelectorAll('.sidebar__link');
 
 // sidebarLinks.forEach(e => {
@@ -75,9 +78,11 @@ dots.forEach(dot => {
         }
 
         moreMenu.classList.toggle("show");
-        bottomSection.classList.toggle("hide");
-        // tag.classList.toggle("hide");
-        commentNumber.classList.toggle("hide");
+        if(bottomSection && commentNumber) {
+            bottomSection.classList.toggle("hide");        
+            commentNumber.classList.toggle("hide");
+        }
+        
     });    
 });
 
