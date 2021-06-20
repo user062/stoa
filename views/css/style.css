@@ -300,6 +300,14 @@ body {
     .new__descussion-text {
         display: none;
     }
+
+    .new__descussion-text-small {
+        display: inline;
+    }
+
+    .description {
+        margin-top: 4rem;
+    }
     
 }
 .content form label {
