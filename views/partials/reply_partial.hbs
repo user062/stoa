@@ -31,6 +31,7 @@
                                                     {{> comment_partial moduleId=../moduleId postId=../postId replyId=response.id comments=response.comments user=../user}}
                                                 </div>
                                                 {{!-- Edit or delete reply --}}
+                                                {{#if (eq response.author_id ../user)}}
                                                 <div class="text-muted post-more">
                                                     <span class="material-icons dots" style="font-size: 16px">more_vert</span>                                        
                                                     <div class="more-menu">
@@ -38,6 +39,7 @@
                                                         <div onClick="delete_reply({{../moduleId}}, {{../postId}}, {{response.id}})">Supprimer</div>
                                                     </div>                                                    
                                                 </div>
+                                                {{/if}}
                                                 {{!-- End Edit or delete reply --}}
                                             </div>
                                         </div>        

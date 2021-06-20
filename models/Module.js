@@ -1,5 +1,7 @@
 const connection = require('../config/db');
 const Post = require('./Post');
+const path = require('path');
+const Document = require('./Document');
 
 class Module {
     constructor(id) {
@@ -7,6 +9,8 @@ class Module {
         this.name = '';
         this.posts = [];
         this.folders = [];
+        this.description = '';
+        this.documents = { 'course': [], 'td': [], 'hw': [] };
     }
 
     async init() {
@@ -14,9 +18,9 @@ class Module {
         let results = await connection.query(`select * from MODULE where MODULE.ID_MODULE=${this.id}`);
 
         this.name = results[0][0].NOM_MODULE;
+        this.description = results[0][0].description ? results[0][0].description : '';
 
-        results = await connection.query(`select * from POST P join CONCERNE C on P.POST_ID=C.POST_ID join DOSSIER D on D.ID_DOSSIER=C.ID_DOSSIER join MODULE M on D.ID_MODULE=M.ID_MODULE where M.ID_MODULE=${this.id} group by P.POST_ID`);
-
+        results = await connection.query(`select P.POST_ID, P.DATE_AJOUTE, P.COMPTEID, P.title, P.TYPE, P.POST_CORE from POST P join CONCERNE C on P.POST_ID=C.POST_ID join DOSSIER D on D.ID_DOSSIER=C.ID_DOSSIER join MODULE M on D.ID_MODULE=M.ID_MODULE where M.ID_MODULE=${this.id} group by P.POST_ID`);
 
         for (const row of results[0]) {
             let post = await Post(row.POST_ID, row.DATE_AJOUTE, row.COMPTEID, row.title, row.TYPE, row.POST_CORE, [], [], [], [], row.DATE_EDIT);
@@ -27,6 +31,17 @@ class Module {
 
         for (const row of results[0])
             this.folders.push({ id: row.ID_DOSSIER, name: row.nom_dossier });;
+
+        results = await connection.query('select * from DOCUMENT where ID_MODULE = ?', [this.id]);
+
+        for (const row of results[0]) {
+            if (row.type === 'c')
+                this.documents.course.push(new Document(row.NOM, row.path, row.ID_DOCUMENT, 'course'));
+            else if (row.type === 't')
+                this.documents.td.push(new Document(row.NOM, row.path, row.ID_DOCUMENT, 'td'));
+            else
+                this.documents.hw.push(new Document(row.NOM, row.path, row.ID_DOCUMENT, 'hw'));
+        }
 
         return this;
     }
@@ -58,12 +73,42 @@ class Module {
         this.folders.push({ id: id[0].insertId, name: folder });
     }
 
+    async add_document(file, type) {
+        let location = path.join('Uploads', 'Modules', String(this.id), type);
+        let fi = new Document(file.name, location, null, type);
+        await fi.add_to_db(this.id, type[0], file);
+        this.documents[type].push(fi);
+        return fi;
+    }
+
+    async delete_document(file_id) {
+        let type = 'course';
+        let file = this.documents[type].filter((file) => file.id === file_id)[0];
+
+        if (!file) {
+            type = 'td';
+            file = this.documents[type].filter((file) => file.id === file_id)[0];
+            if (!file) {
+                type = 'hw';
+                file = this.documents[type].filter((file) => file.id === file_id)[0];
+            }
+        }
+
+        await file.delete_from_disk_db();
+        this.documents[type].splice(this.documents[type].indexOf(file), 1);
+    }
+
+    async edit_description(content) {
+        this.description = content;
+        await connection.query(`update MODULE set description='${content}' where ID_MODULE=${this.id}`);
+    }
+
     get_post_by_id(id) {
         return this.posts.filter((post) => post.id === id);
     }
 
     get_posts_by_folder(folder) {
-        return this.posts.filter((post) => post.folders.includes(folder));
+        return this.posts.filter((post) => post.folders.filter(post_folder => post_folder.id === folder)[0]);
     }
 
     get all_folders() {

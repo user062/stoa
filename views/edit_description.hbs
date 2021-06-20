@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/material-icons.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">        
-    <title>Modifier Reponse</title>
+    <title>Modifier description</title>
 </head>
 <body>
 
@@ -17,14 +17,14 @@
     <div class="content">        
         <div class="container">
         <div class="col-10 mx-auto">
-            <h5>Modifier une reponse </h5>
+            <h5>Modifier la description</h5>
             <hr>
             {{#if error}}
             <div class="alert alert-danger">
               <strong>{{error}}</strong>
             </div>
             {{/if}}
-            <form action="edit_reply/edit_reply" method="POST" encType="multipart/form-data">
+            <form action="edit_description/edit_description" method="POST" encType="multipart/form-data">
                 <section class="details">
                     <label>Détailes</label>
                     <textarea name="keyboard_cat" class="petMachine" id="my-expressjs-tinymce-app"></textarea>
@@ -47,13 +47,6 @@
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
 
-    <script src="/js/reply_edit.js"></script>
-    <script>
-      function select_type(){
-          let file = tinymce.activeEditor.dom.remove('files');
-      }
-
-    </script>
-
+    <script src="/js/description_edit.js"></script>
 </body>
 </html>

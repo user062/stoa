@@ -630,8 +630,6 @@ th, td {
 }
 
 .post-more .more-menu {
-    width: 130px;
-    height: 65px;
     border: solid 1px #e1e1e1;
     border-radius: 5px;
     box-shadow: 5px 5px 10px #e6e6e6;    

@@ -11,120 +11,8 @@
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-md bg-light sticky-top">
-        <div class="container">
-            <a href="/" class="navbar-brand">
-                <img src="images/stoa2.png" alt="stoa">
-            </a>
-            {{!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#toggleMobileMenu" aria-controls="toggleMobileMenu" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button> --}}            
-            <div class="collapse navbar-collapse">
-                {{!-- <form class="form-inline ml-5">
-                    <input class="search-bar form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">                    
-                </form>           --}}
-                <ul class="navbar-nav text-center ml-auto">                    
-                    <li>
-                        <a class="nav-link" href="#">Account</a>
-                    </li>                  
-                </ul>                      
-            </div>
-        </div>
-    </nav>
-        
-    <div class="sidebar">
-        <ul class="links">
-            <a href="/new_post" class="btn btn-primary new__descussion">
-                <span class="material-icons">add</span>
-                <span class="new__descussion-text">Nouvelle Discussion</span>
-            </a>
-            <li>                                
-                <a class="sidebar__link active" href="/">
-                    <span class="material-icons">home</span>
-                    Home
-                </a>                
-            </li>
-            <li>                
-                <a class="sidebar__link" href="#">
-                    <span class="material-icons">
-                    chat_bubble_outline
-                    </span>           
-                    Discussions
-                </a>                
-            </li>
-            <hr style="background-color: #f6f6f6;height: 1px;width: 75%;margin: 1rem auto">      
-            {{!-- Button just for profs --}}
-            <a href="/new_folder" class="btn btn-secondary new__descussion">
-                <span class="material-icons">add</span>
-                <span class="new__descussion-text">Nouveau dossier</span>
-            </a>                              
-            <li class="module__link">                
-                <a class="sidebar__link" href="#">
-                    <span class="material-icons">folder_open</span>           
-                    IHM
-                </a>          
-                <div class="module__folders ml-4">
-                    <a class="module__folder" href="#">
-                        <span class="material-icons">folder_open</span>           
-                        Coures
-                    </a>          
-                </div>   
-                <div class="module__folders ml-4">
-                    <a class="module__folder" href="#">
-                        <span class="material-icons">folder_open</span>           
-                        TD
-                    </a>          
-                </div>      
-                <div class="module__folders ml-4">
-                    <a class="module__folder" href="#">
-                        <span class="material-icons">folder_open</span>           
-                        Notes
-                    </a>          
-                </div>      
-            </li>
-            <li class="module__link">                
-                <a class="sidebar__link" href="#">
-                    <span class="material-icons">
-                    folder_open
-                    </span>           
-                    Acoo
-                </a>                
-            </li>
-            <li class="module__link">                
-                <a class="sidebar__link" href="#">
-                    <span class="material-icons">
-                    folder_open
-                    </span>           
-                    Algo
-                </a>                
-            </li>
-
-            {{!-- <li>                
-                <a class="sidebar__link" href="#">
-                    <span class="material-icons">local_library</span>
-                    Modules
-                </a>                
-            </li>
-            <li>                
-                <a class="sidebar__link" href="#">
-                    <span class="material-icons">poll</span>
-                    Poll
-                </a>                
-            </li>
-            <li>                
-                <a class="sidebar__link" href="#">
-                    <span class="material-icons">note</span>
-                    Notes
-                </a>                
-            </li>
-            <li>                
-                <a class="sidebar__link" href="#">
-                    <span class="material-icons">article</span>
-                    Devoires
-                </a>                
-            </li> --}}
-        </ul>
-    </div>
+{{> navbar userId=user}}        
+{{> general_sidebar folders=folders moduleId=moduleId}}
 
     <div class="content">        
         <div class="container">
@@ -140,7 +28,7 @@
                 <section class="post__folder form-group">
                     <label for="title">Dossiers</label>
                     <div class="dossiers">
-                      {{#each module.all_folders as |folder|}}
+                      {{#each folders as |folder|}}
                         <div class="dossier {{#each ../post.folders as |selected_folder|}}{{#if (eq selected_folder.id folder.id)}}selected-folder{{/if}}{{/each}}" id={{folder.id}}>
                             <span>{{folder.name}}</span> 
                         </div>

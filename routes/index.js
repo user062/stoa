@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Modules = require('../models/ModuleRepository');
+const Users = require('../models/UserRepository');
 
 // @desc index/Landing page
 // @route GET /
@@ -30,6 +31,12 @@ router.get('/login', (req, res) => {
         res.render('login', { layout: 'login' });
 });
 
+router.get('/logout', (req, res) => {
+    req.session.loggedIn = null;
+    req.session.userId = null;
+    res.redirect('/login');
+});
+
 // @desc registration/ page
 // @route GET registration/
 router.get('/registration', (req, res) => {
@@ -44,8 +51,15 @@ router.get('/registration', (req, res) => {
         res.render('registration', { layout: 'registration' });
 });
 
-router.get('/resources', (req, res) => {
-    res.render('module_resources');
+router.get('/modules/:module/resources', async (req, res) => {
+    let params = req.params;
+    let modules = await Modules;
+    let users = await Users;
+    let module = modules.get_module_by_id(Number(params.module))[0];
+    let user = users.get_user_by_id(Number(req.session.userId))[0];
+    if (!module)
+        return res.redirect('/error');
+    res.render('module_resources', { layout: '', files: module.documents, moduleId: module.id, folders: module.folders, user: user.id, is_teacher: user.modules_taught.includes(Number(params.module)) });
 });
 
 router.get('/validation', (req, res) => {
@@ -60,20 +74,27 @@ router.get('/validation', (req, res) => {
 router.get('/new_post', async (req, res) => {
     let module_id = Number(Object.keys(req.query));
     let module = (await Modules).get_module_by_id(module_id)[0];
-    res.render('new_post', { layout: '', error: req.session.error, module: module });
+    res.render('new_post', { layout: '', error: req.session.error, folders: module.folders, moduleId: module.id });
     req.session.error = null;
 });
 
-router.get('/new_reply', (req, res) => {
-    res.render('new_reply', { layout: '' });
+router.get('/new_reply', async (req, res) => {
+    let module_id = Number(Object.keys(req.query)[0]);
+    let module = (await Modules).get_module_by_id(module_id)[0];
+    res.render('new_reply', { layout: '', folders: module.folders, moduleId: module.id });
 });
 
-router.get('/new_comment', (req, res) => {
-    res.render('new_comment', { layout: '' });
+router.get('/new_comment', async (req, res) => {
+    let module_id = Number(Object.keys(req.query)[0]);
+    let module = (await Modules).get_module_by_id(module_id)[0];
+    res.render('new_comment', { layout: '', folders: module.folders, moduleId: module.id });
 });
 
-router.get('/new_folder', (req, res) => {
-    res.render('new_folder');
+router.get('/new_folder', async (req, res) => {
+    let module_id = Number(Object.keys(req.query)[0]);
+    let module = (await Modules).get_module_by_id(module_id)[0];
+    res.render('new_folder', { error: req.session.error, folders: module.folders, moduleId: module.id });
+    req.session.error = null;
 });
 
 router.get('/edit_post', async (req, res) => {
@@ -82,7 +103,7 @@ router.get('/edit_post', async (req, res) => {
     if (post.author_id !== Number(req.session.userId))
         return res.redirect('/error');
 
-    res.render('edit_post', { layout: '', module: module, post: post });
+    res.render('edit_post', { layout: '', folders: module.folders, moduleId: module.id, post: post });
 });
 
 router.get('/edit_reply', async (req, res) => {
@@ -92,7 +113,7 @@ router.get('/edit_reply', async (req, res) => {
     if (reply.author_id !== Number(req.session.userId))
         return res.redirect('/error');
 
-    res.render('edit_reply', { layout: '' });
+    res.render('edit_reply', { layout: '', folders: module.folders, moduleId: module.id });
 });
 
 router.get('/edit_comment', async (req, res) => {
@@ -103,7 +124,7 @@ router.get('/edit_comment', async (req, res) => {
     if (comment.author_id !== Number(req.session.userId))
         return res.redirect('/error');
 
-    res.render('edit_comment', { layout: '' });
+    res.render('edit_comment', { layout: '', moduleId: module.id, folders: module.folders });
 });
 
 router.get('/post_content', async (req, res) => {
@@ -138,18 +159,50 @@ router.get('/account', (req, res) => {
     res.render('account');
 });
 
-router.get('/profile', (req, res) => {
-    res.render('profile');
+router.get('/edit_description', async (req, res) => {
+    let module_id = Number(req.query.module_id);
+    let module = (await Modules).get_module_by_id(module_id)[0];
+    res.render('edit_description', { layout: '', folders: module.folders, moduleId: module.id });
 });
 
-router.get('/:module', async (req, res) => {
+router.get('/description_content', async (req, res) => {
+    let module = (await Modules).get_module_by_id(Number(req.query.module_id))[0];
+    res.send({ text: module.description });
+});
+
+router.get('/profile/:user', async (req, res) => {
+    let modules = (await Modules).all_modules_informations;
+    let users = await Users;
+    let user = users.get_user_by_id(Number(req.params.user))[0];
+
+    if (!user)
+        return res.redirect('/error');
+
+    res.render('profile', { layout: '', user: user, modules: modules });
+});
+
+router.get('/modules/:module', async (req, res) => {
     let params = req.params;
     let modules = await Modules;
+    let users = await Users;
     let module = modules.get_module_by_id(Number(params.module))[0];
+    let user = users.get_user_by_id(Number(req.session.userId))[0];
     if (!module)
         return res.redirect('/error');
-    res.render('module', { layout: '', module: module, user: req.session.userId });
+    res.render('module', { layout: '', moduleName: module.name, moduleId: module.id, folders: module.folders, moduleDescription: module.description, user: user.id, is_teacher: user.modules_taught.includes(Number(params.module)) });
 });
 
+router.get('/modules/:module/folders/:folder', async (req, res) => {
+    let params = req.params;
+    let modules = await Modules;
+    let users = await Users;
+    let folder_id = Number(req.params.folder);
+    let module = modules.get_module_by_id(Number(params.module))[0];
+    let folder_name = module.folders.filter(folder => folder.id === folder_id)[0].name;
+    let user = users.get_user_by_id(Number(req.session.userId))[0];
+    if (!module)
+        return res.redirect('/error');
+    res.render('module_folder', { layout: '', folderPosts: module.get_posts_by_folder(folder_id), folderName: folder_name, moduleName: module.name, moduleId: module.id, folders: module.folders, user: user.id, is_teacher: user.modules_taught.includes(Number(params.module)) });
+});
 
 module.exports = router;

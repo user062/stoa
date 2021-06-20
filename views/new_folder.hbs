@@ -7,100 +7,23 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/material-icons.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">        
-    <title>Nouveau Poste</title>
+    <title>Nouveau Dossier</title>
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-md bg-light sticky-top navbar-light">
-        <div class="container">
-            <a href="/" class="navbar-brand">
-                <img src="images/stoa2.png" alt="stoa">
-            </a>      
-
-            <ul class="navbar-nav ml-auto mr-5 nav-flex-icons navbar-account">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        <span class="badge badge-danger ml-2">3</span>
-                        <span class="material-icons">notifications</span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-unique notification-menu" aria-labelledby="navbarDropdownMenuLink-5">
-                        <a class="dropdown-item navbar-notification-item" href="#">Nouvelle note du module acoo<span class="badge badge-danger ml-2">Nouveau</span></a>
-                        <a class="dropdown-item navbar-notification-item" href="#">Nouveau devoire acoo<span class="badge badge-danger ml-2"></span></a>
-                        <a class="dropdown-item navbar-notification-item" href="#">Coure ajouté ihm<span class="badge badge-danger ml-2"></span></a>
-                    </div>
-                </li>
-            </ul> 
-             
-
-            
-            <ul class="navbar-nav nav-flex-icons navbar-account">                      
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="material-icons">person</span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-unique" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item navbar-account-item" href="/account">Compte</a>
-                        <a class="dropdown-item navbar-account-item" href="/logout">Se déconnecter</a>                               
-                    </div>
-                </li>
-            </ul>                                                
-        </div>
-    </nav>
-        
-    <div class="sidebar">
-        <ul class="links">
-            <a href="/new_post" class="btn btn-primary new__descussion">
-                <span class="material-icons">add</span>
-                <span class="new__descussion-text">Nouvelle Discussion</span>
-            </a>
-            <li>                                
-                <a class="sidebar__link active" href="/">
-                    <span class="material-icons">home</span>
-                    Home
-                </a>                
-            </li>                        
-            <hr style="background-color: #f6f6f6;height: 1px;width: 75%;margin: 1rem auto">                                            
-            {{!-- Button just for profs --}}              
-            <li>                         
-            </li>              
-            <li class="module__link">                                                
-                {{!-- <a class="sidebar__link" href="/module">
-                    <span class="material-icons">folder_open</span>           
-                    IHM
-                </a>        --}}
-                <div class="module__folders">                         
-                    <a class="module__folder" href="/resources">
-                        <span class="material-icons">folder_open</span>           
-                        Resources
-                    </a>          
-                </div>                     
-                <div class="module__folders">                              
-                    <a class="module__folder" href="#">
-                        <span class="material-icons">folder_open</span>           
-                        Discussions
-                    </a>          
-                </div>                                        
-                <div class="module__folders">                         
-                    <a class="module__folder" href="/module_folder">
-                        <span class="material-icons">folder_open</span>           
-                        serie1
-                    </a>          
-                </div>      
-                <div class="module__folders">                         
-                    <a class="module__folder" href="/module_folder">
-                        <span class="material-icons">folder_open</span>           
-                        Autre
-                    </a>          
-                </div>      
-            </li>            
-        </ul>
-    </div>
+{{> navbar userId=user}}        
+{{> general_sidebar folders=folders moduleId=moduleId}}
 
     <div class="content">        
         <div class="container">
             <div class="col-lg-6 col-md-10 mx-auto">
                 <h5>Ajouter un dossier</h5>
                 <hr>
+            {{#if error}}
+            <div class="alert alert-danger">
+              <strong>{{error}}</strong>
+            </div>
+            {{/if}}
                 <form action="add_folder/add_folder" method="POST" encType="multipart/form-data">
                     <section class="post__title form-group">
                         <label for="title">Nom</label>
