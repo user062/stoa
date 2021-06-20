@@ -20,7 +20,7 @@ router.post('/edit_reply', async (req, res) => {
 
     await reply.edit(reply_content, uploaded_files, old_files);
 
-    res.redirect('/' + module_id);
+    res.redirect('/modules/' + module_id);
 
 });
 

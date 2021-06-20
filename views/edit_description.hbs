@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/material-icons.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">        
-    <title>Nouveau Comment</title>
+    <title>Modifier description</title>
 </head>
 <body>
 
@@ -17,14 +17,19 @@
     <div class="content">        
         <div class="container">
         <div class="col-10 mx-auto">
-            <h5>Ajouter un commentaire</h5>
+            <h5>Modifier la description</h5>
             <hr>
-            <form action="new_comment/new_comment" method="POST">
+            {{#if error}}
+            <div class="alert alert-danger">
+              <strong>{{error}}</strong>
+            </div>
+            {{/if}}
+            <form action="edit_description/edit_description" method="POST" encType="multipart/form-data">
                 <section class="details">
                     <label>Détailes</label>
                     <textarea name="keyboard_cat" class="petMachine" id="my-expressjs-tinymce-app"></textarea>
                 </section>
-                <button class="btn btn-primary col-12 ml-auto mt-3 mb-5" >Commenter</button>
+                <button type="submit" class="btn btn-primary col-12 ml-auto mt-3 mb-5" onclick="select_type()">Modifier</button>
             </form>
 
 
@@ -41,5 +46,7 @@
     <script src="js/main.js"></script>
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+
+    <script src="/js/description_edit.js"></script>
 </body>
 </html>

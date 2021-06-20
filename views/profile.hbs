@@ -5,90 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stoa</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/material-icons.css">
-    <link rel="stylesheet" href="css/bootstrap.min.css">        
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/material-icons.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">        
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-md bg-light sticky-top navbar-light">
-        <div class="container">
-            <a href="/" class="navbar-brand">
-                <img src="images/stoa2.png" alt="stoa">
-            </a>      
+{{> navbar userId=user.id}}        
+{{> home_sidebar modules=modules}}        
 
-            <ul class="navbar-nav ml-auto mr-5 nav-flex-icons navbar-account">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        <span class="badge badge-danger ml-2">3</span>
-                        <span class="material-icons">notifications</span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-unique notification-menu" aria-labelledby="navbarDropdownMenuLink-5">
-                        <a class="dropdown-item navbar-notification-item" href="#">Nouvelle note du module acoo<span class="badge badge-danger ml-2">Nouveau</span></a>
-                        <a class="dropdown-item navbar-notification-item" href="#">Nouveau devoire acoo<span class="badge badge-danger ml-2"></span></a>
-                        <a class="dropdown-item navbar-notification-item" href="#">Coure ajouté ihm<span class="badge badge-danger ml-2"></span></a>
-                    </div>
-                </li>
-            </ul> 
-             
-
-            
-            <ul class="navbar-nav nav-flex-icons navbar-account">                      
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="material-icons">person</span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-unique" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item navbar-account-item" href="/account">Compte</a>
-                        <a class="dropdown-item navbar-account-item" href="/logout">Se déconnecter</a>                               
-                    </div>
-                </li>
-            </ul>                                                
-        </div>
-    </nav>
-        
-    <div class="sidebar">
-        <ul class="links">            
-            <li>                                
-                <a class="sidebar__link active" href="/">
-                    <span class="material-icons">home</span>
-                    Home
-                </a>                
-            </li>
-            {{!-- <li>                
-                <a class="sidebar__link" href="#">
-                    <span class="material-icons">
-                    chat_bubble_outline
-                    </span>           
-                    Discussions
-                </a>                
-            </li> --}}
-            <hr style="background-color: #f6f6f6;height: 1px;width: 75%;margin: 1rem auto">                                            
-            <li class="module__link">                                
-                <a class="sidebar__link" href="/module">
-                    <span class="material-icons">folder_open</span>           
-                    IHM
-                </a>                          
-            </li>
-            <li class="module__link">                
-                <a class="sidebar__link" href="/module">
-                    <span class="material-icons">
-                    folder_open
-                    </span>           
-                    Acoo
-                </a>                
-            </li>
-            <li class="module__link">                
-                <a class="sidebar__link" href="/module">
-                    <span class="material-icons">
-                    folder_open
-                    </span>           
-                    Algo
-                </a>                
-            </li>
-        </ul>
-    </div>
-    <div class="expand-sidebar"><</div>
     <div class="content">        
         <div class="container">
         <div class="main-body p-0 col-11 mx-auto">
@@ -103,19 +28,27 @@
                                 </tr>                                                   
                                 <tr>
                                     <td>Nom :</td>
-                                    <td class="info">Cherbal</td>                                    
+                                    <td class="info">{{user.family_name}}</td>                                    
                                 </tr>                                
                                 <tr>
                                     <td>Prénom :</td>
-                                    <td class="info">Boumediene djamel</td>
+                                    <td class="info">{{user.name}}</td>
                                 </tr>
                                 <tr>
                                     <td>Email :</td>
-                                    <td class="info">djamelcher14@gmail.Com</td>
+                                    <td class="info">{{user.email}}</td>
                                 </tr>
                                 <tr>
                                     <td>Status :</td>
-                                    <td class="info">étudiant</td>
+                                    <td class="info">{{#if (eq user.status 'P')}} Enseignant {{else}}Étudiant{{/if}}</td>
+                                </tr>                               
+                                <tr>
+                                    <td>Sexe :</td>
+                                    <td class="info">{{#if (eq user.gender 'F')}} Femme {{else}}Homme{{/if}}</td>
+                                </tr>                               
+                                <tr>
+                                    <td>Date de Naissance :</td>
+                                    <td class="info">{{user.birth_date}}</td>
                                 </tr>                               
                         </table>
 
@@ -130,10 +63,10 @@
     <script type="application/javascript" src= "/tinymce/tinymce.min.js"></script>
     <!-- Script element sourcing the TinyMCE configuration -->
     <script type="application/javascript" src= "/js/my-tinymce-config.js"></script>
-    <script src="js/main.js"></script> 
-    <script src="js/poll_script.js"></script> 
-    <script src="js/up_down_vote.js"></script> 
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <script src="/js/main.js"></script> 
+    <script src="/js/poll_script.js"></script> 
+    <script src="/js/up_down_vote.js"></script> 
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
 </body>
 </html>

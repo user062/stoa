@@ -22,7 +22,6 @@ router.post('/new_post', async (req, res) => {
     let post_content = req.body.keyboard_cat;
     let uploaded_files = req.files ? req.files.uploads : [];
 
-
     let added_post = await Post(null, new Date(), post_creator, post_title, post_type, post_content, folders, [], []);
 
     if (post_type === 'p') {
@@ -43,7 +42,7 @@ router.post('/new_post', async (req, res) => {
     else
         await added_post.add_file(uploaded_files);
 
-    res.redirect('/' + module_id);
+    res.redirect('/modules/' + module_id);
 
 });
 

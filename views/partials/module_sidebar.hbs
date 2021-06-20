@@ -1,0 +1,54 @@
+    <div class="sidebar">
+        <ul class="links">
+            <a href="/new_post?{{moduleId}}" class="btn btn-primary new__descussion">
+                <span class="material-icons">add</span>
+                <span class="new__descussion-text">Nouvelle Discussion</span>
+            </a>
+            <li class="module__link">                                
+                <div class="module__folders">                         
+                <a class="module__folder" id="home" href="/">
+                    <span class="material-icons">home</span>
+                    Home
+                </a>                
+                </div>
+            </li>                        
+            <li class="module__link">
+              <div class="module__folders">                         
+            <a class="module__folder" href="/modules/{{moduleId}}/resources" style="font-size: 14px;">
+                <span class="material-icons">folder_open</span>
+                <span class="new__descussion-text">Resources</span>
+            </a>                    
+                </div>
+            </li>              
+            <li class="module__link">
+              <div class="module__folders">                         
+            <a class="module__folder" href="/modules/{{moduleId}}/rechereche" style="font-size: 14px;">
+                <span class="material-icons">search</span>
+                <span class="new__descussion-text">Rerechere</span>
+            </a>                    
+                </div>
+              <hr style="background-color: #f6f6f6;height: 1px;width: 75%;margin: 1rem auto">
+            </li>
+
+            {{#if is_teacher}}              
+            <li class="module__link">
+              <div class="module__folders">                         
+                <a class="module__folder" href="/new_folder?{{moduleId}}" style="font-size: 14px;">
+                <span class="material-icons">add</span>
+                <span class="new__descussion-text">Nouveau dossier</span>
+            </a>                    
+                </div>
+            </li>              
+            {{/if}}
+            {{#each folders as |folder|}}
+            <li class="module__link">                                                
+                <div class="module__folders">                         
+                    <a class="module__folder" href="/modules/{{../moduleId}}/folders/{{folder.id}}">
+                        <span class="material-icons">folder_open</span>           
+                        {{folder.name}}
+                    </a>          
+                </div>                     
+            </li>            
+            {{/each}}
+        </ul>
+    </div>

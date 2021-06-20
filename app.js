@@ -55,6 +55,10 @@ app.use('/edit_comment', require('./routes/edit_comment'));
 app.use('/delete_post', require('./routes/delete_post'));
 app.use('/delete_reply', require('./routes/delete_reply'));
 app.use('/delete_comment', require('./routes/delete_comment'));
+app.use('/add_document', require('./routes/add_document'));
+app.use('/delete_document', require('./routes/delete_document'));
+app.use('/edit_description', require('./routes/edit_description'));
+
 
 
 

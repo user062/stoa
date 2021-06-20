@@ -22,6 +22,10 @@ class ModuleRepository {
         return this.modules.reduce((x, y) => x.concat([{ id: y.id, name: y.name, posts: y.posts }]), []);
     }
 
+    get all_modules_informations() {
+        return this.modules.reduce((x, y) => x.concat([{ id: y.id, name: y.name }]), []);
+    }
+
     get all_modules() {
         return this.modules;
     }
