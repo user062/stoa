@@ -36,7 +36,7 @@
                     <!-- Forum List -->
                     <div class="posts">
                       {{#each modules as |module|}}
-                      {{> post_partial posts=module.posts moduleName=module.name user=../user}}
+                      {{> post_partial posts=module.posts moduleId=module.id moduleName=module.name user=../user}}
                       {{/each}}
                     </div>
                 </div>

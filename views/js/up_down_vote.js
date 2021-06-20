@@ -28,7 +28,7 @@ function chose_vote(module_id, post_id, response_id, choice) {
         previous_choice.querySelector('.' + choices[Number(previous_choice.getAttribute('user_choice'))]).classList.add("selected_vote");
     }
 
-    $.post('reply_vote/reply_vote', { module_id: module_id, choice: choice, post_id: post_id, reply_id: response_id }, (data) => true);
+    $.post('/reply_vote/reply_vote', { module_id: module_id, choice: choice, post_id: post_id, reply_id: response_id }, (data) => true);
 
     /*
     let f = document.createElement("form");

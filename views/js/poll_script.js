@@ -25,7 +25,7 @@ function markAnswer(module_id, post_id, choice) {
 
     showResults(post_id);
 
-    $.post('vote/vote', { module_id: module_id, choice: choice, post_id: post_id }, (data) => true);
+    $.post('/vote/vote', { module_id: module_id, choice: choice, post_id: post_id }, (data) => true);
 
     /*
         let f = document.createElement("form");
