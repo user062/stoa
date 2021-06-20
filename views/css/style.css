@@ -245,6 +245,7 @@ body {
     color: #2172CD;
 }
 
+
 @media (max-width: 768px) {
     body {
         grid-template-columns: calc(100% - 68px) 68px;
@@ -253,11 +254,43 @@ body {
     .sidebar {
         overflow: hidden;    
         width: 68px;    
-    }
+        border-left: 1px solid rgb(247, 246, 246);
+    }    
 
     .sidebar .links li a {
         padding-left: 1.4rem;
     }
+
+    /* For button */
+    .expand-sidebar {        
+        position: absolute;
+        top: 10rem;
+        right: 4rem;
+        font-size: 1.5rem;
+        background-color: #0069D9;
+        color: #FFF;
+        width: 1.2rem;
+        height: 2.2rem;
+        text-align: center;
+        border-radius: 50px;     
+        cursor: pointer;       
+    }
+
+    .switch-expand-sidebar {
+        margin-right: 11.5rem!important;
+        z-index:999!important;
+    }
+
+    /* For sidebar */
+    .expanded-sidebar {
+        width: 260px!important; 
+        z-index: 999!important;
+    }
+
+    .expanded-body {
+        grid-template-columns: 100% 100%!important;
+    }
+
 
     .navbar-brand {
         width: 70px;        

@@ -1,7 +1,7 @@
 
                       {{#each module.posts as |post|}}
-                        <div class="post" >
-                            <div class="inner-main-body pt-2 collapse forum-content{{post.id}} show" {{#if (eq post.type "p")}} onclick='showResults({{post.id}})'{{/if}} id='post{{post.id}}'>
+                        <div class="post">
+                            <div class="post-expanded inner-main-body pt-2 collapse forum-content{{post.id}} show" {{#if (eq post.type "p")}} onclick='showResults({{post.id}})'{{/if}} id='post{{post.id}}'>
                                 <div class="card mb-2">
                                     <div class="card__tag text-muted">{{../module.name}}</div>
                                     <div class="bottom_section">
@@ -24,7 +24,7 @@
                                         <div class="media forum-item">
                                             <a href="#" data-toggle="collapse" data-target=".forum-content{{post.id}}"><img src="https://randomuser.me/api/portraits/men/88.jpg" class="mr-3 rounded-circle" width="50" alt="User" /></a>
                                             <div class="media-body">
-                                                <h6><a href="#" data-toggle="collapse" data-target=".forum-content{{post.id}}" class="text-body">{{post.title}}</a></h6>
+                                                <h6><a id="post-title" href="#" data-toggle="collapse" data-target=".forum-content{{post.id}}" class="text-body">{{post.title}}</a></h6>
                                                 <p class="text-secondary">{{{post.content}}}</p>
                                                 <p class="post-time text-muted align-self-end m-0"><span name="time_since" creation_time='{{post.creation_date}}' edit_time='{{post.get_edit_time}}' class="text-secondary font-weight-bold time_since_posted">{{{post.get_elapsed_time}}}</span></p>
                                             </div>
@@ -49,7 +49,7 @@
                             </div>                    
 
                             <!-- Forum Detail (replies) -->
-                            <div class="inner-main-body p-2 p-sm-3 collapse forum-content{{post.id}}" id='inner_post{{post.id}}' >
+                            <div class="inner-main-body p-2 p-sm-3 collapse forum-content{{post.id}}" id='inner_post{{post.id}}'>
                                 <a href="#" class="btn btn-light btn-sm mb-3 has-icon" data-toggle="collapse" data-target=".forum-content{{post.id}}"><i class="fa fa-arrow-left mr-2"></i>Back</a>
                                 <div class="card mb-2">
                                     <div class="card-body">
@@ -111,3 +111,4 @@
                             </div>                            
                         </div>
                         {{/each}}
+

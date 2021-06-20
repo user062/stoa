@@ -259,3 +259,23 @@ moduleFolders.forEach(e => {
         e.classList.add('active');
     }
 });
+
+
+//Expand sidebar on mobile size
+var expandButton = document.querySelector('.expand-sidebar');
+var sidebar = document.querySelector('.sidebar');
+
+expandButton.addEventListener('click', () => {
+    document.body.classList.toggle('expanded-body');
+    sidebar.classList.toggle('expanded-sidebar');
+    expandButton.classList.toggle('switch-expand-sidebar');
+
+    if(sidebar.classList.contains('expanded-sidebar')) {
+        expandButton.innerHTML = ">";
+    }else {
+        expandButton.innerHTML = "<";
+    }
+});
+
+
+
