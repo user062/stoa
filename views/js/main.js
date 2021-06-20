@@ -264,13 +264,19 @@ moduleFolders.forEach(e => {
 //Expand sidebar on mobile size
 var expandButton = document.querySelector('.expand-sidebar');
 var sidebar = document.querySelector('.sidebar');
-var newDButtonText = document.querySelector('.new__descussion-text');
+var newDButtonText = document.querySelectorAll('.new__descussion-text');
 
 expandButton.addEventListener('click', () => {
-    document.body.classList.toggle('expanded-body');
+    document.body.classList.toggle('expanded-body');    
     sidebar.classList.toggle('expanded-sidebar');
     expandButton.classList.toggle('switch-expand-sidebar');
-    newDButtonText.classList.toggle('new__descussion-text-small');
+
+    if(newDButtonText) {
+
+        newDButtonText.forEach(el => {
+            el.classList.toggle('new__descussion-text-small');        
+        });
+    }    
 
     if(sidebar.classList.contains('expanded-sidebar')) {
         expandButton.innerHTML = ">";        
