@@ -27,9 +27,16 @@
                 <span class="new__descussion-text">Recherche</span>
             </a>                    
                 </div>
-              <hr style="background-color: #f6f6f6;height: 1px;width: 75%;margin: 1rem auto">
-            </li>
 
+            </li>
+            <li class="module__link">                                
+                <div class="module__folders">                         
+                <a class="module__folder" id="home" href="/modules/{{moduleId}}/all_posts">
+                    <span class="material-icons">folder_open</span>
+                    Tous les Postes
+                </a>                
+                </div>
+            </li>                        
             {{#if is_teacher}}              
             <li class="module__link">
               <div class="module__folders">                         
@@ -40,6 +47,7 @@
                 </div>
             </li>              
             {{/if}}
+              <hr style="background-color: #f6f6f6;height: 1px;width: 75%;margin: 1rem auto">
             {{#each folders as |folder|}}
             <li class="module__link">                                                
                 <div class="module__folders">                         

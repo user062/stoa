@@ -25,7 +25,7 @@ class User {
         this.email = results[0][0].EMAIL;
         this.modules_taught = [];
 
-        results = await connection.query(`select * from COMPTE c join enseigner m on c.COMPTEID=m.COMPTEID where c.COMPTEID=${this.id} group by c.COMPTEID`);
+        results = await connection.query(`select ID_MODULE from  enseigner where COMPTEID=${this.id}`);
 
         for (const row of results[0])
             this.modules_taught.push(row.ID_MODULE);

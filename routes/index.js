@@ -62,6 +62,7 @@ router.get('/modules/:module/resources', async (req, res) => {
     res.render('module_resources', { layout: '', files: module.documents, moduleId: module.id, folders: module.folders, user: user.id, is_teacher: user.modules_taught.includes(Number(params.module)) });
 });
 
+
 router.get('/validation', (req, res) => {
     if (req.session.error) {
         res.render('validation', { error: req.session.error, layout: '' });
@@ -181,6 +182,38 @@ router.get('/profile/:user', async (req, res) => {
     res.render('profile', { layout: '', user: user, modules: modules });
 });
 
+router.get('/modules/:module/search', async (req, res) => {
+    let params = req.params;
+    let modules = await Modules;
+    let users = await Users;
+    let module = modules.get_module_by_id(Number(params.module))[0];
+    let user = users.get_user_by_id(Number(req.session.userId))[0];
+    if (!module)
+        return res.redirect('/error');
+
+    let query = req.query.query;
+    let folders = req.query.folders.split(',');
+    let result = [];
+
+    if (!folders)
+        result = module.posts.filter((post) => post.title.search(query));
+    else
+        for (const folder of folders)
+            result = result.concat(module.get_posts_by_folder(Number(folder)).filter((post) => post.title.search(query)));
+
+    res.render('serach', { layout: '', result: result, moduleId: module.id, moduleName: module.name, folders: module.folders, user: user.id, is_teacher: user.modules_taught.includes(Number(params.module)) });
+});
+
+router.get('/modules/:module/all_posts', async (req, res) => {
+    let params = req.params;
+    let modules = await Modules;
+    let users = await Users;
+    let module = modules.get_module_by_id(Number(params.module))[0];
+    let user = users.get_user_by_id(Number(req.session.userId))[0];
+    if (!module)
+        return res.redirect('/error');
+    res.render('module_folder', { layout: '', folderPosts: module.posts, moduleName: module.name, moduleId: module.id, folders: module.folders, user: user.id, is_teacher: user.modules_taught.includes(Number(params.module)) });
+});
 router.get('/modules/:module', async (req, res) => {
     let params = req.params;
     let modules = await Modules;

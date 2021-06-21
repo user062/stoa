@@ -40,12 +40,12 @@
                     <section class="courses" style="margin-bottom: 100px">
                         <hr><h5 class="mb-4 module-title" style="font-weight: 800;">Coures</h5>
                         {{#unless files.course}}
-                        <div class="alert alert-primary" role="alert">
+                        <div id='alert0' class="alert alert-primary" role="alert">
                             Rien n'a été ajouté
                         </div>
                         {{/unless}}
                         {{#if files.course}}
-                        <table class="table">
+                        <table id="fileTable0" class="table">
                             <thead>
                                 <tr>      
                                     <th class="thead" scope="col">Coure</th>
@@ -59,17 +59,18 @@
                                 <tr id='file{{file.id}}'>      
                                     <td class="file-container">
                                       <a href="/{{file.file_location}}" class="link-to-file">{{file.name}}</a>
-                                    </td>
-                                    
-                                    {{#if is_teacher}} 
+
+                                    {{#if ../is_teacher}} 
                                     <td class="actions">
                                       <div class="btn-group">
-                                        <button class="btn btn-sm">
+                                        <button class="btn btn-sm" onClick="delete_doc({{../moduleId}}, {{file.id}}, 0);">
                                           <span class="material-icons" style="font-size: 18px;">delete</span>                                                
                                         </button>                                            
                                       </div>
                                     </td>                        
                                     {{/if}}
+                                    </td>
+                                    
                                 </tr>                            
                             </tbody>
                         {{/each}}
@@ -94,12 +95,12 @@
                     <section class="TDs" style="margin-bottom: 100px">
                         <hr><h5 class="mb-4 module-title" style="font-weight: 800;">TDs</h5>
                         {{#unless files.td}}
-                        <div class="alert alert-primary" role="alert">
+                        <div id='alert1' class="alert alert-primary" role="alert">
                             Rien n'a été ajouté
                         </div>
                         {{/unless}}
                         {{#if files.id}}
-                        <table class="table">
+                        <table id="fileTable1" class="table">
                             <thead>
                                 <tr>      
                                     <th class="thead" scope="col">TD</th>
@@ -115,10 +116,10 @@
                                       <a href="/{{file.file_location}}" class="link-to-file">{{file.name}}</a>
                                     </td>
                                     
-                                    {{#if is_teacher}} 
+                                    {{#if ../is_teacher}} 
                                     <td class="actions">
                                       <div class="btn-group">
-                                        <button class="btn btn-sm">
+                                        <button class="btn btn-sm" onClick="delete_doc({{../moduleId}}, {{file.id}}, 1);">
                                           <span class="material-icons" style="font-size: 18px;">delete</span>                                                
                                         </button>                                            
                                       </div>
@@ -148,12 +149,12 @@
                     <section class="Devoirs de maison" style="margin-bottom: 100px">
                         <hr><h5 class="mb-4 module-title" style="font-weight: 800;">Devoirs de maison</h5>
                         {{#unless files.hw}}
-                        <div class="alert alert-primary" role="alert">
+                        <div id='alert2' class="alert alert-primary" role="alert">
                             Rien n'a été ajouté
                         </div>
                         {{/unless}}
                         {{#if files.hw}}
-                        <table class="table">
+                        <table id="fileTable2" class="table">
                             <thead>
                                 <tr>      
                                     <th class="thead" scope="col">Devoir</th>
@@ -169,10 +170,10 @@
                                       <a href="/{{file.file_location}}" class="link-to-file">{{file.name}}</a>
                                     </td>
                                     
-                                    {{#if is_teacher}} 
+                                    {{#if ../is_teacher}} 
                                     <td class="actions">
                                         <div class="btn-group">
-                                            <button class="btn btn-sm">
+                                            <button class="btn btn-sm" onClick="delete_doc({{../moduleId}}, {{file.id}}, 2);">
                                                 <span class="material-icons" style="font-size: 18px;">delete</span>                                                
                                             </button>                                            
                                         </div>

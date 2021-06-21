@@ -23,6 +23,10 @@ class UserRepository {
         return this.users;
     }
 
+    add_user(user) {
+        this.users.push(user);
+    }
+
 }
 
 function createusers() {
