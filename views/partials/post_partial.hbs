@@ -85,7 +85,7 @@
                                                         <div class="file">
                                                             <span class="material-icons icon">description</span>
                                                             <span class="file-name">
-                                                            <a href={{file.file_location}}>{{file.name}}</a> 
+                                                            <a href=/{{file.file_location}}>{{file.name}}</a> 
                                                             </span>
                                                         </div>                                                          
                                                         {{/each}}
@@ -94,7 +94,7 @@
                                             </div>
                                             <div class="right">                                                
                                                 {{#if (eq post.type "q")}}
-                                                <a href="/new_reply?{{../moduleId}}&{{post.id}}" class="text-muted small">Reply</a>
+                                                <a target="_blank" href="/new_reply?{{../moduleId}}&{{post.id}}" class="text-muted small">Reply</a>
                                                 {{/if}}
 
                                                 {{#if (eq post.type "q")}}
