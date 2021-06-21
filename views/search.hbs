@@ -21,36 +21,38 @@
                 <div class="inner-main">
                     <div class="container mb-5">                                                
                         <div class="col-lg-8 col-xs-10 mx-auto">
-                            <form>
                                 <section class="search d-flex">
                                     <div class="search-input">
                                         <a href="" target="_blank" hidden></a>
                                         <input type="text" placeholder="Type to search..">                                        
                                         <div class="icon">
-                                            <button class="search-button" type="submit"><span class="material-icons">search</span></button>
+                                            <button class="search-button" type="submit" onClick="submit_query({{moduleId}})"><span class="material-icons">search</span></button>
                                         </div>
                                     </div>                                      
                                 </section>                                
                                 <div class="folders mt-2">
                                      <section class="post__folder form-group">
-                                        {{!-- <label for="title">Dossiers</label> --}}
+                                        <label for="title">Choisir les Dossiers (ou choisi pas for chercher dans tous le module)</label> 
                                         <div class="dossiers">                                        
+                                          {{#each folders as |folder|}}
                                             <div class="dossier" id={{folder.id}}>
-                                                <span>{{folder.name}}hw1</span> 
+                                                <span>{{folder.name}}</span> 
                                             </div>                                        
+                                            {{/each}}
                                         </div>
                                     </section>
                                 </div>
-                            </form>                            
                         </div>                        
                     </div>
                     
                     <!-- Forum List -->
-                    <div class="posts">
-                        
+                    <div class="resluts">
+                       {{#unless result}} 
                         <div class="alert alert-danger col-6 mx-auto" role="alert">
                             Rien n'a été trouvé
                         </div>
+                        {{/unless}}
+                      {{> post_partial posts=result moduleId=moduleId moduleName=moduleName user=user}}
                         
                     </div>
                 </div>
@@ -59,9 +61,24 @@
     </div>    
 
     <script src="/js/jquery.min.js"></script>
-    <script src="/js/main.js"></script> 
-    <script src="/js/poll_script.js"></script> 
-    <script src="/js/up_down_vote.js"></script> 
     <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/main.js"></script> 
+    <script>
+      function submit_query(module_id){
+          let query = document.getElementsByTagName('input')[0].value;
+          let selected_folders = document.getElementsByClassName("selected-folder");
+
+          let folders = [];
+
+          for(let selected_folder of selected_folders)
+              folders.push(selected_folder.id);
+
+          folders = folders.join(',');
+
+          let url=`/modules/${module_id}/search?query=${query}&folders=${folders}`;
+          window.location.replace(url);
+      }
+
+    </script>
 </body>
 </html>

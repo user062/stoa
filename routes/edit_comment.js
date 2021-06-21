@@ -18,7 +18,7 @@ router.post('/edit_comment', async (req, res) => {
 
     await comment.edit(comment_content);
 
-    res.redirect('/modules/' + module_id);
+    res.redirect('/modules/' + module_id + '/all_posts');
 
 });
 

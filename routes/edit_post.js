@@ -30,7 +30,7 @@ router.post('/edit_post', async (req, res) => {
 
     await post.edit(folders, post_title, post_content, uploaded_files, old_files);
 
-    res.redirect('/modules/' + module_id);
+    res.redirect('/modules/' + module_id + '/all_posts');
 
 });
 

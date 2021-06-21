@@ -192,16 +192,17 @@ router.get('/modules/:module/search', async (req, res) => {
         return res.redirect('/error');
 
     let query = req.query.query;
-    let folders = req.query.folders.split(',');
     let result = [];
-
-    if (!folders)
-        result = module.posts.filter((post) => post.title.search(query));
-    else
-        for (const folder of folders)
-            result = result.concat(module.get_posts_by_folder(Number(folder)).filter((post) => post.title.search(query)));
-
-    res.render('serach', { layout: '', result: result, moduleId: module.id, moduleName: module.name, folders: module.folders, user: user.id, is_teacher: user.modules_taught.includes(Number(params.module)) });
+    if (query) {
+        let folders = req.query.folders.split(',');
+        if (!folders[0]) {
+            result = module.posts.filter((post) => post.title.search(query) !== -1);
+        }
+        else
+            for (const folder of folders)
+                result = result.concat(module.get_posts_by_folder(Number(folder)).filter((post) => post.title.search(query) !== -1));
+    }
+    res.render('search', { layout: '', result: result, moduleId: module.id, moduleName: module.name, folders: module.folders, user: user.id, is_teacher: user.modules_taught.includes(Number(params.module)) });
 });
 
 router.get('/modules/:module/all_posts', async (req, res) => {
@@ -238,8 +239,5 @@ router.get('/modules/:module/folders/:folder', async (req, res) => {
     res.render('module_folder', { layout: '', folderPosts: module.get_posts_by_folder(folder_id), folderName: folder_name, moduleName: module.name, moduleId: module.id, folders: module.folders, user: user.id, is_teacher: user.modules_taught.includes(Number(params.module)) });
 });
 
-router.get('/search', (req, res) => {
-    res.render('search');
-});
 
 module.exports = router;

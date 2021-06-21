@@ -17,7 +17,7 @@ router.post('/new_comment', async (req, res) => {
     let post = module.get_post_by_id(post_id)[0];
     let reply = post.get_response_by_id(response_id)[0];
     await reply.add_comment(comment);
-    res.redirect('/modules/' + module_id);
+    res.redirect('/modules/' + module_id + '/all_posts');
 
 });
 
