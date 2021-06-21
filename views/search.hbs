@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/material-icons.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">        
+</head>
+<body>
+
+{{> navbar userId=user}}        
+{{> module_sidebar folders=folders moduleId=moduleId is_teacher=is_teacher}}
+    
+    <div class="content">        
+        <div class="container">
+        <div class="main-body p-0 col-11 mx-auto">            
+            <div class="inner-wrapper">    
+                <!-- Inner main -->
+                <div class="inner-main">
+                    <div class="container mb-5">                                                
+                        <div class="col-lg-8 col-xs-10 mx-auto">
+                            <form>
+                                <section class="search d-flex">
+                                    <div class="search-input">
+                                        <a href="" target="_blank" hidden></a>
+                                        <input type="text" placeholder="Type to search..">                                        
+                                        <div class="icon">
+                                            <button class="search-button" type="submit"><span class="material-icons">search</span></button>
+                                        </div>
+                                    </div>                                      
+                                </section>                                
+                                <div class="folders mt-2">
+                                     <section class="post__folder form-group">
+                                        {{!-- <label for="title">Dossiers</label> --}}
+                                        <div class="dossiers">                                        
+                                            <div class="dossier" id={{folder.id}}>
+                                                <span>{{folder.name}}hw1</span> 
+                                            </div>                                        
+                                        </div>
+                                    </section>
+                                </div>
+                            </form>                            
+                        </div>                        
+                    </div>
+                    
+                    <!-- Forum List -->
+                    <div class="posts">
+                        
+                        <div class="alert alert-danger col-6 mx-auto" role="alert">
+                            Rien n'a été trouvé
+                        </div>
+                        
+                    </div>
+                </div>
+        </div>
+        </div>
+    </div>    
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/main.js"></script> 
+    <script src="/js/poll_script.js"></script> 
+    <script src="/js/up_down_vote.js"></script> 
+    <script src="/js/bootstrap.min.js"></script>
+</body>
+</html>

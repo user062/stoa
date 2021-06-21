@@ -697,9 +697,6 @@ th, td {
 .post-more .more-menu a:hover, .more-menu div:hover {
     background-color: #eeeeee;
 }
-.more-menu div:hover {
-    
-}
 
 .show {
     visibility: visible!important;
@@ -733,3 +730,50 @@ th, td {
     }
 }
 /* End Bottom section folder+hashtags */
+
+
+/* Search page */
+
+.search-input{
+    background: #fff;
+    width: 100%;
+    border-radius: 5px;
+    position: relative;
+    box-shadow: 0px 1px 5px 3px rgba(0,0,0,0.12);
+  }
+
+.search-input input{
+    height: 55px;
+    width: 100%;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    padding: 0 60px 0 20px;
+    font-size: 18px;
+    box-shadow: 0px 1px 5px rgba(0,0,0,0.1);
+  }
+  .search-input.active input{
+    border-radius: 5px 5px 0 0;
+  }
+  .search-input .icon{
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    height: 55px;
+    width: 55px;
+    text-align: center;
+    line-height: 55px;
+    font-size: 20px;
+    color: #4b7eff;
+    cursor: pointer;
+  }
+
+  .search-button {
+      border: none;
+      background: none;
+      color: #4b7eff;
+  }
+
+  .search-button:active {
+      border: none;
+  }

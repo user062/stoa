@@ -205,4 +205,8 @@ router.get('/modules/:module/folders/:folder', async (req, res) => {
     res.render('module_folder', { layout: '', folderPosts: module.get_posts_by_folder(folder_id), folderName: folder_name, moduleName: module.name, moduleId: module.id, folders: module.folders, user: user.id, is_teacher: user.modules_taught.includes(Number(params.module)) });
 });
 
+router.get('/search', (req, res) => {
+    res.render('search');
+});
+
 module.exports = router;
