@@ -19,8 +19,8 @@ function markAnswer(module_id, post_id, choice) {
     else {
         let old_choice = poll.querySelector('.answers').querySelector(`[choice="${previous_choice}"]`);
         poll.querySelector('.answers').setAttribute('user_choice', choice);
+        old_choice.setAttribute('votes', Number(old_choice.getAttribute('votes') - 1));
         choice_count.setAttribute('votes', Number(choice_count.getAttribute('votes')) + 1);
-        old_choice.setAttribute('votes', Number(choice_count.getAttribute('votes')) - 1);
     }
 
     showResults(post_id);

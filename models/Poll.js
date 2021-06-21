@@ -52,7 +52,7 @@ class Poll {
         if (Number.isInteger(previous_vote)) {
             let ind = this.elements[Object.keys(this.elements)[previous_vote]].indexOf(voter);
             this.elements[Object.keys(this.elements)[previous_vote]].splice(ind, 1);
-            console.log(this.id);
+
             if (element_ind === previous_vote) {
                 return await connection.query(`delete from POLL_VOTE where COMPTEID=${voter} and POLL_ID=${Object.keys(this.elements)[previous_vote]}`);
             }
