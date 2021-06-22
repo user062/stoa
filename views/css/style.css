@@ -82,7 +82,9 @@ body {
 }
 
 .notification-menu {
-    width: 22rem;
+    width: 23rem;
+    max-height: 200px;
+    overflow-y: scroll;
 }
 
 .navbar-notification-item {
