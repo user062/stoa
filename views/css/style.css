@@ -116,27 +116,26 @@ body {
 
 
 .sidebar {        
-    right: 0;
-    height: 100vh;
-    /* border-right: 2px #f6f6f6 solid; */
+    right: 0;        
     background: #FAFAFA;
-    grid-area: sidebar;          
+    grid-area: sidebar;
     transition: all ease .3s;    
-    position: fixed;
     width: 260px;
-    top: 80px;        
-    overflow: scroll;
+    top: 30px;    
+    position: fixed;
 }
 
 .sidebar .links {        
     list-style: none;
-    display: flex;
+    /* display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    align-items: flex-start;    
+    align-items: flex-start;     */
     margin: 0 auto;
-    padding: 10% 0;
-    height: 100vh;    
+    padding: 30% 0;
+    height: 100vh;        
+    overflow: scroll;
+    text-align: center;
 }
 
 .sidebar .links li {
@@ -176,7 +175,7 @@ body {
 
 .new__descussion {
     font-size: 13px!important;
-    margin: 0 auto 1.5rem auto;
+    margin-bottom: 1.5rem;    
 }
 
 .active {
