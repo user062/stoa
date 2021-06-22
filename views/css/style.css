@@ -83,12 +83,16 @@ body {
 
 .notification-menu {
     max-width: 20rem!important;
+    width: 20rem;
 }
 
 .navbar-notification-item {
-    font-size: 14px;
-    height: 3rem!important;
-    line-height: 2rem;    
+    font-size: 13px!important;
+    width: 100%;
+    line-height: 2rem!important;       
+    min-height: 2rem;
+    max-height: 15rem;
+    white-space: pre-wrap!important;       
 }
 
 .sidebar {        
