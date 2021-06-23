@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/material-icons.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">        
+    <title>Nouveau Dossier</title>
+</head>
+<body>
+
+{{> navbar userId=user}}        
+{{> general_sidebar folders=folders moduleId=moduleId}}
+
+    <div class="content">        
+        <div class="container">
+            <div class="col-lg-6 col-md-10 mx-auto">
+                <h5>Ajouter un module</h5>
+                <hr>
+            {{#if error}}
+            <div class="alert alert-danger">
+              <strong>{{error}}</strong>
+            </div>
+            {{/if}}
+                <form action="add_folder/add_folder" method="POST" encType="multipart/form-data">
+                    <section class="post__title form-group">
+                        <label for="title">Nom</label>
+                        <input class="form-control" type="text" name="name" placeholder="Nom du module" id="name" required>
+                    </section>
+
+                    <section class="post__title form-group mt-4">
+                        <label for="title">Professeur</label>
+                        <select class="form-control" type="text" name="nameP" id="nameP" required>
+                            <option disabled selected>Nom du professeur</option>
+                            <option>prof1</option>
+                        </select>
+                    </section>
+
+                    <div class="text-right mt-4">
+                        <button type="submit" class="btn btn-primary col-3">Ajouter</button>
+                    </div>                
+                </form>                
+            </div>
+        </div>
+    </div>    
+
+    <script src="js/main.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+</body>
+</html>
