@@ -1,12 +1,32 @@
+const urlSearchParams = new URLSearchParams(window.location.search);
+const params = Object.fromEntries(urlSearchParams.entries());
+
+function expandById(id) {
+    document.getElementById('post' + id).classList.remove('show');
+    document.getElementById('inner_post' + id).classList.add('show');
+}
+
+if (document.getElementById('post' + params.post_id))
+    expandById(params.post_id);
+
+if (document.getElementById('comment' + params.comment_id))
+    document.getElementById().scrollIntoView({ behavior: "smooth", block: "center" });
+
+else if (document.getElementById('reply' + params.reply_id))
+    document.getElementById().scrollIntoView({ behavior: "smooth", block: "center" });
+
+else if (document.getElementById('inner_post' + params.post_id))
+    document.getElementById('inner_post' + params.post_id).scrollIntoView({ behavior: "smooth", block: "center" });
+
 //Sidebar activate links
 var home = document.getElementById('home');
 
-if(home) {
-    if(window.location.pathname == "/") {
+if (home) {
+    if (window.location.pathname == "/") {
         home.classList.add("active");
     } else {
         home.classList.remove("active");
-    }    
+    }
 }
 
 // var sidebarLinks = document.querySelectorAll('.sidebar__link');
@@ -267,108 +287,124 @@ var sidebar = document.querySelector('.sidebar');
 var newDButtonText = document.querySelectorAll('.new__descussion-text');
 
 expandButton.addEventListener('click', () => {
-    document.body.classList.toggle('expanded-body');    
+    document.body.classList.toggle('expanded-body');
     sidebar.classList.toggle('expanded-sidebar');
     expandButton.classList.toggle('switch-expand-sidebar');
 
-    if(newDButtonText) {
+    if (newDButtonText) {
 
         newDButtonText.forEach(el => {
-            el.classList.toggle('new__descussion-text-small');        
+            el.classList.toggle('new__descussion-text-small');
         });
-    }    
+    }
 
-    if(sidebar.classList.contains('expanded-sidebar')) {
-        expandButton.innerHTML = ">";        
-    }else {
+    if (sidebar.classList.contains('expanded-sidebar')) {
+        expandButton.innerHTML = ">";
+    } else {
         expandButton.innerHTML = "<";
     }
 });
 
+let notify = () => $.get('/new_notifications', {},
+    (data) => {
+        let notifications_menu = document.getElementsByName('notifications_menu')[0];
+        let types;
 
+        for (const new_notification of data.notifications) {
+            let link = document.createElement('a');
 
-let doc_upload = (module_id, doc_type, file) => {
-    if (document.getElementById('alert' + doc_type)) {
-        let types = { '0': 'courses', '1': 'TDs', '2': 'Devoirs de Maison' };
-        let table = document.createElement("TABLE");
-        table.id = 'fileTable' + doc_type;
-        table.classList.add('table');
-        let thead = document.createElement("THEAD");
-        let documentType = document.createElement("TH");
-        let documentAction = document.createElement("TH");
-        documentType.classList.add('thead');
-        documentType.setAttribute('scope', 'col');
-        documentType.innerText = types[doc_type];
-        documentAction.classList.add('thead');
-        documentAction.setAttribute('scope', 'col');
-        documentAction.innerText = 'Action';
-        let tbody = document.createElement("TBODY");
-        thead.appendChild(documentType);
-        thead.appendChild(documentAction);
-        table.appendChild(thead);
-        table.appendChild(tbody);
-        document.getElementById('alert' + doc_type).replaceWith(table);
-    }
-    var data = new FormData();
-    data.append('module', module_id);
-    data.append('type', doc_type);
-    data.append('file', file, file.name);
-
-    var req = new XMLHttpRequest();
-    req.responseType = 'json';
-    req.onreadystatechange = () => {
-
-        if (req.readyState === XMLHttpRequest.DONE) {
-            var status = req.status;
-            if (status === 0 || (status >= 200 && status < 400)) {
-                let data = req.response;
-
-                let file_info =
-                    `
-<td class="file-container">
-    <a href=/${data.file.path} class="link-to-file">${data.file.name}</a>
-</td>
-<td class="actions">
-    <div class="btn-group">
-        <button class="btn btn-sm" onClick="delete_doc(${module_id}, ${data.file.id}, ${doc_type})">
-            <span class="material-icons" style="font-size: 18px;">delete</span>
-        </button>
-    </div>
-</td>
-`;
-                let types = { '0': 'courses', '1': 'TDs', '2': 'Devoirs de maison' };
-                let new_file = document.getElementById('fileTable' + doc_type).getElementsByTagName('tbody')[0].insertRow(-1);
-                new_file.innerHTML = file_info;
-                new_file.id = `file${data.file.id}`;
+            if (new_notification.type === 'resources') {
+                types = { 'c': 'Cour', 't': 'TD', 'h': 'Devoir de Maison' };
+                link.id = `resources_notification${new_notification.id}`;
+                link.href = `/modules/${new_notification.module_id}/resources`;
+                link.classList.add('dropdown-item', 'navbar-notification-item');
+                link.innerText = `un nouveau ${types[new_notification.file_type]} a été ajouté dans ${new_notification.module_name}`;
             }
+
+            else if (new_notification.type === 'posts') {
+                types = { 'p': 'Sondage', 'q': 'Question', 'n': 'Note' };
+                link.id = `posts_notification${new_notification.id}`;
+                link.href = `/modules/${new_notification.module_id}/all_posts?post_id=${new_notification.post_id}`;
+                link.classList.add('dropdown-item', 'navbar-notification-item');
+                if (new_notification.post_type === 'p')
+                    link.innerText = `un nouveau Sondage a été ajouté dans ${new_notification.module_name}`;
+                else
+                    link.innerText = `une nouvelle ${types[new_notification.post_type]} a été ajoutée dans ${new_notification.module_name}`;
+            }
+
+            else if (new_notification.type === 'reply') {
+                link.id = `reply_notification${new_notification.id}`;
+                link.href = `/modules/${new_notification.module_id}/my_posts?post_id=${new_notification.post_id}&reply_id=${new_notification.reply_id}`;
+                link.classList.add('dropdown-item', 'navbar-notification-item');
+                link.innerText = `une nouvelle réponse a été ajoutée dans ${new_notification.module_name}`;
+            }
+
+            else {
+                link.id = `comment_notification${new_notification.id}`;
+                link.href = `/modules/${new_notification.module_id}/all_posts?post_id=${new_notification.post_id}&reply_id=${new_notification.reply_id}&comment_id=${new_notification.comment_id}`;
+                link.classList.add('dropdown-item', 'navbar-notification-item');
+                link.innerText = `un nouveau commentaire a été ajouté dans ${new_notification.module_name}`;
+            }
+
+            let new_label = document.createElement('span');
+            new_label.classList.add('badge', 'badge-danger', 'ml-2');
+            new_label.innerText = 'Nouveau';
+            link.appendChild(new_label);
+
+            notifications_menu.insertBefore(link, notifications_menu.firstChild);
         }
-    };
-    req.open('POST', '/add_document/add_document');
-    req.send(data);
+        document.getElementById('notifications_count').innerText = Number(document.getElementById('notifications_count').innerText) + data.notifications.length;
+    });
+
+var delete_notification = (type, id) =>
+    $.post('/delete_notification', { id: id, type: type },
+        (data) => {
+            document.getElementById(`${type}_notification${id}`);
+        });
+
+setInterval(notify, 60000);
+
+(notifications) => {
+    let notifications_repr = [];
+    let types;
+
+    for (const notification of notifications) {
+        let today = new Date();
+        today.setHours(0, 0, 0, 0);
+        let notification_repr = {};
+
+        if (notification.type === 'resources') {
+            types = { 'c': 'Cour', 't': 'TD', 'h': 'Devoir de Maison' };
+            notification_repr.id = `resources_notification${notification.id}`;
+            notification_repr.href = `/modules/${notification.module_id}/resources`;
+            notification_repr.text = `un nouveau ${types[notification.file_type]} a été ajouté dans ${notification.module_name}`;
+        }
+
+        else if (notification.type === 'posts') {
+            types = { 'p': 'Sondage', 'q': 'Question', 'n': 'Note' };
+            notification_repr.id = `posts_notification${notification.id}`;
+            notification_repr.href = `/modules/${notification.module_id}/all_posts?post_id=${notification.post_id}`;
+
+            if (notification_repr.post_type === 'p')
+                notification_repr.text = `un nouveau Sondage a été ajouté dans ${notification.module_name}`;
+            else
+                notification_repr.text = `une nouvelle ${types[notification.post_type]} a été ajoutée dans ${notification.module_name}`;
+        }
+
+        else if (notification.type === 'reply') {
+            notification_repr.id = `reply_notification${notification.id}`;
+            notification_repr.href = `/modules/${notification.module_id}/my_posts?post_id=${notification.post_id}&reply_id=${notification.reply_id}`;
+            notification_repr.text = `une nouvelle réponse a été ajoutée dans ${notification.module_name}`;
+        }
+
+        else {
+            notification_repr.id = `comment_notification${notification.id}`;
+            notification_repr.href = `/modules/${notification.module_id}/all_posts?post_id=${notification.post_id}&reply_id=${notification.reply_id}&comment_id=${notification.comment_id}`;
+            notification_repr.text = `un nouveau commentaire a été ajouté dans ${notification.module_name}`;
+        }
+
+        notification_repr.old = new Date(notification_repr.creation_date > today);
+        notification_repr.creation_date = notification.date;
+        notifications_repr.push(notification_repr);
+    }
 };
-
-let delete_doc = (module_id, file_id, doc_type) => $.post('/delete_document/delete_document', { module: module_id, file: file_id }, (data) => {
-    document.getElementById(`file${file_id}`).remove();
-    if (document.querySelectorAll(`#fileTable${doc_type} tbody tr`).length === 0) {
-        let alertDiv = document.createElement('DIV');
-        alertDiv.id = 'alert' + doc_type;
-        alertDiv.classList.add('alert');
-        alertDiv.classList.add('alert-primary');
-        alertDiv.setAttribute('role', 'alert');
-        alertDiv.innerText = " Rien n'a été ajouté ";
-        document.getElementById(`fileTable${doc_type}`).replaceWith(alertDiv);
-    };
-});
-
-let module_id = window.location.href.split('/')[4];
-var uploadButtons = document.querySelectorAll(".add-file");
-
-for (const button of uploadButtons) {
-    button.addEventListener("click", () => {
-        button.getElementsByTagName("input")[0].click();
-    });
-    let input = button.getElementsByTagName("input")[0];
-    input.addEventListener("input", () => {
-        doc_upload(module_id, input.id, input.files[0]);
-    });
-}

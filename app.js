@@ -39,6 +39,16 @@ app.use(
         saveUninitialized: false
     }));
 
+let checkUser = (req, res, next) => {
+    let paths = ['/registration', '/validation', '/login',
+        '/registration/registration', '/validation/validation', '/login/login'];
+
+    if (paths.includes(req.path) || req.session.loggedIn)
+        return next();
+    res.redirect('/login');
+};
+
+app.all('*', checkUser);
 app.use('/', require('./routes/index'));
 app.use('/login', require('./routes/login'));
 app.use('/registration', require('./routes/registration'));

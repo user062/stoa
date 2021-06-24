@@ -2,17 +2,65 @@ const express = require('express');
 const router = express.Router();
 const Modules = require('../models/ModuleRepository');
 const Users = require('../models/UserRepository');
+const NotificationRepository = require('../models/NotificationRepository');
 
+router.get('*', async (req, res, next) => {
+    let paths = ['/registration', '/validation', '/login'];
+
+    if (paths.includes(req.path))
+        return next();
+    let notifications = (await Users).get_user_by_id(Number(req.session.userId))[0].notifications;
+    let notifications_repr = [];
+    let types;
+
+    for (const notification of notifications) {
+        let today = new Date();
+        today.setHours(0, 0, 0, 0);
+        let notification_repr = {};
+
+        if (notification.type === 'resources') {
+            types = { 'c': 'Cour', 't': 'TD', 'h': 'Devoir de Maison' };
+            notification_repr.id = `resources_notification${notification.id}`;
+            notification_repr.href = `/modules/${notification.module_id}/resources`;
+            notification_repr.text = `un nouveau ${types[notification.file_type]} a été ajouté dans ${notification.module_name}`;
+        }
+
+        else if (notification.type === 'posts') {
+            types = { 'p': 'Sondage', 'q': 'Question', 'n': 'Note' };
+            notification_repr.id = `posts_notification${notification.id}`;
+            notification_repr.href = `/modules/${notification.module_id}/all_posts?post_id=${notification.post_id}`;
+
+            if (notification_repr.post_type === 'p')
+                notification_repr.text = `un nouveau Sondage a été ajouté dans ${notification.module_name}`;
+            else
+                notification_repr.text = `une nouvelle ${types[notification.post_type]} a été ajoutée dans ${notification.module_name}`;
+        }
+
+        else if (notification.type === 'reply') {
+            notification_repr.id = `reply_notification${notification.id}`;
+            notification_repr.href = `/modules/${notification.module_id}/my_posts?post_id=${notification.post_id}&reply_id=${notification.reply_id}`;
+            notification_repr.text = `une nouvelle réponse a été ajoutée dans ${notification.module_name}`;
+        }
+
+        else {
+            notification_repr.id = `comment_notification${notification.id}`;
+            notification_repr.href = `/modules/${notification.module_id}/all_posts?post_id=${notification.post_id}&reply_id=${notification.reply_id}&comment_id=${notification.comment_id}`;
+            notification_repr.text = `un nouveau commentaire a été ajouté dans ${notification.module_name}`;
+        }
+
+        notification_repr.old = new Date(notification_repr.creation_date > today);
+        notification_repr.creation_date = notification.date;
+        notifications_repr.push(notification_repr);
+    }
+    req.notifications = notifications_repr;
+    next();
+});
 // @desc index/Landing page
 // @route GET /
 router.get('/', async (req, res) => {
-    if (!req.session.loggedIn)
-        res.redirect('/login');
-
-    else {
-        let modules = await Modules;
-        res.render('index', { layout: '', user: req.session.userId, modules: modules.all_posts });
-    }
+    let modules = await Modules;
+    res.render('index', { layout: '', user: req.session.userId, modules: modules.all_posts, notifications: req.notifications });
+    req.notifications = null;
 });
 
 
@@ -215,6 +263,19 @@ router.get('/modules/:module/all_posts', async (req, res) => {
         return res.redirect('/error');
     res.render('module_folder', { layout: '', folderPosts: module.posts, moduleName: module.name, moduleId: module.id, folders: module.folders, user: user.id, is_teacher: user.modules_taught.includes(Number(params.module)) });
 });
+
+router.get('/modules/:module/my_posts', async (req, res) => {
+    let params = req.params;
+    let modules = await Modules;
+    let users = await Users;
+    let module = modules.get_module_by_id(Number(params.module))[0];
+    let user = users.get_user_by_id(Number(req.session.userId))[0];
+    if (!module)
+        return res.redirect('/error');
+    let posts = module.posts.filter((post) => post.author_id === user.id);
+    res.render('module_folder', { layout: '', folderPosts: posts, moduleName: module.name, moduleId: module.id, folders: module.folders, user: user.id, is_teacher: user.modules_taught.includes(Number(params.module)) });
+});
+
 router.get('/modules/:module', async (req, res) => {
     let params = req.params;
     let modules = await Modules;
@@ -239,5 +300,9 @@ router.get('/modules/:module/folders/:folder', async (req, res) => {
     res.render('module_folder', { layout: '', folderPosts: module.get_posts_by_folder(folder_id), folderName: folder_name, moduleName: module.name, moduleId: module.id, folders: module.folders, user: user.id, is_teacher: user.modules_taught.includes(Number(params.module)) });
 });
 
+
+router.post('/delete_notification', async (req, res) => {
+    let notification_id = Number(req.body.notification);
+});
 
 module.exports = router;
