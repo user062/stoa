@@ -10,10 +10,9 @@
                         <span class="badge badge-danger ml-2" id='notifications_count'>{{notifications.length}}</span>
                         <span class="material-icons">notifications</span>
                     </a>
-                    <div name="notifications_menu" class="dropdown-menu dropdown-menu-right dropdown-unique notification-menu" aria-labelledby="navbarDropdownMenuLink-5">
-                        {{#each notifications as |notification|}}
-                        <a class="dropdown-item navbar-notification-item" href={{notification.link}}>{{notification.text}}{{#if notification.old}}<span class="badge badge-danger ml-2">Nouveau</span>{{/if}}</a>
-                        {{/each}}
+                    <div class="dropdown-menu dropdown-menu-right dropdown-unique notification-menu" aria-labelledby="navbarDropdownMenuLink-5">          {{#each notifications as |notification|}} 
+                      <a class="dropdown-item navbar-notification-item" href={{notification.href}}><span class="notification-text">{{notification.text}}</span>{{#if notification.old}}<span class="badge badge-danger new-notification">Nouveau</span>{{/if}}<span class="material-icons delete-notification">clear</span></a>
+                      {{/each}}                                                
                     </div>
                 </li>
             </ul> 

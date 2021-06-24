@@ -48,7 +48,7 @@ router.get('*', async (req, res, next) => {
             notification_repr.text = `un nouveau commentaire a été ajouté dans ${notification.module_name}`;
         }
 
-        notification_repr.old = new Date(notification_repr.creation_date > today);
+        notification_repr.old = new Date(notification_repr.creation_date) < today;
         notification_repr.creation_date = notification.date;
         notifications_repr.push(notification_repr);
     }
