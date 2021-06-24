@@ -806,3 +806,29 @@ th, td {
   .search-button:active {
       border: none;
   }
+
+
+  .block-prof {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+  }
+
+  .block-prof .tooltiptext {
+  visibility: hidden;
+  width: 95px;
+  background-color: #585858;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;   
+  position: absolute;
+  z-index: 1;
+  top: -30px;
+  font-size: 10px;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.block-prof:hover .tooltiptext {
+  visibility: visible;
+}
