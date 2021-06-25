@@ -10,12 +10,16 @@ class ModuleRepository {
         let module_ids = await connection.query('select ID_MODULE from MODULE;');
 
         for (const row of module_ids[0])
-            this.modules.push(await Module(row.ID_MODULE));
+            this.modules.push(await Module(row.ID_MODULE, '', [], [], ''));
         return this;
     }
 
     get_module_by_id(id) {
         return this.modules.filter((module) => module.id === id);
+    }
+
+    async add_module() {
+
     }
 
     get all_posts() {

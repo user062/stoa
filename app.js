@@ -69,6 +69,10 @@ app.use('/add_document', require('./routes/add_document'));
 app.use('/delete_document', require('./routes/delete_document'));
 app.use('/edit_description', require('./routes/edit_description'));
 app.use('/new_notifications', require('./routes/new_notifications'));
+app.use('/new_module', require('./routes/new_module'));
+app.use('/remove_prof', require('./routes/remove_prof'));
+app.use('/add_prof', require('./routes/add_prof'));
+app.use('/unsusbscribe', require('./routes/unsubscribe'));
 
 
 

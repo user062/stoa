@@ -348,7 +348,7 @@ let notify = () => $.post('/new_notifications/new_notifications', {},
             let new_label = document.createElement('span');
             new_label.classList.add('badge', 'badge-danger', 'ml-2');
             new_label.innerText = 'Nouveau';
-            new_label.onClick = `delete_notification(${new_notification.type}_notification_${new_notification.id})`;
+            new_label.setAttribute('onClick', `delete_notification(${new_notification.type}_notification_${new_notification.id})`);
             div.appendChild(link);
             div.appendChild(new_label);
 
