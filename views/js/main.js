@@ -10,10 +10,10 @@ if (document.getElementById('post' + params.post_id))
     expandById(params.post_id);
 
 if (document.getElementById('comment' + params.comment_id))
-    document.getElementById().scrollIntoView({ behavior: "smooth", block: "center" });
+    document.getElementById('comment' + params.comment_id).scrollIntoView({ behavior: "smooth", block: "center" });
 
 else if (document.getElementById('reply' + params.reply_id))
-    document.getElementById().scrollIntoView({ behavior: "smooth", block: "center" });
+    document.getElementById('reply' + params.reply_id).scrollIntoView({ behavior: "smooth", block: "center" });
 
 else if (document.getElementById('inner_post' + params.post_id))
     document.getElementById('inner_post' + params.post_id).scrollIntoView({ behavior: "smooth", block: "center" });
@@ -305,19 +305,20 @@ expandButton.addEventListener('click', () => {
     }
 });
 
-let notify = () => $.get('/new_notifications', {},
+let notify = () => $.post('/new_notifications/new_notifications', {},
     (data) => {
-        let notifications_menu = document.getElementsByName('notifications_menu')[0];
+        let notifications_menu = document.getElementById('notifications_menu');
         let types;
 
         for (const new_notification of data.notifications) {
+            let div = document.createElement('div');
             let link = document.createElement('a');
+            div.classList.add('dropdown-item', 'navbar-notification-item');
 
             if (new_notification.type === 'resources') {
                 types = { 'c': 'Cour', 't': 'TD', 'h': 'Devoir de Maison' };
                 link.id = `resources_notification${new_notification.id}`;
                 link.href = `/modules/${new_notification.module_id}/resources`;
-                link.classList.add('dropdown-item', 'navbar-notification-item');
                 link.innerText = `un nouveau ${types[new_notification.file_type]} a été ajouté dans ${new_notification.module_name}`;
             }
 
@@ -325,7 +326,6 @@ let notify = () => $.get('/new_notifications', {},
                 types = { 'p': 'Sondage', 'q': 'Question', 'n': 'Note' };
                 link.id = `posts_notification${new_notification.id}`;
                 link.href = `/modules/${new_notification.module_id}/all_posts?post_id=${new_notification.post_id}`;
-                link.classList.add('dropdown-item', 'navbar-notification-item');
                 if (new_notification.post_type === 'p')
                     link.innerText = `un nouveau Sondage a été ajouté dans ${new_notification.module_name}`;
                 else
@@ -333,7 +333,7 @@ let notify = () => $.get('/new_notifications', {},
             }
 
             else if (new_notification.type === 'reply') {
-                link.id = `reply_notification${new_notification.id}`;
+                link.id = `reply_notification_${new_notification.id}`;
                 link.href = `/modules/${new_notification.module_id}/my_posts?post_id=${new_notification.post_id}&reply_id=${new_notification.reply_id}`;
                 link.classList.add('dropdown-item', 'navbar-notification-item');
                 link.innerText = `une nouvelle réponse a été ajoutée dans ${new_notification.module_name}`;
@@ -342,69 +342,26 @@ let notify = () => $.get('/new_notifications', {},
             else {
                 link.id = `comment_notification${new_notification.id}`;
                 link.href = `/modules/${new_notification.module_id}/all_posts?post_id=${new_notification.post_id}&reply_id=${new_notification.reply_id}&comment_id=${new_notification.comment_id}`;
-                link.classList.add('dropdown-item', 'navbar-notification-item');
                 link.innerText = `un nouveau commentaire a été ajouté dans ${new_notification.module_name}`;
             }
 
             let new_label = document.createElement('span');
             new_label.classList.add('badge', 'badge-danger', 'ml-2');
             new_label.innerText = 'Nouveau';
-            link.appendChild(new_label);
+            new_label.onClick = `delete_notification(${new_notification.type}_notification_${new_notification.id})`;
+            div.appendChild(link);
+            div.appendChild(new_label);
 
-            notifications_menu.insertBefore(link, notifications_menu.firstChild);
+            notifications_menu.insertBefore(div, notifications_menu.firstChild);
         }
         document.getElementById('notifications_count').innerText = Number(document.getElementById('notifications_count').innerText) + data.notifications.length;
     });
 
-var delete_notification = (type, id) =>
-    $.post('/delete_notification', { id: id, type: type },
+var delete_notification = (id) =>
+    $.post('/delete_notification', { id: id.split('_')[2], type: id.split('_')[0] },
         (data) => {
-            document.getElementById(`${type}_notification${id}`);
+            document.getElementById(`${id}`).remove();
+            document.getElementById('notifications_count').innerText = Number(document.getElementById('notifications_count').innerText) - 1;
         });
 
 setInterval(notify, 60000);
-
-(notifications) => {
-    let notifications_repr = [];
-    let types;
-
-    for (const notification of notifications) {
-        let today = new Date();
-        today.setHours(0, 0, 0, 0);
-        let notification_repr = {};
-
-        if (notification.type === 'resources') {
-            types = { 'c': 'Cour', 't': 'TD', 'h': 'Devoir de Maison' };
-            notification_repr.id = `resources_notification${notification.id}`;
-            notification_repr.href = `/modules/${notification.module_id}/resources`;
-            notification_repr.text = `un nouveau ${types[notification.file_type]} a été ajouté dans ${notification.module_name}`;
-        }
-
-        else if (notification.type === 'posts') {
-            types = { 'p': 'Sondage', 'q': 'Question', 'n': 'Note' };
-            notification_repr.id = `posts_notification${notification.id}`;
-            notification_repr.href = `/modules/${notification.module_id}/all_posts?post_id=${notification.post_id}`;
-
-            if (notification_repr.post_type === 'p')
-                notification_repr.text = `un nouveau Sondage a été ajouté dans ${notification.module_name}`;
-            else
-                notification_repr.text = `une nouvelle ${types[notification.post_type]} a été ajoutée dans ${notification.module_name}`;
-        }
-
-        else if (notification.type === 'reply') {
-            notification_repr.id = `reply_notification${notification.id}`;
-            notification_repr.href = `/modules/${notification.module_id}/my_posts?post_id=${notification.post_id}&reply_id=${notification.reply_id}`;
-            notification_repr.text = `une nouvelle réponse a été ajoutée dans ${notification.module_name}`;
-        }
-
-        else {
-            notification_repr.id = `comment_notification${notification.id}`;
-            notification_repr.href = `/modules/${notification.module_id}/all_posts?post_id=${notification.post_id}&reply_id=${notification.reply_id}&comment_id=${notification.comment_id}`;
-            notification_repr.text = `un nouveau commentaire a été ajouté dans ${notification.module_name}`;
-        }
-
-        notification_repr.old = new Date(notification_repr.creation_date > today);
-        notification_repr.creation_date = notification.date;
-        notifications_repr.push(notification_repr);
-    }
-};

@@ -13,7 +13,7 @@ class User {
         this.notifications = [];
         this.modules_taught = [];
         this.subscriptions = [];
-        this.notifications = [];
+        this.notifications = { 'resources': [], 'posts': [], 'reply': [], 'comment': [] };
     }
 
     async init() {
@@ -44,36 +44,27 @@ class User {
         let modules = await Modules;
 
         for (const notif of resources_notif[0])
-            this.notifications.push({ type: 'resources', id: notif.notification_id, module_id: notif.ID_MODULE, module_name: modules.get_module_by_id(notif.ID_MODULE)[0].name, date: notif.date_ajoute, file_type: notif.type });
+            this.notifications.resources.push({ type: 'resources', id: notif.notification_id, module_id: notif.ID_MODULE, module_name: modules.get_module_by_id(notif.ID_MODULE)[0].name, date: notif.date_ajoute, file_type: notif.type });
 
 
-        await connection.query(`call InsertIntoPostsNotifications(${this.id})`);
 
         let posts_notif = await connection.query(
             `select * from posts_notifications where COMPTEID = ${this.id}`);
 
         for (const notif of posts_notif[0])
-            this.notifications.push({ type: 'posts', id: notif.notification_id, module_id: notif.ID_MODULE, module_name: modules.get_module_by_id(notif.ID_MODULE)[0].name, date: notif.date_ajoute, post_type: notif.type });
-
-
-        await connection.query('call InsertIntoReply_Notifications(?)', this.id);
-
+            this.notifications.posts.push({ type: 'posts', id: notif.notification_id, module_id: notif.ID_MODULE, module_name: modules.get_module_by_id(notif.ID_MODULE)[0].name, date: notif.date_ajoute, post_type: notif.type, post_id: notif.POST_ID });
 
         let reply_notif = await connection.query(
             `select * from reply_notifications where COMPTEID=${this.id}`);
 
         for (const notif of reply_notif[0])
-            this.notifications.push({ type: 'reply', id: notif.notification_id, module_id: notif.ID_MODULE, module_name: modules.get_module_by_id(notif.ID_MODULE)[0].name, post_id: notif.POST_ID, reply_ID: notif.ID_REPONSE, date: notif.date_ajoute });
-
-
-        await connection.query(`call InsertIntoComment_Notifications(${this.id})`);
-
+            this.notifications.reply.push({ type: 'reply', id: notif.notification_id, module_id: notif.ID_MODULE, module_name: modules.get_module_by_id(notif.ID_MODULE)[0].name, post_id: notif.POST_ID, reply_id: notif.ID_REPONSE, date: notif.date_ajoute });
 
         let comment_notif = await connection.query(
             `select * from comment_notifications where COMPTEID=${this.id}`);
 
         for (const notif of comment_notif[0])
-            this.notifications.push({ type: 'comment', id: notif.notification_id, module_id: notif.ID_MODULE, module_name: modules.get_module_by_id(notif.ID_MODULE)[0].name, post_id: notif.POST_ID, reply_ID: notif.ID_REPONSE, comment_ID: notif.ID_COMMENTAIRE, date: notif.date_ajoute });
+            this.notifications.comment.push({ type: 'comment', id: notif.notification_id, module_id: notif.ID_MODULE, module_name: modules.get_module_by_id(notif.ID_MODULE)[0].name, post_id: notif.POST_ID, reply_id: notif.ID_REPONSE, comment_id: notif.ID_COMMENTAIRE, date: notif.date_ajoute });
         return this;
     }
 
@@ -88,62 +79,50 @@ class User {
 
     async get_latest_notifications() {
         let modules = await Modules;
-        let latest_notifications = [];
+        let latest_notifications = { 'resources': [], 'posts': [], 'reply': [], 'comment': [] };
 
-        let current_notif = await connection.query(
-            `select max(notification_id) as id from resources_notifications where COMPTEID=${this.id}`);
-
-        await connection.query(`call InsertIntoResourcesNotifications(${this.id})`);
-
-        current_notif = current_notif[0][0].id ? current_notif[0][0].id : 0;
+        let current_notif = this.notifications.resources.reduce((max, notif) => max > notif.id ? max : notif.id, 0);
 
         let resources_notif = await connection.query(
             `select * from resources_notifications where COMPTEID = ${this.id} and notification_id > ${current_notif}`);
 
         for (const notif of resources_notif[0])
-            latest_notifications.push({ type: 'resources', id: notif.notification_id, module_id: notif.ID_MODULE, module_name: modules.get_module_by_id(notif.ID_MODULE)[0].name, date: notif.date_ajoute, file_type: notif.type });
+            latest_notifications.resources.push({ type: 'resources', id: notif.notification_id, module_id: notif.ID_MODULE, module_name: modules.get_module_by_id(notif.ID_MODULE)[0].name, date: notif.date_ajoute, file_type: notif.type });
 
-        current_notif = await connection.query(
-            `select max(notification_id) as id from posts_notifications where COMPTEID=${this.id}`);
-
-        current_notif = current_notif[0][0].id ? current_notif[0][0].id : 0;
-
-        await connection.query(`call InsertIntoPostsNotifications(${this.id})`);
+        current_notif = this.notifications.posts.reduce((max, notif) => max > notif.id ? max : notif.id, 0);
 
         let posts_notif = await connection.query(
             `select * from posts_notifications where COMPTEID = ${this.id} and notification_id > ${current_notif}`);
 
         for (const notif of posts_notif[0])
-            latest_notifications.push({ type: 'posts', id: notif.notification_id, module_id: notif.ID_MODULE, module_name: modules.get_module_by_id(notif.ID_MODULE)[0].name, date: notif.date_ajoute, post_type: notif.type });
+            latest_notifications.posts.push({ type: 'posts', id: notif.notification_id, module_id: notif.ID_MODULE, module_name: modules.get_module_by_id(notif.ID_MODULE)[0].name, date: notif.date_ajoute, post_type: notif.type });
 
-        current_notif = await connection.query(
-            'select max(notification_id) as id from reply_notifications where COMPTEID=?', this.id);
-
-        await connection.query('call InsertIntoReply_Notifications(?)', this.id);
-
-        current_notif = current_notif[0][0].id ? current_notif[0][0].id : 0;
+        current_notif = this.notifications.reply.reduce((max, notif) => max > notif.id ? max : notif.id, 0);
 
         let reply_notif = await connection.query(
             `select * from reply_notifications where COMPTEID=${this.id} and notification_id>${current_notif}`);
 
         for (const notif of reply_notif[0])
-            latest_notifications.push({ type: 'reply', id: notif.notification_id, module_id: notif.ID_MODULE, module_name: modules.get_module_by_id(notif.ID_MODULE)[0].name, post_id: notif.POST_ID, reply_ID: notif.ID_REPONSE, date: notif.date_ajoute });
+            latest_notifications.reply.push({ type: 'reply', id: notif.notification_id, module_id: notif.ID_MODULE, module_name: modules.get_module_by_id(notif.ID_MODULE)[0].name, post_id: notif.POST_ID, reply_id: notif.ID_REPONSE, date: notif.date_ajoute });
 
-        current_notif = await connection.query(
-            `select max(notification_id) as id from comment_notifications where COMPTEID=${this.id}`);
-
-        await connection.query(`call InsertIntoComment_Notifications(${this.id})`);
-
-        current_notif = current_notif[0][0].id ? current_notif[0][0].id : 0;
+        current_notif = this.notifications.comment.reduce((max, notif) => max > notif.id ? max : notif.id, 0);
 
         let comment_notif = await connection.query(
             `select * from comment_notifications where COMPTEID=${this.id} and notification_id>${current_notif}`);
 
         for (const notif of comment_notif[0])
-            latest_notifications.push({ type: 'comment', id: notif.notification_id, module_id: notif.ID_MODULE, module_name: modules.get_module_by_id(notif.ID_MODULE)[0].name, post_id: notif.POST_ID, reply_ID: notif.ID_REPONSE, comment_ID: notif.ID_COMMENTAIRE, date: notif.date_ajoute });
+            latest_notifications.comment.push({ type: 'comment', id: notif.notification_id, module_id: notif.ID_MODULE, module_name: modules.get_module_by_id(notif.ID_MODULE)[0].name, post_id: notif.POST_ID, reply_id: notif.ID_REPONSE, comment_id: notif.ID_COMMENTAIRE, date: notif.date_ajoute });
 
-        this.notifications = latest_notifications.concat(this.notifications);
+        this.notifications.resources = latest_notifications.resources.concat(this.notifications.resources);
+        this.notifications.posts = latest_notifications.posts.concat(this.notifications.posts);
+        this.notifications.reply = latest_notifications.reply.concat(this.notifications.reply);
+        this.notifications.comment = latest_notifications.comment.concat(this.notifications.comment);
         return latest_notifications;
+    }
+
+    async delete_notification(id, type) {
+        this.notifications[type] = this.notifications[type].filter((notif) => notif.id !== id);
+        await connection.query(`delete from ${type}_notifications where notification_id=${id}`);
     }
 }
 

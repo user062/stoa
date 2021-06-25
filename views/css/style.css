@@ -806,3 +806,7 @@ th, td {
   .search-button:active {
       border: none;
   }
+
+  .delete-notification:hover {
+      color:red; 
+  }
