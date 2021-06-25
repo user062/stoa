@@ -372,3 +372,11 @@ for (const button of uploadButtons) {
         doc_upload(module_id, input.id, input.files[0]);
     });
 }
+
+var delete_buttons = document.querySelectorAll('.delete-notification');
+
+delete_buttons.forEach(button => {
+    button.addEventListener('click', () => {
+        console.log("delete button clicked");
+    });    
+});
