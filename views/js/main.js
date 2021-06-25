@@ -380,12 +380,11 @@ var subscribe_button = document.querySelector('.subscribe');
 
 if (subscribe_button) {
     subscribe_button.addEventListener('click', () => {
-       subscribe_button.classList.toggle('subscribed') ;
-       if(subscribe_button.innerText === "S'INSCRIRE") {
-           subscribe_button.innerText = "INSCRIS";
-       } else {
-        subscribe_button.innerText = "S'INSCRIRE";
-       }
+        subscribe_button.classList.toggle('subscribed');
+        if (subscribe_button.innerText === "S'INSCRIRE") {
+            subscribe_button.innerText = "INSCRIS";
+        } else {
+            subscribe_button.innerText = "S'INSCRIRE";
+        }
     });
 }
-

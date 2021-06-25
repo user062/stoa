@@ -4,43 +4,51 @@ const path = require('path');
 const Document = require('./Document');
 
 class Module {
-    constructor(id) {
+    constructor(id, name, profs, description) {
         this.id = id;
-        this.name = '';
+        this.name = name;
         this.posts = [];
         this.folders = [];
-        this.description = '';
+        this.description = description;
         this.documents = { 'course': [], 'td': [], 'hw': [] };
+        this.profs = profs;
     }
 
     async init() {
+        if (this.id) {
 
-        let results = await connection.query(`select * from MODULE where MODULE.ID_MODULE=${this.id}`);
+            let results = await connection.query(`select * from MODULE where MODULE.ID_MODULE=${this.id}`);
 
-        this.name = results[0][0].NOM_MODULE;
-        this.description = results[0][0].description ? results[0][0].description : '';
+            this.name = results[0][0].NOM_MODULE;
+            this.description = results[0][0].description ? results[0][0].description : '';
 
-        results = await connection.query(`select P.POST_ID, P.DATE_AJOUTE, P.COMPTEID, P.title, P.TYPE, P.POST_CORE from POST P join CONCERNE C on P.POST_ID=C.POST_ID join DOSSIER D on D.ID_DOSSIER=C.ID_DOSSIER join MODULE M on D.ID_MODULE=M.ID_MODULE where M.ID_MODULE=${this.id} group by P.POST_ID`);
+            results = await connection.query(`select P.POST_ID, P.DATE_AJOUTE, P.COMPTEID, P.title, P.TYPE, P.POST_CORE from POST P join CONCERNE C on P.POST_ID=C.POST_ID join DOSSIER D on D.ID_DOSSIER=C.ID_DOSSIER join MODULE M on D.ID_MODULE=M.ID_MODULE where M.ID_MODULE=${this.id} group by P.POST_ID`);
 
-        for (const row of results[0]) {
-            let post = await Post(row.POST_ID, row.DATE_AJOUTE, row.COMPTEID, row.title, row.TYPE, row.POST_CORE, [], [], [], [], row.DATE_EDIT);
-            this.posts.unshift(post);
-        };
+            for (const row of results[0]) {
+                let post = await Post(row.POST_ID, row.DATE_AJOUTE, row.COMPTEID, row.title, row.TYPE, row.POST_CORE, [], [], [], [], row.DATE_EDIT);
+                this.posts.unshift(post);
+            };
 
-        results = await connection.query(`select ID_DOSSIER, nom_dossier from DOSSIER where ID_MODULE=${this.id}`);
+            results = await connection.query(`select ID_DOSSIER, nom_dossier from DOSSIER where ID_MODULE=${this.id}`);
 
-        for (const row of results[0])
-            this.folders.push({ id: row.ID_DOSSIER, name: row.nom_dossier });;
+            for (const row of results[0])
+                this.folders.push({ id: row.ID_DOSSIER, name: row.nom_dossier });;
 
-        results = await connection.query('select * from DOCUMENT where ID_MODULE = ?', [this.id]);
+            results = await connection.query('select * from DOCUMENT where ID_MODULE = ?', [this.id]);
 
-        for (const row of results[0]) {
-            if (row.type === 'c')
-                this.documents.course.push(new Document(row.NOM, row.path, row.ID_DOCUMENT, 'course'));
-            else if (row.type === 't')
-                this.documents.td.push(new Document(row.NOM, row.path, row.ID_DOCUMENT, 'td'));
-            else
-                this.documents.hw.push(new Document(row.NOM, row.path, row.ID_DOCUMENT, 'hw'));
+            for (const row of results[0]) {
+                if (row.type === 'c')
+                    this.documents.course.push(new Document(row.NOM, row.path, row.ID_DOCUMENT, 'course'));
+                else if (row.type === 't')
+                    this.documents.td.push(new Document(row.NOM, row.path, row.ID_DOCUMENT, 'td'));
+                else
+                    this.documents.hw.push(new Document(row.NOM, row.path, row.ID_DOCUMENT, 'hw'));
+            }
+
+            results = await connection.query(`select COMPTEID from enseigner where ID_MODULE=${this.id}`);
+
+            for (const row of results[0])
+                this.profs.push(row.COMPTEID);
         }
 
         return this;
@@ -49,6 +57,16 @@ class Module {
     async add_post(post) {
         await post.add_to_db();
         this.posts.unshift(post);
+    }
+
+    async add_prof(prof_id) {
+        await connection.query(`insert into enseigner (ID_MODULE, COMPTE_ID) values (${this.id}, ${prof_id})`);
+        this.profs.unshift(prof_id);
+    }
+
+    async remove_prof(prof_id) {
+        await connection.query(`delete from enseigner where ID_MODULE=${this.id} and COMPTEID=${prof_id})`);
+        this.profs.splice(this.profs.indexOf(prof_id), 1);
     }
 
     async delete_post(post_id) {
@@ -117,8 +135,8 @@ class Module {
 }
 
 let test_module =
-    (id, name, posts, folders) => {
-        let module = new Module(id);
+    (id, name, posts, profs, description) => {
+        let module = new Module(id, name, profs, description);
         return module.init(posts);
     };
 

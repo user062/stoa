@@ -74,7 +74,12 @@ class User {
 
     async subscribe_to_module(module_id) {
         this.subscriptions.push(module_id);
-        await connection.query('insert into INSCRIT (ID_MODULE, COMPTEID) values (?, ?)', Number(module_id), this.id);
+        await connection.query('insert into INSCRIT (ID_MODULE, COMPTEID) values (?, ?)', module_id, this.id);
+    }
+
+    async unsubscribe_to_module(module_id) {
+        this.subscriptions.splice(this.subscriptions.indexOf(module_id), 1);
+        await connection.query(`delete from INSCRIT where ID_MODULE=${module_id} and COMPTEID=${this.id}`);
     }
 
     async get_latest_notifications() {
