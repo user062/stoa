@@ -5,27 +5,28 @@
             </a>      
 
             <ul class="navbar-nav ml-auto mr-5 nav-flex-icons navbar-account">
-                <li class="nav-item dropdown">
+                <li class="nav-item dropdown" name="notifications" id=user{{userId}}>
                     <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        <span class="badge badge-danger ml-2">3</span>
+                        <span class="badge badge-danger ml-2" id='notifications_count'>{{notifications.length}}</span>
                         <span class="material-icons">notifications</span>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-unique notification-menu" aria-labelledby="navbarDropdownMenuLink-5">                        
-                        <a class="dropdown-item navbar-notification-item" href="#">
-                            <span class="notification-text">Nouvelle note du module acooNouvelle note du module acooNouvelle note du module acoo</span>
+
+                    <div id='notifications_menu' class="dropdown-menu dropdown-menu-right dropdown-unique notification-menu" aria-labelledby="navbarDropdownMenuLink-5">                        
+                        {{#each notifications as |notification|}}
+                        <a id={{notification.id}} class="dropdown-item navbar-notification-item" href="href={{notification.href}}">
+                            <span class="notification-text">{{notification.text}}</span>
                             <div>
+                                {{#unless notification.old}}
                                 <span class="badge badge-danger new-notification">Nouveau</span>
-                                <span class="material-icons delete-notification">clear</span>
+                                {{/unless}}
+                                <span onClick='delete_notification("{{notification.id}}")' class="material-icons delete-notification">clear</span>
                             </div>                            
                         </a>                                                
-                        {{!-- <a class="dropdown-item navbar-notification-item" href="#"><span class="notification-text">Nouvelle note du module acoo</span><span class="badge badge-danger new-notification">Nouveau</span><span class="material-icons delete-notification">clear</span></a>                                                
-                        <a class="dropdown-item navbar-notification-item" href="#"><span class="notification-text">Nouvelle note du module acoo</span><span class="badge badge-danger new-notification">Nouveau</span><span class="material-icons delete-notification">clear</span></a>                                                
-                        <a class="dropdown-item navbar-notification-item" href="#"><span class="notification-text">Nouvelle note du module acoo</span><span class="badge badge-danger new-notification">Nouveau</span><span class="material-icons delete-notification">clear</span></a>                                                
-                        <a class="dropdown-item navbar-notification-item" href="#"><span class="notification-text">Nouvelle note du module acoo</span><span class="badge badge-danger new-notification">Nouveau</span><span class="material-icons delete-notification">clear</span></a>                                                
-                        <a class="dropdown-item navbar-notification-item" href="#"><span class="notification-text">Nouvelle note du module acoo</span><span class="badge badge-danger new-notification">Nouveau</span><span class="material-icons delete-notification">clear</span></a>                                                 --}}
-                    </div>
+                        {{/each}}                                                
                 </li>
-            </ul>             
+            </ul> 
+             
+
             
             <ul class="navbar-nav nav-flex-icons navbar-account">                      
                 <li class="nav-item dropdown">

@@ -39,6 +39,16 @@ app.use(
         saveUninitialized: false
     }));
 
+let checkUser = (req, res, next) => {
+    let paths = ['/registration', '/validation', '/login',
+        '/registration/registration', '/validation/validation', '/login/login'];
+
+    if (paths.includes(req.path) || req.session.loggedIn)
+        return next();
+    res.redirect('/login');
+};
+
+app.all('*', checkUser);
 app.use('/', require('./routes/index'));
 app.use('/login', require('./routes/login'));
 app.use('/registration', require('./routes/registration'));
@@ -58,6 +68,7 @@ app.use('/delete_comment', require('./routes/delete_comment'));
 app.use('/add_document', require('./routes/add_document'));
 app.use('/delete_document', require('./routes/delete_document'));
 app.use('/edit_description', require('./routes/edit_description'));
+app.use('/new_notifications', require('./routes/new_notifications'));
 
 
 

@@ -846,3 +846,6 @@ th, td {
 .block-prof:hover .tooltiptext {
   visibility: visible;
 }
+  .delete-notification:hover {
+      color:red; 
+  }

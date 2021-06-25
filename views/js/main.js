@@ -1,12 +1,32 @@
+const urlSearchParams = new URLSearchParams(window.location.search);
+const params = Object.fromEntries(urlSearchParams.entries());
+
+function expandById(id) {
+    document.getElementById('post' + id).classList.remove('show');
+    document.getElementById('inner_post' + id).classList.add('show');
+}
+
+if (document.getElementById('post' + params.post_id))
+    expandById(params.post_id);
+
+if (document.getElementById('comment' + params.comment_id))
+    document.getElementById('comment' + params.comment_id).scrollIntoView({ behavior: "smooth", block: "center" });
+
+else if (document.getElementById('reply' + params.reply_id))
+    document.getElementById('reply' + params.reply_id).scrollIntoView({ behavior: "smooth", block: "center" });
+
+else if (document.getElementById('inner_post' + params.post_id))
+    document.getElementById('inner_post' + params.post_id).scrollIntoView({ behavior: "smooth", block: "center" });
+
 //Sidebar activate links
 var home = document.getElementById('home');
 
-if(home) {
-    if(window.location.pathname == "/") {
+if (home) {
+    if (window.location.pathname == "/") {
         home.classList.add("active");
     } else {
         home.classList.remove("active");
-    }    
+    }
 }
 
 // var sidebarLinks = document.querySelectorAll('.sidebar__link');
@@ -267,116 +287,81 @@ var sidebar = document.querySelector('.sidebar');
 var newDButtonText = document.querySelectorAll('.new__descussion-text');
 
 expandButton.addEventListener('click', () => {
-    document.body.classList.toggle('expanded-body');    
+    document.body.classList.toggle('expanded-body');
     sidebar.classList.toggle('expanded-sidebar');
     expandButton.classList.toggle('switch-expand-sidebar');
 
-    if(newDButtonText) {
+    if (newDButtonText) {
 
         newDButtonText.forEach(el => {
-            el.classList.toggle('new__descussion-text-small');        
+            el.classList.toggle('new__descussion-text-small');
         });
-    }    
+    }
 
-    if(sidebar.classList.contains('expanded-sidebar')) {
-        expandButton.innerHTML = ">";        
-    }else {
+    if (sidebar.classList.contains('expanded-sidebar')) {
+        expandButton.innerHTML = ">";
+    } else {
         expandButton.innerHTML = "<";
     }
 });
 
+let notify = () => $.post('/new_notifications/new_notifications', {},
+    (data) => {
+        let notifications_menu = document.getElementById('notifications_menu');
+        let types;
 
+        for (const new_notification of data.notifications) {
+            let div = document.createElement('div');
+            let link = document.createElement('a');
+            div.classList.add('dropdown-item', 'navbar-notification-item');
 
-let doc_upload = (module_id, doc_type, file) => {
-    if (document.getElementById('alert' + doc_type)) {
-        let types = { '0': 'courses', '1': 'TDs', '2': 'Devoirs de Maison' };
-        let table = document.createElement("TABLE");
-        table.id = 'fileTable' + doc_type;
-        table.classList.add('table');
-        let thead = document.createElement("THEAD");
-        let documentType = document.createElement("TH");
-        let documentAction = document.createElement("TH");
-        documentType.classList.add('thead');
-        documentType.setAttribute('scope', 'col');
-        documentType.innerText = types[doc_type];
-        documentAction.classList.add('thead');
-        documentAction.setAttribute('scope', 'col');
-        documentAction.innerText = 'Action';
-        let tbody = document.createElement("TBODY");
-        thead.appendChild(documentType);
-        thead.appendChild(documentAction);
-        table.appendChild(thead);
-        table.appendChild(tbody);
-        document.getElementById('alert' + doc_type).replaceWith(table);
-    }
-    var data = new FormData();
-    data.append('module', module_id);
-    data.append('type', doc_type);
-    data.append('file', file, file.name);
-
-    var req = new XMLHttpRequest();
-    req.responseType = 'json';
-    req.onreadystatechange = () => {
-
-        if (req.readyState === XMLHttpRequest.DONE) {
-            var status = req.status;
-            if (status === 0 || (status >= 200 && status < 400)) {
-                let data = req.response;
-
-                let file_info =
-                    `
-<td class="file-container">
-    <a href=/${data.file.path} class="link-to-file">${data.file.name}</a>
-</td>
-<td class="actions">
-    <div class="btn-group">
-        <button class="btn btn-sm" onClick="delete_doc(${module_id}, ${data.file.id}, ${doc_type})">
-            <span class="material-icons" style="font-size: 18px;">delete</span>
-        </button>
-    </div>
-</td>
-`;
-                let types = { '0': 'courses', '1': 'TDs', '2': 'Devoirs de maison' };
-                let new_file = document.getElementById('fileTable' + doc_type).getElementsByTagName('tbody')[0].insertRow(-1);
-                new_file.innerHTML = file_info;
-                new_file.id = `file${data.file.id}`;
+            if (new_notification.type === 'resources') {
+                types = { 'c': 'Cour', 't': 'TD', 'h': 'Devoir de Maison' };
+                link.id = `resources_notification${new_notification.id}`;
+                link.href = `/modules/${new_notification.module_id}/resources`;
+                link.innerText = `un nouveau ${types[new_notification.file_type]} a été ajouté dans ${new_notification.module_name}`;
             }
+
+            else if (new_notification.type === 'posts') {
+                types = { 'p': 'Sondage', 'q': 'Question', 'n': 'Note' };
+                link.id = `posts_notification${new_notification.id}`;
+                link.href = `/modules/${new_notification.module_id}/all_posts?post_id=${new_notification.post_id}`;
+                if (new_notification.post_type === 'p')
+                    link.innerText = `un nouveau Sondage a été ajouté dans ${new_notification.module_name}`;
+                else
+                    link.innerText = `une nouvelle ${types[new_notification.post_type]} a été ajoutée dans ${new_notification.module_name}`;
+            }
+
+            else if (new_notification.type === 'reply') {
+                link.id = `reply_notification_${new_notification.id}`;
+                link.href = `/modules/${new_notification.module_id}/my_posts?post_id=${new_notification.post_id}&reply_id=${new_notification.reply_id}`;
+                link.classList.add('dropdown-item', 'navbar-notification-item');
+                link.innerText = `une nouvelle réponse a été ajoutée dans ${new_notification.module_name}`;
+            }
+
+            else {
+                link.id = `comment_notification${new_notification.id}`;
+                link.href = `/modules/${new_notification.module_id}/all_posts?post_id=${new_notification.post_id}&reply_id=${new_notification.reply_id}&comment_id=${new_notification.comment_id}`;
+                link.innerText = `un nouveau commentaire a été ajouté dans ${new_notification.module_name}`;
+            }
+
+            let new_label = document.createElement('span');
+            new_label.classList.add('badge', 'badge-danger', 'ml-2');
+            new_label.innerText = 'Nouveau';
+            new_label.onClick = `delete_notification(${new_notification.type}_notification_${new_notification.id})`;
+            div.appendChild(link);
+            div.appendChild(new_label);
+
+            notifications_menu.insertBefore(div, notifications_menu.firstChild);
         }
-    };
-    req.open('POST', '/add_document/add_document');
-    req.send(data);
-};
-
-let delete_doc = (module_id, file_id, doc_type) => $.post('/delete_document/delete_document', { module: module_id, file: file_id }, (data) => {
-    document.getElementById(`file${file_id}`).remove();
-    if (document.querySelectorAll(`#fileTable${doc_type} tbody tr`).length === 0) {
-        let alertDiv = document.createElement('DIV');
-        alertDiv.id = 'alert' + doc_type;
-        alertDiv.classList.add('alert');
-        alertDiv.classList.add('alert-primary');
-        alertDiv.setAttribute('role', 'alert');
-        alertDiv.innerText = " Rien n'a été ajouté ";
-        document.getElementById(`fileTable${doc_type}`).replaceWith(alertDiv);
-    };
-});
-
-let module_id = window.location.href.split('/')[4];
-var uploadButtons = document.querySelectorAll(".add-file");
-
-for (const button of uploadButtons) {
-    button.addEventListener("click", () => {
-        button.getElementsByTagName("input")[0].click();
+        document.getElementById('notifications_count').innerText = Number(document.getElementById('notifications_count').innerText) + data.notifications.length;
     });
-    let input = button.getElementsByTagName("input")[0];
-    input.addEventListener("input", () => {
-        doc_upload(module_id, input.id, input.files[0]);
-    });
-}
 
-var delete_buttons = document.querySelectorAll('.delete-notification');
+var delete_notification = (id) =>
+    $.post('/delete_notification', { id: id.split('_')[2], type: id.split('_')[0] },
+        (data) => {
+            document.getElementById(`${id}`).remove();
+            document.getElementById('notifications_count').innerText = Number(document.getElementById('notifications_count').innerText) - 1;
+        });
 
-delete_buttons.forEach(button => {
-    button.addEventListener('click', () => {
-        console.log("delete button clicked");
-    });    
-});
+setInterval(notify, 60000);
