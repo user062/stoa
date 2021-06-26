@@ -13,16 +13,18 @@
 
                     <div id='notifications_menu' class="dropdown-menu dropdown-menu-right dropdown-unique notification-menu" aria-labelledby="navbarDropdownMenuLink-5">                        
                         {{#each notifications as |notification|}}
-                        <div class="dropdown-item navbar-notification-item">
-                        <a id={{notification.id}} href="{{notification.href}}">
+                        <div id={{notification.id}} class="dropdown-item navbar-notification-item">
+                          <a href="{{notification.href}}">
                             <span class="notification-text">{{notification.text}}</span>
-                            <div>
-                                {{#unless notification.old}}
-                                <span class="badge badge-danger new-notification">Nouveau</span>
-                                {{/unless}}
-                        </a>                                                
-                                <span onClick='delete_notification("{{notification.id}}")' class="material-icons delete-notification">clear</span>
-                            </div>                            
+                          </a>                                                
+                          <div>
+                            {{#unless notification.old}}
+                            <span class="badge badge-danger new-notification">Nouveau</span>
+                            {{/unless}}
+                            <span onClick='delete_notification("{{notification.id}}")' class="material-icons delete-notification">
+                              clear
+                            </span>
+                          </div>                            
                         </div>
                         {{/each}}                                                
                 </li>

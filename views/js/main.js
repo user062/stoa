@@ -311,48 +311,57 @@ let notify = () => $.post('/new_notifications/new_notifications', {},
         let types;
 
         for (const new_notification of data.notifications) {
-            let div = document.createElement('div');
+            let notif_div = document.createElement('div');
+            notif_div.classList.add('dropdown-item', 'navbar-notification-item');
             let link = document.createElement('a');
-            div.classList.add('dropdown-item', 'navbar-notification-item');
+            let text = document.createElement('span');
 
             if (new_notification.type === 'resources') {
                 types = { 'c': 'Cour', 't': 'TD', 'h': 'Devoir de Maison' };
-                link.id = `resources_notification${new_notification.id}`;
+                notif_div.id = `resources_notification_${new_notification.id}`;
                 link.href = `/modules/${new_notification.module_id}/resources`;
-                link.innerText = `un nouveau ${types[new_notification.file_type]} a été ajouté dans ${new_notification.module_name}`;
+                text.classList.add('notification-text');
+                text.innerText = `un nouveau ${types[new_notification.file_type]} a été ajouté dans ${new_notification.module_name}`;
             }
 
             else if (new_notification.type === 'posts') {
                 types = { 'p': 'Sondage', 'q': 'Question', 'n': 'Note' };
-                link.id = `posts_notification${new_notification.id}`;
+                notif_div.id = `posts_notification_${new_notification.id}`;
                 link.href = `/modules/${new_notification.module_id}/all_posts?post_id=${new_notification.post_id}`;
                 if (new_notification.post_type === 'p')
-                    link.innerText = `un nouveau Sondage a été ajouté dans ${new_notification.module_name}`;
+                    text.innerText = `un nouveau Sondage a été ajouté dans ${new_notification.module_name}`;
                 else
-                    link.innerText = `une nouvelle ${types[new_notification.post_type]} a été ajoutée dans ${new_notification.module_name}`;
+                    text.innerText = `une nouvelle ${types[new_notification.post_type]} a été ajoutée dans ${new_notification.module_name}`;
             }
 
             else if (new_notification.type === 'reply') {
-                link.id = `reply_notification_${new_notification.id}`;
+                notif_div.id = `reply_notification_${new_notification.id}`;
                 link.href = `/modules/${new_notification.module_id}/my_posts?post_id=${new_notification.post_id}&reply_id=${new_notification.reply_id}`;
-                link.classList.add('dropdown-item', 'navbar-notification-item');
-                link.innerText = `une nouvelle réponse a été ajoutée dans ${new_notification.module_name}`;
+                text.classList.add('notification-text');
+                text.innerText = `une nouvelle réponse a été ajoutée dans ${new_notification.module_name}`;
             }
 
             else {
-                link.id = `comment_notification${new_notification.id}`;
+                notif_div.id = `comment_notification_${new_notification.id}`;
                 link.href = `/modules/${new_notification.module_id}/all_posts?post_id=${new_notification.post_id}&reply_id=${new_notification.reply_id}&comment_id=${new_notification.comment_id}`;
-                link.innerText = `un nouveau commentaire a été ajouté dans ${new_notification.module_name}`;
+                text.classList.add('notification-text');
+                text.innerText = `un nouveau commentaire a été ajouté dans ${new_notification.module_name}`;
             }
 
+            let labels_div = document.createElement('div');
             let new_label = document.createElement('span');
-            new_label.classList.add('badge', 'badge-danger', 'ml-2');
+            new_label.classList.add('badge', 'badge-danger', 'new-notification');
             new_label.innerText = 'Nouveau';
-            new_label.onClick = `delete_notification(${new_notification.type}_notification_${new_notification.id})`;
-            div.appendChild(link);
-            div.appendChild(new_label);
-
-            notifications_menu.insertBefore(div, notifications_menu.firstChild);
+            let delete_button = document.createElement('span');
+            delete_button.classList.add('material-icons', 'delete-notification');
+            delete_button.innerText = 'clear';
+            delete_button.setAttribute('onClick', `delete_notification('${new_notification.type}_notification_${new_notification.id}')`);
+            link.appendChild(text);
+            notif_div.appendChild(link);
+            labels_div.appendChild(new_label);
+            labels_div.appendChild(delete_button);
+            notif_div.appendChild(labels_div);
+            notifications_menu.insertBefore(notif_div, notifications_menu.firstChild);
         }
         document.getElementById('notifications_count').innerText = Number(document.getElementById('notifications_count').innerText) + data.notifications.length;
     });
