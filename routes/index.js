@@ -334,4 +334,8 @@ router.post('/delete_notification', async (req, res) => {
     res.send(true);
 });
 
+router.get('/admin_module', (req, res) => {
+    res.render('admin_module', { layout: '' });
+});
+
 module.exports = router;

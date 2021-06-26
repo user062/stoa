@@ -144,10 +144,11 @@ function MultiselectDropdown(options){
       }
 
       Array.from(el.options).map(o=>{
-        var op=newEl('div',{class:o.selected?'checked':'',optEl:o})
+        var op=newEl('div',{class:o.selected?'checked':'',optEl:o, id:o.text})
         var ic=newEl('input',{type:'checkbox',checked:o.selected});
         op.appendChild(ic);
         op.appendChild(newEl('label',{text:o.text}));
+        //op.appendChild(newEl('option',{value:o.value}));
 
         op.addEventListener('click',()=>{
           op.classList.toggle('checked');
