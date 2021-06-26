@@ -365,3 +365,4 @@ var delete_notification = (id) =>
         });
 
 setInterval(notify, 60000);
+
