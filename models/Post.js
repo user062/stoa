@@ -7,40 +7,47 @@ const path = require('path');
 
 
 class Post {
-    constructor(id, creation_date, author_id, title, type, content, folders, responses, uploaded_files, poll_elements, edit_date) {
+    constructor(id, author_id, title, type, content, folders) {
         this.id = id;
-        this.creation_date = new Date(Date.parse(creation_date));
         this.author_id = author_id;
         this.title = title;
         this.type = type;
         this.content = content;
-        this.responses = responses;
-        this.folders = folders;
+        this.responses = [];
+        this.folders = folders ? folders : [];
         this.files = [];
-        this.poll_elements = poll_elements;
-        this.edit_date = edit_date;
     }
 
-    async init(author_id, responses) {
-        if (this.folders.length === 0) {
-            let results = await connection.query('select * from DOSSIER D join CONCERNE C on D.ID_DOSSIER=C.ID_DOSSIER where C.POST_ID=?', [this.id]);
+    async init() {
+        let results;
+
+        if (this.id) {
+            results = await connection.query(`select * from POST where POST_ID=${this.id}`);
+
+            for (const row of results[0]) {
+                this.creation_date = row.DATE_AJOUTE;
+                this.author_id = row.COMPTEID;
+                this.title = row.title;
+                this.type = row.TYPE;
+                this.content = row.POST_CORE;
+                this.creation_date = new Date(Date.parse(row.DATE_AJOUTE));
+                this.edit_date = row.DATE_EDIT;
+            }
+
+            results = await connection.query('select * from DOSSIER D join CONCERNE C on D.ID_DOSSIER=C.ID_DOSSIER where C.POST_ID=?', [this.id]);
 
             for (const row of results[0])
                 this.folders.push({ id: row.ID_DOSSIER, name: row.nom_dossier });
-            results = await connection.query('select NOM, PRENOM from COMPTE where COMPTEID = ?', [author_id]);
 
-            this.author = results[0][0].PRENOM + ' ' + results[0][0].NOM;
 
-            if (responses.length === 0) {
-                results = await connection.query('select * from REPONSE where POST_ID=?', [this.id]);
+            results = await connection.query('select * from REPONSE where POST_ID=?', [this.id]);
 
-                for (const row of results[0]) {
-                    let response = await Response(row.ID_REPONSE, this.id, row.DATE_AJOUTE, row.COMPTEID, row.REPONSE_CORE, [], [], row.DATE_EDIT);
-                    this.responses.push(response);
-                }
+            for (const row of results[0]) {
+                let response = await Response(row.ID_REPONSE);
+                this.responses.push(response);
             }
 
-            results = await connection.query('select ID_FILE, file_name, file_path from file where POST_ID = ?', [this.id]);
+            results = await connection.query('select * from file where POST_ID = ?', [this.id]);
 
             for (const row of results[0])
                 this.files.push(new File(row.file_name, row.file_path, row.ID_FILE));
@@ -48,6 +55,9 @@ class Post {
             if (this.type === 'p')
                 this.poll = await Poll(this.id, this.author_id, []);
         }
+
+        results = await connection.query('select NOM, PRENOM from COMPTE where COMPTEID = ?', [this.author_id]);
+        this.author = results[0][0].PRENOM + ' ' + results[0][0].NOM;
 
         return this;
     }
@@ -57,6 +67,7 @@ class Post {
         let query = 'insert into POST (COMPTEID, title, TYPE, POST_CORE) values (?, ?, ?, ?);';
         let row = await connection.query(query, [this.author_id, this.title, this.type[0], this.content]);
         this.id = row[0].insertId;
+        this.creation_date = new Date();
 
         for (const folder of this.folders)
             await connection.query(`insert into CONCERNE (POST_ID, ID_DOSSIER) values (${this.id}, ${folder.id})`);
@@ -106,24 +117,27 @@ class Post {
     }
 
     async delete_response(response_id) {
-        let files = this.get_response_by_id(response_id)[0].files;
+        let response = this.get_response_by_id(response_id)[0];
+        await response.delete();
+        this.responses.splice(this.responses.indexOf(response), 1);
+    }
+
+    async delete() {
+        let files = this.files;
         files = files ? files : [];
 
         for (const file of files)
             await file.delete_from_disk_db();
 
-        let query = `delete from REPONSE where ID_REPONSE=${response_id}`;
-        await connection.query(query);
+        for (const response of this.responses)
+            await this.delete_response(response.id);
 
-        this.responses.splice(this.responses.indexOf(this.get_response_by_id(response_id)), 1);
+        let query = `delete from POST where POST_ID=${this.id}`;
+        await connection.query(query);
     }
 
     get_response_by_id(id) {
         return this.responses.filter((response) => response.id === id);
-    }
-
-    get get_elapsed_time() {
-        return elapsed_time(this.creation_date);
     }
 
     get get_edit_time() {
@@ -132,8 +146,7 @@ class Post {
 }
 
 module.exports =
-    (id, creation_date, author_id, title, type, content, folders, responses, uploaded_files, poll_elements, edit_date) => {
-        let post = new Post(id, creation_date, author_id, title,
-            type, content, folders, responses, uploaded_files, poll_elements, edit_date);
-        return post.init(author_id, responses);
+    (id, author_id, title, type, content, folders) => {
+        let post = new Post(id, author_id, title, type, content, folders);
+        return post.init();
     };

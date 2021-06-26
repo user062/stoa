@@ -1,5 +1,5 @@
-const urlSearchParams = new URLSearchParams(window.location.search);
-const params = Object.fromEntries(urlSearchParams.entries());
+urlSearchParams = new URLSearchParams(window.location.search);
+params = Object.fromEntries(urlSearchParams.entries());
 
 function expandById(id) {
     document.getElementById('post' + id).classList.remove('show');

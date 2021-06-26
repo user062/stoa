@@ -1,36 +1,40 @@
 const connection = require('../config/db');
 const Comment = require('./Comment');
-const fs = require('fs');
 const File = require('./File');
 const elapsed_time = require('./helpers/humanized_time_span');
 const path = require('path');
 
 class Response {
-    constructor(id, post_id, creation_date, author_id, content, comments, files, edit_date) {
+    constructor(id, post_id, author_id, content) {
         this.id = id;
         this.post_id = post_id;
-        this.creation_date = new Date(Date.parse(creation_date));
         this.author_id = author_id;
         this.content = content;
-        this.comments = comments;
-        this.files = files;
+        this.comments = [];
+        this.files = [];
         this.votes = { 1: [], '-1': [] };
-        this.edit_date = edit_date;
     }
 
-    async init(author_id, comments) {
+    async init() {
         let results;
 
         if (this.id) {
-            let results = await connection.query(`select vote, COMPTEID from UP_DOWN_VOTE where ID_REPONSE=${this.id}`);
+            results = await connection.query(`select * from REPONSE where ID_REPONSE=${this.id}`);
+            this.post_id = results[0][0].POST_ID;
+            this.creation_date = results[0][0].DATE_AJOUTE;
+            this.author_id = results[0][0].COMPTEID;
+            this.content = results[0][0].REPONSE_CORE;
+            this.edit_date = results[0][0].DATE_EDIT;
+
+            results = await connection.query(`select vote, COMPTEID from UP_DOWN_VOTE where ID_REPONSE=${this.id}`);
 
             for (const row of results[0])
                 this.votes[row.vote].push(row.COMPTEID);
 
-            results = await connection.query('select * from COMMENTAIRE where ID_REPONSE=?', [this.id]);
+            results = await connection.query('select ID_COMMENTAIRE from COMMENTAIRE where ID_REPONSE=?', [this.id]);
 
             for (const row of results[0]) {
-                let comment = await Comment(row.ID_COMMENTAIRE, row.DATE_AJOUTE, row.COMPTEID, row.COMM_CORE, row.DATE_EDIT);
+                let comment = await Comment(row.ID_COMMENTAIRE);
                 this.comments.push(comment);
             }
 
@@ -40,7 +44,7 @@ class Response {
                 this.files.push(new File(row.file_name, row.file_path, row.ID_FILE));
         }
 
-        results = await connection.query('select NOM, PRENOM from COMPTE where COMPTEID=?', [author_id]);
+        results = await connection.query('select NOM, PRENOM from COMPTE where COMPTEID=?', [this.author_id]);
         this.author = results[0][0].PRENOM + ' ' + results[0][0].NOM;
 
         return this;
@@ -50,19 +54,18 @@ class Response {
         let query = 'insert into REPONSE (COMPTEID, POST_ID, REPONSE_CORE) values (?, ?, ?);';
         let results = await connection.query(query, [this.author_id, post_id, this.content]);
         this.id = results[0].insertId;
+        this.creation_date = new Date();
     }
 
     async add_comment(comment) {
-        let query = 'insert into COMMENTAIRE (COMPTEID, ID_REPONSE, COMM_CORE) values (?, ?, ?);';
-        let comment_id = await connection.query(query, [comment.author_id, this.id, comment.content]);
-        comment.id = comment_id[0].insertId;
+        await comment.add_to_db();
         this.comments.push(comment);
     }
 
     async delete_comment(comment_id) {
-        let query = `delete from COMMENTAIRE where ID_COMMENTAIRE=${comment_id}`;
-        await connection.query(query);
-        this.comments.splice(this.comments.indexOf(this.get_comment_by_id(comment_id)[0]), 1);
+        let comment = this.get_comment_by_id(comment_id)[0];
+        await comment.delete();
+        this.comments.splice(this.comments.indexOf(comment), 1);
     }
 
     async add_file(file) {
@@ -70,6 +73,20 @@ class Response {
         let fi = new File(file.name, location);
         await fi.add_to_db(null, this.id, file);
         this.files.push(fi);
+    }
+
+    async delete() {
+        let files = this.files;
+        files = files ? files : [];
+
+        for (const file of files)
+            await file.delete_from_disk_db();
+
+        for (const comment of this.comments)
+            await this.delete_comment(comment.id);
+
+        let query = `delete from REPONSE where ID_REPONSE=${this.id}`;
+        await connection.query(query);
     }
 
     async vote(voter, vote) {
@@ -135,7 +152,7 @@ class Response {
 }
 
 module.exports =
-    (id, post_id, creation_date, author_id, content, comments, files, edit_date) => {
-        let response = new Response(id, post_id, creation_date, author_id, content, comments, files, edit_date);
-        return response.init(author_id, comments);
+    (id, post_id, author_id, content) => {
+        let response = new Response(id, post_id, author_id, content);
+        return response.init(author_id);
     };

@@ -12,7 +12,7 @@ router.post('/new_reply', async (req, res) => {
     let reply_creator = req.session.userId;
     let reply_content = req.body.keyboard_cat;
     let uploaded_files = req.files ? req.files.uploads : [];
-    let added_reply = await Response(null, post_replied_to, new Date(), reply_creator, reply_content, [], []);
+    let added_reply = await Response(null, post_replied_to, reply_creator, reply_content);
     let module = (await Modules).get_module_by_id(module_id)[0];
     let post = module.get_post_by_id(post_replied_to)[0];
     await post.add_response(added_reply);

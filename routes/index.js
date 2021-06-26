@@ -124,6 +124,8 @@ router.get('/validation', (req, res) => {
 
 router.get('/new_post', async (req, res) => {
     let module_id = Number(Object.keys(req.query));
+    if (!module_id)
+        return res.redirect('/error');
     let module = (await Modules).get_module_by_id(module_id)[0];
     res.render('new_post', { layout: '', error: req.session.error, folders: module.folders, moduleId: module.id, notifications: req.notifications });
     req.session.error = null;
@@ -132,6 +134,9 @@ router.get('/new_post', async (req, res) => {
 
 router.get('/new_reply', async (req, res) => {
     let module_id = Number(Object.keys(req.query)[0]);
+    if (!module_id)
+        return res.redirect('/error');
+
     let module = (await Modules).get_module_by_id(module_id)[0];
     res.render('new_reply', { layout: '', folders: module.folders, moduleId: module.id, notifications: req.notifications });
     req.notifications = null;
@@ -139,6 +144,8 @@ router.get('/new_reply', async (req, res) => {
 
 router.get('/new_comment', async (req, res) => {
     let module_id = Number(Object.keys(req.query)[0]);
+    if (!module_id)
+        return res.redirect('/error');
     let module = (await Modules).get_module_by_id(module_id)[0];
     res.render('new_comment', { layout: '', folders: module.folders, moduleId: module.id, notifications: req.notifications });
     req.notifications = null;
@@ -146,6 +153,8 @@ router.get('/new_comment', async (req, res) => {
 
 router.get('/new_folder', async (req, res) => {
     let module_id = Number(Object.keys(req.query)[0]);
+    if (!module_id)
+        return res.redirect('/error');
     let module = (await Modules).get_module_by_id(module_id)[0];
     res.render('new_folder', { error: req.session.error, folders: module.folders, moduleId: module.id, notifications: req.notifications });
     req.session.error = null;
@@ -154,6 +163,8 @@ router.get('/new_folder', async (req, res) => {
 
 router.get('/edit_post', async (req, res) => {
     let module = (await Modules).get_module_by_id(Number(req.query.module_id))[0];
+    if (!module || !Number(req.query.post_id))
+        return res.redirect('/error');
     let post = module.get_post_by_id(Number(req.query.post_id))[0];
     if (post.author_id !== Number(req.session.userId))
         return res.redirect('/error');
@@ -163,6 +174,8 @@ router.get('/edit_post', async (req, res) => {
 });
 
 router.get('/edit_reply', async (req, res) => {
+    if (!Number(req.query.module_id) || !Number(req.query.post_id) || !Number(req.query.reply_id))
+        return res.redirect('/error');
     let module = (await Modules).get_module_by_id(Number(req.query.module_id))[0];
     let post = module.get_post_by_id(Number(req.query.post_id))[0];
     let reply = post.get_response_by_id(Number(req.query.reply_id))[0];
@@ -174,6 +187,8 @@ router.get('/edit_reply', async (req, res) => {
 });
 
 router.get('/edit_comment', async (req, res) => {
+    if (!Number(req.query.module_id) || !Number(req.query.post_id) || !Number(req.query.reply_id) || !Number(req.query.comment_id))
+        return res.redirect('/error');
     let module = (await Modules).get_module_by_id(Number(req.query.module_id))[0];
     let post = module.get_post_by_id(Number(req.query.post_id))[0];
     let reply = post.get_response_by_id(Number(req.query.reply_id))[0];
@@ -311,7 +326,7 @@ router.get('/modules/:module/folders/:folder', async (req, res) => {
     let module = modules.get_module_by_id(Number(params.module))[0];
     let folder_name = module.folders.filter(folder => folder.id === folder_id)[0].name;
     let user = users.get_user_by_id(Number(req.session.userId))[0];
-    if (!module)
+    if (!module || !folder_id)
         return res.redirect('/error');
     res.render('module_folder', { layout: '', folderPosts: module.get_posts_by_folder(folder_id), folderName: folder_name, moduleName: module.name, moduleId: module.id, folders: module.folders, user: user.id, is_teacher: user.modules_taught.includes(Number(params.module)), notifications: req.notifications });
     req.notifications = null;

@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const connection = require('../config/db');
 const Post = require('../models/Post');
 const Modules = require('../models/ModuleRepository');
 
@@ -22,7 +21,7 @@ router.post('/new_post', async (req, res) => {
     let post_content = req.body.keyboard_cat;
     let uploaded_files = req.files ? req.files.uploads : [];
 
-    let added_post = await Post(null, new Date(), post_creator, post_title, post_type, post_content, folders, [], []);
+    let added_post = await Post(null, post_creator, post_title, post_type, post_content, folders);
 
     if (post_type === 'p') {
         let poll_elements = req.body.choices;

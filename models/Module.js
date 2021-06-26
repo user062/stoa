@@ -16,16 +16,15 @@ class Module {
 
     async init() {
         if (this.id) {
-
             let results = await connection.query(`select * from MODULE where MODULE.ID_MODULE=${this.id}`);
 
             this.name = results[0][0].NOM_MODULE;
             this.description = results[0][0].description ? results[0][0].description : '';
 
-            results = await connection.query(`select P.POST_ID, P.DATE_AJOUTE, P.COMPTEID, P.title, P.TYPE, P.POST_CORE from POST P join CONCERNE C on P.POST_ID=C.POST_ID join DOSSIER D on D.ID_DOSSIER=C.ID_DOSSIER join MODULE M on D.ID_MODULE=M.ID_MODULE where M.ID_MODULE=${this.id} group by P.POST_ID`);
+            results = await connection.query(`select P.POST_ID from POST P join CONCERNE C on P.POST_ID=C.POST_ID join DOSSIER D on D.ID_DOSSIER=C.ID_DOSSIER join MODULE M on D.ID_MODULE=M.ID_MODULE where M.ID_MODULE=${this.id} group by P.POST_ID`);
 
             for (const row of results[0]) {
-                let post = await Post(row.POST_ID, row.DATE_AJOUTE, row.COMPTEID, row.title, row.TYPE, row.POST_CORE, [], [], [], [], row.DATE_EDIT);
+                let post = await Post(row.POST_ID);
                 this.posts.unshift(post);
             };
 
@@ -71,18 +70,7 @@ class Module {
 
     async delete_post(post_id) {
         let post = this.get_post_by_id(post_id)[0];
-        let files = post.files;
-        files = files ? files : [];
-
-        for (const file of files)
-            await file.delete_from_disk_db();
-
-        for (const response of post.responses)
-            await post.delete_response(response.id);
-
-        let query = `delete from POST where POST_ID=${post_id}`;
-        await connection.query(query);
-
+        await post.delete();
         this.posts.splice(this.posts.indexOf(post), 1);
     }
 
@@ -135,9 +123,9 @@ class Module {
 }
 
 let test_module =
-    (id, name, posts, profs, description) => {
+    (id, name, profs, description) => {
         let module = new Module(id, name, profs, description);
-        return module.init(posts);
+        return module.init();
     };
 
 
