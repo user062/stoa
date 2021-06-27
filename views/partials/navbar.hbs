@@ -10,10 +10,23 @@
                         <span class="badge badge-danger ml-2" id='notifications_count'>{{notifications.length}}</span>
                         <span class="material-icons">notifications</span>
                     </a>
-                    <div id ='notifications_menu' class="dropdown-menu dropdown-menu-right dropdown-unique notification-menu" aria-labelledby="navbarDropdownMenuLink-5">          {{#each notifications as |notification|}}
-                      <div id={{notification.id}} class="dropdown-item navbar-notification-item notification-text"><a  href={{notification.href}}><span>{{notification.text}}</span>{{#unless notification.old}}<span class="badge badge-danger new-notification">Nouveau</span>{{/unless}}</a><span class="material-icons delete-notification" onClick='delete_notification("{{notification.id}}")' >clear</span>
-                     </div> {{/each}}                                                
-                    </div>
+
+                    <div id='notifications_menu' class="dropdown-menu dropdown-menu-right dropdown-unique notification-menu" aria-labelledby="navbarDropdownMenuLink-5">                        
+                        {{#each notifications as |notification|}}
+                        <div id={{notification.id}} class="dropdown-item navbar-notification-item">
+                          <a href="{{notification.href}}">
+                            <span class="notification-text">{{notification.text}}</span>
+                          </a>                                                
+                          <div>
+                            {{#unless notification.old}}
+                            <span class="badge badge-danger new-notification">Nouveau</span>
+                            {{/unless}}
+                            <span onClick='delete_notification("{{notification.id}}")' class="material-icons delete-notification">
+                              clear
+                            </span>
+                          </div>                            
+                        </div>
+                        {{/each}}                                                
                 </li>
             </ul> 
              

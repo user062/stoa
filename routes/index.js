@@ -2,12 +2,11 @@ const express = require('express');
 const router = express.Router();
 const Modules = require('../models/ModuleRepository');
 const Users = require('../models/UserRepository');
-const NotificationRepository = require('../models/NotificationRepository');
 
 router.get('*', async (req, res, next) => {
-    let paths = ['/registration', '/validation', '/login'];
+    let paths = ['/registration', '/validation', '/login', '/error'];
 
-    if (paths.includes(req.path))
+    if (paths.includes(req.path) || req.session.userId === 'admin')
         return next();
     let notifications = (await Users).get_user_by_id(Number(req.session.userId))[0].notifications;
     notifications = notifications.resources.concat(notifications.posts).concat(notifications.reply).concat(notifications.comment);
@@ -224,10 +223,6 @@ router.get('/comment_content', async (req, res) => {
     res.send({ text: comment.content });
 });
 
-router.get('/error', (req, res) => {
-    res.render('not_found');
-});
-
 router.get('/account', (req, res) => {
     res.render('account');
     req.notifications = null;
@@ -312,9 +307,10 @@ router.get('/modules/:module', async (req, res) => {
     let users = await Users;
     let module = modules.get_module_by_id(Number(params.module))[0];
     let user = users.get_user_by_id(Number(req.session.userId))[0];
+    let subscribed = user.subscriptions.includes(module.id);
     if (!module)
         return res.redirect('/error');
-    res.render('module', { layout: '', moduleName: module.name, moduleId: module.id, folders: module.folders, moduleDescription: module.description, user: user.id, is_teacher: user.modules_taught.includes(Number(params.module)), notifications: req.notifications });
+    res.render('module', { layout: '', moduleName: module.name, moduleId: module.id, folders: module.folders, moduleDescription: module.description, user: user.id, is_teacher: user.modules_taught.includes(Number(params.module)), notifications: req.notifications, subscribed: subscribed });
     req.notifications = null;
 });
 
@@ -332,13 +328,25 @@ router.get('/modules/:module/folders/:folder', async (req, res) => {
     req.notifications = null;
 });
 
-router.get('/admin', (req, res) => {
-    res.render('admin', { layout: '' });
+router.get('/admin', async (req, res) => {
+    res.redirect('/admin/new_module');
 });
 
-router.get('/new_module', (req, res) => {
-    res.render('new_module', { layout: '' });
+router.get('/admin/new_module', async (req, res) => {
+    let users = await Users;
+    let profs = users.all_users.filter(user => user.status === 'P');
+    let modules = await Modules;
+    res.render('new_module', { layout: '', modules: modules.modules, profs: profs });
     req.notifications = null;
+});
+
+router.get('/admin/:id', async (req, res) => {
+    let modules = await Modules;
+    let module = modules.get_module_by_id(Number(req.params.id))[0];
+    let users = await Users;
+    let profs = module.profs.map(prof => users.get_user_by_id(prof)[0]);
+    let other_profs = users.users.filter(user => user.status === 'P' && !user.modules_taught.includes(module.id));
+    res.render('module_profs', { layout: '', modules: modules.modules, profs: profs, other_profs: other_profs, module_name: module.name, module_id: module.id });
 });
 
 
@@ -348,5 +356,18 @@ router.post('/delete_notification', async (req, res) => {
     await (await Users).get_user_by_id(Number(req.session.userId))[0].delete_notification(notification_id, notification_type);
     res.send(true);
 });
+
+router.get('/admin_module', (req, res) => {
+    res.render('admin_module', { layout: '' });
+});
+
+router.get('/error', (req, res) => {
+    res.render('not_found', { home: '/' });
+});
+
+router.get('*', (req, res) => {
+    res.redirect('/error');
+});
+
 
 module.exports = router;

@@ -12,8 +12,16 @@ router.post('/login', (req, res) => {
         if (results[0][0] && bcrypt.compare(req.body.password, results[0][0].PASSWORD)) {
             if (results[0][0].VCODE === 0) {
                 req.session.loggedIn = true;
-                req.session.userId = results[0][0].COMPTEID;
-                res.redirect('/');
+
+                if (req.body.email === ('root@root.com')) {
+                    req.session.userId = 'admin';
+                    res.redirect('/admin');
+                }
+
+                else {
+                    req.session.userId = results[0][0].COMPTEID;
+                    res.redirect('/');
+                }
             }
             else {
                 req.session.userId = results[0][0].COMPTEID;
