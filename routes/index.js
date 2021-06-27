@@ -4,9 +4,9 @@ const Modules = require('../models/ModuleRepository');
 const Users = require('../models/UserRepository');
 
 router.get('*', async (req, res, next) => {
-    let paths = ['/registration', '/validation', '/login'];
+    let paths = ['/registration', '/validation', '/login', '/error'];
 
-    if (paths.includes(req.path))
+    if (paths.includes(req.path) || req.session.userId === 'admin')
         return next();
     let notifications = (await Users).get_user_by_id(Number(req.session.userId))[0].notifications;
     notifications = notifications.resources.concat(notifications.posts).concat(notifications.reply).concat(notifications.comment);
@@ -208,10 +208,6 @@ router.get('/comment_content', async (req, res) => {
     res.send({ text: comment.content });
 });
 
-router.get('/error', (req, res) => {
-    res.render('not_found');
-});
-
 router.get('/account', (req, res) => {
     res.render('account');
     req.notifications = null;
@@ -296,9 +292,10 @@ router.get('/modules/:module', async (req, res) => {
     let users = await Users;
     let module = modules.get_module_by_id(Number(params.module))[0];
     let user = users.get_user_by_id(Number(req.session.userId))[0];
+    let subscribed = user.subscriptions.includes(module.id);
     if (!module)
         return res.redirect('/error');
-    res.render('module', { layout: '', moduleName: module.name, moduleId: module.id, folders: module.folders, moduleDescription: module.description, user: user.id, is_teacher: user.modules_taught.includes(Number(params.module)), notifications: req.notifications });
+    res.render('module', { layout: '', moduleName: module.name, moduleId: module.id, folders: module.folders, moduleDescription: module.description, user: user.id, is_teacher: user.modules_taught.includes(Number(params.module)), notifications: req.notifications, subscribed: subscribed });
     req.notifications = null;
 });
 
@@ -333,7 +330,8 @@ router.get('/admin/:id', async (req, res) => {
     let module = modules.get_module_by_id(Number(req.params.id))[0];
     let users = await Users;
     let profs = module.profs.map(prof => users.get_user_by_id(prof)[0]);
-    res.render('module_profs', { layout: '', modules: modules.modules, profs: profs, module_name: module.name });
+    let other_profs = users.users.filter(user => user.status === 'P' && !user.modules_taught.includes(module.id));
+    res.render('module_profs', { layout: '', modules: modules.modules, profs: profs, other_profs: other_profs, module_name: module.name, module_id: module.id });
 });
 
 
@@ -347,5 +345,14 @@ router.post('/delete_notification', async (req, res) => {
 router.get('/admin_module', (req, res) => {
     res.render('admin_module', { layout: '' });
 });
+
+router.get('/error', (req, res) => {
+    res.render('not_found', { home: '/' });
+});
+
+router.get('*', (req, res) => {
+    res.redirect('/error');
+});
+
 
 module.exports = router;

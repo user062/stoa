@@ -55,8 +55,9 @@ class Module {
     }
 
     async add_to_db() {
-        let results = await connection.query(`insert into MODULE (NOM_MODULE) values (${this.name})`);
+        let results = await connection.query(`insert into MODULE (NOM_MODULE) values ('${this.name}')`);
         this.id = results[0].insertId;
+        console.log(this.id);
 
         for (const prof of this.profs)
             await connection.query(`insert into enseigner (ID_MODULE, COMPTEID) values (${this.id}, ${prof})`);
@@ -68,12 +69,12 @@ class Module {
     }
 
     async add_prof(prof_id) {
-        await connection.query(`insert into enseigner (ID_MODULE, COMPTE_ID) values (${this.id}, ${prof_id})`);
+        await connection.query(`insert into enseigner (ID_MODULE, COMPTEID) values (${this.id}, ${prof_id})`);
         this.profs.unshift(prof_id);
     }
 
     async remove_prof(prof_id) {
-        await connection.query(`delete from enseigner where ID_MODULE=${this.id} and COMPTEID=${prof_id})`);
+        await connection.query(`delete from enseigner where ID_MODULE=${this.id} and COMPTEID=${prof_id}`);
         this.profs.splice(this.profs.indexOf(prof_id), 1);
     }
 

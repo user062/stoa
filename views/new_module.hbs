@@ -27,10 +27,10 @@
               <strong>{{error}}</strong>
             </div>
             {{/if}}
-                <form id="form_module" action="new_module/new_module" method="POST" encType="multipart/form-data">
+                <form id="form_module" action="/new_module/new_module" method="POST" encType="multipart/form-data">
                     <section class="post__title form-group">
                         <label for="title">Nom</label>
-                        <input class="form-control" type="text" name="name" placeholder="Nom du module" id="name" required>
+                        <input class="form-control" type="text" name="name" placeholder="Nom du module" id="name" maxlength='10' required>
                     </section>
 
                     <section class="post__title form-group mt-4">

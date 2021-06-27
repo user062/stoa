@@ -27,7 +27,11 @@
                 <div class="inner-main">
                     <div class="container">   
                         <div class="row">
-                            <button class="subscribe ml-auto mt-4">S'inscrire</button>    
+                          {{#if subscribed}}
+                            <button onClick="unsubscribe({{moduleId}})" class="subscribe ml-auto mt-4 subscribed">INSCRIS</button>    
+                            {{else}}
+                            <button onClick="subscribe({{moduleId}})" class="subscribe ml-auto mt-4">S'inscrire</button>    
+                            {{/if}}
                         </div>                      
                         
                         {{!-- Course Information --}}

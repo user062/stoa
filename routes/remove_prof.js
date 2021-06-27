@@ -1,9 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const connection = require('../config/db');
 const Modules = require('../models/ModuleRepository');
 const Users = require('../models/UserRepository');
-const Module = require('../models/Module');
 
 router.post('/remove_prof', async (req, res) => {
     let prof_id = Number(req.body.prof);
@@ -12,8 +10,7 @@ router.post('/remove_prof', async (req, res) => {
     await module.remove_prof(prof_id);
     let user = (await Users).get_user_by_id(prof_id)[0];
     user.modules_taught.splice(user.modules_taught.indexOf(module_id), 1);
-    res.redirect({ name: user.name, family_name: user.family_name });
-
+    res.send({ name: user.name, family_name: user.family_name });
 });
 
 module.exports = router;

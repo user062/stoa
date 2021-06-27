@@ -307,6 +307,8 @@ expandButton.addEventListener('click', () => {
 
 let notify = () => $.post('/new_notifications/new_notifications', {},
     (data) => {
+        if (!data)
+            return;
         let notifications_menu = document.getElementById('notifications_menu');
         let types;
 
@@ -383,8 +385,13 @@ if (subscribe_button) {
         subscribe_button.classList.toggle('subscribed');
         if (subscribe_button.innerText === "S'INSCRIRE") {
             subscribe_button.innerText = "INSCRIS";
+            subscribe_button.setAttribute('onClick', 'un' + subscribe_button.getAttribute('onClick'));
         } else {
             subscribe_button.innerText = "S'INSCRIRE";
+            subscribe_button.setAttribute('onClick', subscribe_button.getAttribute('onClick').substr(2));
         }
     });
 }
+
+let subscribe = (module) => $.post('/subscribe/subscribe', { module: module }, (data) => { });
+let unsubscribe = (module) => $.post('/unsubscribe/unsubscribe', { module: module }, (data) => { });
