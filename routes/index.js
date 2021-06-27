@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const Modules = require('../models/ModuleRepository');
 const Users = require('../models/UserRepository');
-const NotificationRepository = require('../models/NotificationRepository');
 
 router.get('*', async (req, res, next) => {
     let paths = ['/registration', '/validation', '/login'];
@@ -317,13 +316,24 @@ router.get('/modules/:module/folders/:folder', async (req, res) => {
     req.notifications = null;
 });
 
-router.get('/admin', (req, res) => {
-    res.render('admin', { layout: '' });
+router.get('/admin', async (req, res) => {
+    res.redirect('/admin/new_module');
 });
 
-router.get('/new_module', (req, res) => {
-    res.render('new_module', { layout: '' });
+router.get('/admin/new_module', async (req, res) => {
+    let users = await Users;
+    let profs = users.all_users.filter(user => user.status === 'P');
+    let modules = await Modules;
+    res.render('new_module', { layout: '', modules: modules.modules, profs: profs });
     req.notifications = null;
+});
+
+router.get('/admin/:id', async (req, res) => {
+    let modules = await Modules;
+    let module = modules.get_module_by_id(Number(req.params.id))[0];
+    let users = await Users;
+    let profs = module.profs.map(prof => users.get_user_by_id(prof)[0]);
+    res.render('module_profs', { layout: '', modules: modules.modules, profs: profs, module_name: module.name });
 });
 
 

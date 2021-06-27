@@ -11,7 +11,7 @@ class Module {
         this.folders = [];
         this.description = description;
         this.documents = { 'course': [], 'td': [], 'hw': [] };
-        this.profs = profs;
+        this.profs = profs ? profs : [];
     }
 
     async init() {
@@ -52,6 +52,14 @@ class Module {
         }
 
         return this;
+    }
+
+    async add_to_db() {
+        let results = await connection.query(`insert into MODULE (NOM_MODULE) values (${this.name})`);
+        this.id = results[0].insertId;
+
+        for (const prof of this.profs)
+            await connection.query(`insert into enseigner (ID_MODULE, COMPTEID) values (${this.id}, ${prof})`);
     }
 
     async add_post(post) {

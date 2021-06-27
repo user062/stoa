@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stoa</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/material-icons.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">        
+</head>
+<body>
+
+{{> admin_navbar userId=user }}        
+{{> admin_sidebar modules=modules}}
+    <div class="content">        
+        <div class="container">
+        <div class="main-body p-0 col-11 mx-auto">
+            <div class="inner-wrapper">    
+                <!-- Inner main -->
+                <div class="inner-main">
+                    <div class="container">
+                        <!-- Inner main header -->
+                        <form action="add_folder/add_folder" method="POST" encType="multipart/form-data" class="mb-4">
+                            <div class="row">
+                                <div class="col-4">
+                                    <section class="post__title">
+                                        <label for="title">Nom</label>
+                                        <input class="form-control" type="text" name="name" placeholder="Nom du module" id="name" required>
+                                    </section>
+                                </div>
+                                <div class="col-4">
+                                    <section class="post__title">
+                                        <label for="title">Professeur</label>                            
+                                        <select class="form-control" name="nameP" id="nameP">                            
+                                          {{#each profs as prof}}
+                                            <option value="{{prof.id}}">{{prof.name}} {{prof.family_name}}</option>
+                                            {{/each}}
+                                        </select>
+                                    </section>
+                                </div>
+                                <div class="col-4" style="margin-top: 30px;">
+                                    
+                                        <button type="submit" class="btn btn-primary">Ajouter</button>
+                                    
+                                </div>                                
+                            </div>                            
+                        </form>      
+                        <h4>Liste des professeurs du module {{module_name}}</h4>
+                         <table class="table table-hover mt-4">
+                            <thead>
+                                <tr>
+                                    <th>Nom</th>
+                                    <th>Prénom</th>
+                                    <th>Email</th>
+                                    <th style="width: 5%">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                              {{#each profs as |prof|}}
+                                <tr>
+                                    <td>{{prof.name}}</td>                                    
+                                    <td>{{prof.family_name}}</td>                                    
+                                    <td>{{prof.email}}</td>                                    
+                                    <td style="display:flex;justify-content:center">
+                                        <button class="btn btn-danger btn-sm m-0 block-prof" style="height: 25px;width:25px;text-align:center;display:flex;justify-content:center" onClick="delete_prof({{prof.id}})">
+                                            <span class="tooltiptext">Retiré prof</span>
+                                            <span class="material-icons" style="font-size:15px!important">block</span>
+                                        </button>
+                                    </td>                                    
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+
+                    </div>                                        
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/main.js"></script>     
+    <script src="/js/bootstrap.min.js"></script>
+</body>
+</html>

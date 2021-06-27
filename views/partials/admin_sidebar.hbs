@@ -1,3 +1,4 @@
+
     <div class="sidebar">
         <ul class="links">            
             <li>                                
@@ -6,26 +7,15 @@
                     Home
                 </a>                
             </li>
-            <hr style="background-color: #f6f6f6;height: 1px;width: 75%;margin: 1rem auto">                                                        
-
-            <li class="module__link">
-                <div class="module__folders">                         
-                    <a class="module__folder" href="/new_module" style="font-size: 14px;">
-                        <span class="material-icons">add</span>
-                        <span class="new__descussion-text">Nouveau module</span>
-                    </a>                    
-                </div>  
-            </li>  
-
-            <li class="module__link">                                                
-                <div class="module__folders">                         
-                    <a class="module__folder" href="/admin_module">
-                        <span class="material-icons">folder_open</span>           
-                        acoo
-                    </a>          
-                </div>                     
+            <hr style="background-color: #f6f6f6;height: 1px;width: 75%;margin: 1rem auto">                                            
+            {{#each modules as |module|}}
+            <li class="module__link">                                
+                <a class="sidebar__link" href="/admin/{{module.id}}">
+                    <span class="material-icons">folder_open</span>           
+                    {{module.name}}
+                </a>          
             </li>
-
+            {{/each}}
         </ul>
     </div>
 <div class="expand-sidebar"><</div>

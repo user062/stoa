@@ -18,8 +18,9 @@ class ModuleRepository {
         return this.modules.filter((module) => module.id === id);
     }
 
-    async add_module() {
-
+    async add_module(module) {
+        await module.add_to_db();
+        this.modules.push(module);
     }
 
     get all_posts() {
