@@ -1,4 +1,5 @@
-DELIMETER ;;
+DELIMITER ;;
+
 CREATE TRIGGER notify_resources AFTER INSERT ON DOCUMENT
        FOR EACH ROW
        BEGIN
@@ -14,7 +15,6 @@ CREATE TRIGGER notify_resources AFTER INSERT ON DOCUMENT
        END;
 ;;
 
-DELIMETER ;;
 CREATE TRIGGER notify_posts AFTER INSERT ON POST 
        FOR EACH ROW
        BEGIN
@@ -35,7 +35,6 @@ CREATE TRIGGER notify_posts AFTER INSERT ON POST
        END;
 ;;
 
-DELIMITER ;;
 CREATE TRIGGER notify_reply AFTER INSERT ON REPONSE 
        FOR EACH ROW
        BEGIN
@@ -43,7 +42,9 @@ CREATE TRIGGER notify_reply AFTER INSERT ON REPONSE
         select
              I.COMPTEID, I.ID_MODULE, NEW.POST_ID, NEW.ID_REPONSE
         from
-             CONCERNE C
+             POST P
+             join
+             CONCERNE C on P.POST_ID = C.POST_ID
              join
              DOSSIER D on D.ID_DOSSIER = C.ID_DOSSIER
              join
@@ -52,11 +53,12 @@ CREATE TRIGGER notify_reply AFTER INSERT ON REPONSE
              C.POST_ID = NEW.POST_ID
              and
              NEW.COMPTEID <> I.COMPTEID
+             and
+             P.COMPTEID=I.COMPTEID
         group by I.COMPTEID;
        END;
 ;;   
 
-DELIMITER ;;
 CREATE TRIGGER notify_comment AFTER INSERT ON COMMENTAIRE 
        FOR EACH ROW 
        BEGIN
@@ -64,7 +66,9 @@ CREATE TRIGGER notify_comment AFTER INSERT ON COMMENTAIRE
         select
              I.COMPTEID, I.ID_MODULE, R.POST_ID, NEW.ID_REPONSE, NEW.ID_COMMENTAIRE
         from
-             REPONSE R
+             POST P
+             join
+             REPONSE R on R.POST_ID=P.POST_ID
              join
              CONCERNE C on C.POST_ID=R.POST_ID
              join
@@ -75,6 +79,10 @@ CREATE TRIGGER notify_comment AFTER INSERT ON COMMENTAIRE
              NEW.COMPTEID <> I.COMPTEID
              and
              R.ID_REPONSE=NEW.ID_REPONSE
+             and
+             (R.COMPTEID=I.COMPTEID or P.COMPTEID=I.COMPTEID)
         group by I.COMPTEID;
        END;
 ;;
+
+DELIMITER ;
