@@ -131,5 +131,28 @@ CREATE TRIGGER notify_comment AFTER INSERT ON COMMENTAIRE
              and
              R.COMPTEID NOT IN (select C1.COMPTEID from COMMENTAIRE C1 where C1.ID_REPONSE=NEW.ID_REPONSE)
         group by R.COMPTEID; 
+
+        insert into comment_notifications (COMPTEID, ID_MODULE, POST_ID, ID_REPONSE, ID_COMMENTAIRE)
+        select
+             P.COMPTEID, I.ID_MODULE, P.POST_ID, NEW.ID_REPONSE, NEW.ID_COMMENTAIRE
+        from
+             REPONSE R
+             join
+             POST P on R.POST_ID = P.POST_ID
+             join
+             CONCERNE C on P.POST_ID = C.POST_ID
+             join
+             DOSSIER D on D.ID_DOSSIER = C.ID_DOSSIER
+             join
+             INSCRIT I on D.ID_MODULE = I.ID_MODULE
+        where
+             NEW.ID_REPONSE = R.ID_REPONSE
+             and
+             I.COMPTEID = P.COMPTEID
+             and
+             P.COMPTEID NOT IN (select C1.COMPTEID from COMMENTAIRE C1 where C1.ID_REPONSE=NEW.ID_REPONSE)
+             and
+             P.COMPTEID <> R.COMPTEID 
+        group by P.COMPTEID; 
        END;
 ;;

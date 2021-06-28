@@ -15,7 +15,7 @@
                                         </span>
                                         <div class="post-folders">
                                             {{#each post.folders as |folder|}}
-                                            <span class="post-folder text-muted">{{folder.name}}</span>
+                                            <a style="text-decoration:none;" href="/modules/{{../../moduleId}}/{{folder.id}}" class="post-folder text-muted">{{folder.name}}</a>
                                             {{/each}}
                                         </div>
                                     </div>

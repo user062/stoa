@@ -1,9 +1,11 @@
     <div class="sidebar">
         <ul class="links">
+          {{#unless creation}}
             <a href="/new_post?{{moduleId}}" class="btn btn-primary new__descussion">
                 <span class="material-icons">add</span>
                 <span class="new__descussion-text">Nouvelle Discussion</span>
             </a>
+            {{/unless}}
             <li class="module__link">                                
                 <div class="module__folders">                         
                     <a class="module__folder" id="home" href="/">

@@ -36,30 +36,21 @@
                         
                         {{!-- Course Information --}}
                         <div class="row mt-3">
-                            <div class="col-md-6">
+                            <div class="col-md-5">
                                 <div class="info-title">                                                                 
-                                  Liste des professeurs du module {{module_name}}
+                                  Profs du module
                                 </div>
                          <table class="table table-hover mt-4" id="profs_table">
-                            <thead>
-                                <tr>
-                                    <th>Nom</th>
-                                    <th>Prénom</th>
-                                    <th>Email</th>
-                                </tr>
-                            </thead>
                             <tbody>
                               {{#each profs as |prof|}}
                                 <tr id={{prof.id}}>
-                                    <td>{{prof.name}}</td>                                    
-                                    <td>{{prof.family_name}}</td>                                    
-                                    <td>{{prof.email}}</td>                                    
+                                    <td><a href="/profile/{{prof.id}}">{{prof.name}} {{prof.family_name}}</a></td>
                                 </tr>
                                 {{/each}}
                             </tbody>
                         </table>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-7">
                                 <div class="info-title description">
                                 Description
                                 {{#if is_teacher}}
