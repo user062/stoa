@@ -308,9 +308,10 @@ router.get('/modules/:module', async (req, res) => {
     let module = modules.get_module_by_id(Number(params.module))[0];
     let user = users.get_user_by_id(Number(req.session.userId))[0];
     let subscribed = user.subscriptions.includes(module.id);
+    let profs = module.profs.map(prof => users.get_user_by_id(prof)[0]);
     if (!module)
         return res.redirect('/error');
-    res.render('module', { layout: '', moduleName: module.name, moduleId: module.id, folders: module.folders, moduleDescription: module.description, user: user.id, is_teacher: user.modules_taught.includes(Number(params.module)), notifications: req.notifications, subscribed: subscribed });
+    res.render('module', { layout: '', moduleName: module.name, moduleId: module.id, folders: module.folders, moduleDescription: module.description, user: user.id, is_teacher: user.modules_taught.includes(Number(params.module)), notifications: req.notifications, subscribed: subscribed, profs: profs });
     req.notifications = null;
 });
 
@@ -359,12 +360,11 @@ router.post('/delete_notification', async (req, res) => {
     res.send(true);
 });
 
-router.get('/admin_module', (req, res) => {
-    res.render('admin_module', { layout: '' });
-});
-
 router.get('/error', (req, res) => {
-    res.render('not_found', { home: '/' });
+    if (req.session.userId === 'admin')
+        res.render('not_found', { home: '/admin' });
+    else
+        res.render('not_found', { home: '/' });
 });
 
 router.get('*', (req, res) => {

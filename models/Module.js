@@ -68,13 +68,15 @@ class Module {
     }
 
     async add_prof(prof_id) {
-        await connection.query(`insert into enseigner (ID_MODULE, COMPTE_ID) values (${this.id}, ${prof_id})`);
+        await connection.query(`insert into enseigner (ID_MODULE, COMPTEID) values (${this.id}, ${prof_id})`);
         this.profs.unshift(prof_id);
     }
 
     async remove_prof(prof_id) {
-        await connection.query(`delete from enseigner where ID_MODULE=${this.id} and COMPTEID=${prof_id})`);
+        await connection.query(`delete from enseigner where ID_MODULE=${this.id} and COMPTEID=${prof_id}`);
+        console.log(this.profs);
         this.profs.splice(this.profs.indexOf(prof_id), 1);
+        console.log(this.profs);
     }
 
     async delete_post(post_id) {

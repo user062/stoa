@@ -50,19 +50,12 @@ let checkUser = (req, res, next) => {
 
 let checkAdmin = (req, res, next) => {
     if (req.path.includes('admin') && req.session.userId !== 'admin')
-        return res.render('not_found', { home: '/admin' });
-    next();
-};
-
-let restrictAdmin = (req, res, next) => {
-    if ((!req.path.includes('admin') && req.path !== '/error') && req.session.userId === 'admin')
-        return res.render('not_found', { home: '/admin' });
+        return res.render('not_found', { home: '/' });
     next();
 };
 
 app.all('*', checkUser);
 app.all('*', checkAdmin);
-app.all('*', restrictAdmin);
 app.use('/', require('./routes/index'));
 app.use('/login', require('./routes/login'));
 app.use('/registration', require('./routes/registration'));

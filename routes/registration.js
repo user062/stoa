@@ -55,7 +55,7 @@ router.post('/registration', async (req, res) => {
             results = await connection.query('select compteID from COMPTE where email= ?', req.body.email);
             req.session.userId = results[0][0].compteID;
 
-            let user = await User(req.session.userId, l_name, f_name, birth, gender, status, email);
+            let user = await User(req.session.userId);
             let users = await Users;
             users.add_user(user);
 

@@ -38,9 +38,26 @@
                         <div class="row mt-3">
                             <div class="col-md-6">
                                 <div class="info-title">                                                                 
-                                    Informations Générales 
+                                  Liste des professeurs du module {{module_name}}
                                 </div>
-                                prof tablese
+                         <table class="table table-hover mt-4" id="profs_table">
+                            <thead>
+                                <tr>
+                                    <th>Nom</th>
+                                    <th>Prénom</th>
+                                    <th>Email</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                              {{#each profs as |prof|}}
+                                <tr id={{prof.id}}>
+                                    <td>{{prof.name}}</td>                                    
+                                    <td>{{prof.family_name}}</td>                                    
+                                    <td>{{prof.email}}</td>                                    
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
                             </div>
                             <div class="col-md-6">
                                 <div class="info-title description">

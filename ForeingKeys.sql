@@ -10,8 +10,8 @@ alter table CONCERNE add constraint FK_CONCERNE foreign key (ID_DOSSIER)
 alter table CONCERNE add constraint FK_CONCERNE2 foreign key (POST_ID)
       references POST (POST_ID) on delete cascade;
 
-alter table DOCUMENT add constraint FK_CONSISTE foreign key (ID_DOSSIER)
-      references DOSSIER (ID_DOSSIER) on delete cascade;
+alter table DOCUMENT add constraint FK_CONSISTE foreign key (ID_MODULE)
+      references MODULE (ID_MODULE) on delete cascade;
 
 alter table DOSSIER add constraint FK_CREE foreign key (COMPTEID)
       references COMPTE (COMPTEID) on delete cascade;
@@ -25,11 +25,11 @@ alter table file add constraint FK_AJOUTE foreign key (POST_ID)
 alter table file add constraint FK_AJOUTE2 foreign key (ID_REPONSE)
       references REPONSE (ID_REPONSE) on delete cascade;
 
-alter table INSCRET add constraint FK_INSCRET foreign key (COMPTEID)
+alter table INSCRIT add constraint FK_INSCRET foreign key (COMPTEID)
       references COMPTE (COMPTEID) on delete cascade;
 
-alter table INSCRET add constraint FK_INSCRET2 foreign key (ID_DOSSIER)
-      references DOSSIER (ID_DOSSIER) on delete cascade;
+alter table INSCRIT add constraint FK_INSCRET2 foreign key (ID_MODULE)
+      references MODULE (ID_MODULE) on delete cascade;
 
 alter table POLL_ELEMENT add constraint FK_PEUT_AVOIR foreign key (POST_ID)
       references POST (POST_ID) on delete cascade;
