@@ -27,7 +27,6 @@ router.get('*', async (req, res, next) => {
 
         else if (notification.type === 'posts') {
             types = { 'p': 'Sondage', 'q': 'Question', 'n': 'Note' };
-            console.log(notification.post_id);
             notification_repr.id = `posts_notification_${notification.id}`;
             notification_repr.href = `/modules/${notification.module_id}/all_posts?post_id=${notification.post_id}`;
 

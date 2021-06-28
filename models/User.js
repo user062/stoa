@@ -82,7 +82,7 @@ class User {
         let modules = await Modules;
         let latest_notifications = { 'resources': [], 'posts': [], 'reply': [], 'comment': [] };
 
-        let current_notif = this.notifications.resources.reduce((max, notif) => max > notif.id ? max : notif.id, 0);
+        let current_notif = this.notifications.resources.reduce((max, notif) => (max > notif.id) ? max : notif.id, 0);
 
         let resources_notif = await connection.query(
             `select * from resources_notifications where COMPTEID = ${this.id} and notification_id > ${current_notif}`);
@@ -90,15 +90,15 @@ class User {
         for (const notif of resources_notif[0])
             latest_notifications.resources.push({ type: 'resources', id: notif.notification_id, module_id: notif.ID_MODULE, module_name: modules.get_module_by_id(notif.ID_MODULE)[0].name, date: notif.date_ajoute, file_type: notif.type });
 
-        current_notif = this.notifications.posts.reduce((max, notif) => max > notif.id ? max : notif.id, 0);
+        current_notif = this.notifications.posts.reduce((max, notif) => (max > notif.id) ? max : notif.id, 0);
 
         let posts_notif = await connection.query(
             `select * from posts_notifications where COMPTEID = ${this.id} and notification_id > ${current_notif}`);
 
         for (const notif of posts_notif[0])
-            latest_notifications.posts.push({ type: 'posts', id: notif.notification_id, module_id: notif.ID_MODULE, module_name: modules.get_module_by_id(notif.ID_MODULE)[0].name, date: notif.date_ajoute, post_type: notif.type });
+            latest_notifications.posts.push({ type: 'posts', id: notif.notification_id, module_id: notif.ID_MODULE, module_name: modules.get_module_by_id(notif.ID_MODULE)[0].name, date: notif.date_ajoute, post_type: notif.type, post_id: notif.POST_ID });
 
-        current_notif = this.notifications.reply.reduce((max, notif) => max > notif.id ? max : notif.id, 0);
+        current_notif = this.notifications.reply.reduce((max, notif) => (max > notif.id) ? max : notif.id, 0);
 
         let reply_notif = await connection.query(
             `select * from reply_notifications where COMPTEID=${this.id} and notification_id>${current_notif}`);
