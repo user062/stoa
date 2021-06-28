@@ -7,6 +7,9 @@ const Module = require('../models/Module');
 router.post('/new_module', async (req, res) => {
     let profs = req.body.profs ? req.body.profs : [];
 
+    if (!Array.isArray(profs))
+        profs = [profs];
+
     let users = await Users;
     let module = await Module(null, req.body.name, [], Array.isArray(profs) ? profs.map(prof => Number(prof)) : [Number(profs)]);
     await (await Modules).add_module(module);
