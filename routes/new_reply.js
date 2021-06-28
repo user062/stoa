@@ -22,7 +22,7 @@ router.post('/new_reply', async (req, res) => {
             await added_reply.add_file(file);
     else
         await added_reply.add_file(uploaded_files);
-    res.redirect('/modules/' + module_id + '/all_posts');
+    res.redirect('/modules/' + module_id + `/all_posts?post_id=${post_replied_to}&reply_id=${added_reply.id}`);
 
 });
 

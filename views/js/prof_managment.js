@@ -9,7 +9,8 @@ let add_prof = (module) => {
         let email = document.createElement('td');
         let del_button = document.createElement('td');
         del_button.style = 'display:flex;justify-content:center';
-        del_button.innerHTML = ` <button class="btn btn-danger btn-sm m-0 block-prof" style="height: 25px;width:25px;text-align:center;display:flex;justify-content:center" onClick=delete_prof(${prof}, ${data.name + ' ' + data.family_name}, ${module})>
+        let prof_name = data.name + ' ' + data.family_name;
+        del_button.innerHTML = ` <button class="btn btn-danger btn-sm m-0 block-prof" style="height: 25px;width:25px;text-align:center;display:flex;justify-content:center" onClick='delete_prof(${prof}, "${prof_name}", ${module})'>
                                             <span class="tooltiptext">Retiré prof</span>
                                             <span class="material-icons" style="font-size:15px!important">block</span>
                                         </button>`;

@@ -8,8 +8,8 @@ const bcrypt = require('bcryptjs');
 router.post('/login', (req, res) => {
     let emadress = req.body.email;
     let sql_query = 'Select PASSWORD, VCODE, COMPTEID  from COMPTE where COMPTE.EMAIL=' + connection.escape(emadress);
-    connection.query(sql_query).then((results) => {
-        if (results[0][0] && bcrypt.compare(req.body.password, results[0][0].PASSWORD)) {
+    connection.query(sql_query).then(async (results) => {
+        if (results[0][0] && await bcrypt.compare(req.body.password, results[0][0].PASSWORD)) {
             if (results[0][0].VCODE === 0) {
                 req.session.loggedIn = true;
 

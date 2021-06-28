@@ -61,8 +61,15 @@ router.get('/', async (req, res) => {
     let modules = await Modules;
     if (req.session.userId === 'admin')
         res.redirect('/admin');
-    else
-        res.render('index', { layout: '', user: req.session.userId, modules: modules.all_posts, notifications: req.notifications });
+    else {
+        let user = (await Users).get_user_by_id(req.session.userId)[0];
+        if (user.status === 'P') {
+            modules = user.modules_taught.map((module) => modules.get_module_by_id(module)[0]);
+            res.render('index', { layout: '', user: req.session.userId, modules: modules, notifications: req.notifications });
+        }
+        else
+            res.render('index', { layout: '', user: req.session.userId, modules: modules.all_posts, notifications: req.notifications });
+    }
     req.notifications = null;
 });
 

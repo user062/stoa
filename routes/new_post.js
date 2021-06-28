@@ -41,7 +41,7 @@ router.post('/new_post', async (req, res) => {
     else
         await added_post.add_file(uploaded_files);
 
-    res.redirect('/modules/' + module_id + '/all_posts');
+    res.redirect('/modules/' + module_id + `/all_posts?post_id=${added_post.id}`);
 
 });
 
