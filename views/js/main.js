@@ -305,7 +305,7 @@ expandButton.addEventListener('click', () => {
     }
 });
 
-let notify = () => $.post('/new_notifications/new_notifications', {},
+var notify = () => $.post('/new_notifications/new_notifications', {},
     (data) => {
         if (!data)
             return;
@@ -317,6 +317,7 @@ let notify = () => $.post('/new_notifications/new_notifications', {},
             notif_div.classList.add('dropdown-item', 'navbar-notification-item');
             let link = document.createElement('a');
             let text = document.createElement('span');
+            text.classList.add('notification-text');
 
             if (new_notification.type === 'resources') {
                 types = { 'c': 'Cour', 't': 'TD', 'h': 'Devoir de Maison' };

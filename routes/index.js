@@ -27,7 +27,8 @@ router.get('*', async (req, res, next) => {
 
         else if (notification.type === 'posts') {
             types = { 'p': 'Sondage', 'q': 'Question', 'n': 'Note' };
-            notification_repr.id = `posts_notification${notification.id}`;
+            console.log(notification.post_id);
+            notification_repr.id = `posts_notification_${notification.id}`;
             notification_repr.href = `/modules/${notification.module_id}/all_posts?post_id=${notification.post_id}`;
 
             if (notification_repr.post_type === 'p')
@@ -353,6 +354,8 @@ router.get('/admin/:id', async (req, res) => {
 router.post('/delete_notification', async (req, res) => {
     let notification_id = Number(req.body.id);
     let notification_type = req.body.type;
+    console.log(notification_id);
+    console.log(notification_type);
     await (await Users).get_user_by_id(Number(req.session.userId))[0].delete_notification(notification_id, notification_type);
     res.send(true);
 });

@@ -15,22 +15,24 @@ CREATE TRIGGER notify_resources AFTER INSERT ON DOCUMENT
        END;
 ;;
 
-CREATE TRIGGER notify_posts AFTER INSERT ON POST 
+CREATE TRIGGER notify_posts AFTER INSERT ON CONCERNE 
        FOR EACH ROW
        BEGIN
         insert into posts_notifications (COMPTEID, ID_MODULE, POST_ID, type)
         select
-             I.COMPTEID, I.ID_MODULE, NEW.POST_ID, NEW.type
+             I.COMPTEID, I.ID_MODULE, NEW.POST_ID, P.type
         from
-             CONCERNE C
+             POST P
+             join
+             CONCERNE C on C.POST_ID = P.POST_ID
              join
              DOSSIER D on D.ID_DOSSIER = C.ID_DOSSIER
              join
              INSCRIT I on D.ID_MODULE = I.ID_MODULE
         where
-             C.POST_ID = NEW.POST_ID
+             P.POST_ID = NEW.POST_ID
              and
-             NEW.COMPTEID <> I.COMPTEID
+             P.COMPTEID <> I.COMPTEID
         group by I.COMPTEID;
        END;
 ;;
@@ -40,7 +42,28 @@ CREATE TRIGGER notify_reply AFTER INSERT ON REPONSE
        BEGIN
         insert into reply_notifications (COMPTEID, ID_MODULE, POST_ID, ID_REPONSE)
         select
-             I.COMPTEID, I.ID_MODULE, NEW.POST_ID, NEW.ID_REPONSE
+             R.COMPTEID, I.ID_MODULE, NEW.POST_ID, NEW.ID_REPONSE
+        from
+             REPONSE R
+             join
+             POST P on R.POST_ID = P.POST_ID
+             join
+             CONCERNE C on P.POST_ID = C.POST_ID
+             join
+             DOSSIER D on D.ID_DOSSIER = C.ID_DOSSIER
+             join
+             INSCRIT I on D.ID_MODULE = I.ID_MODULE
+        where
+             I.COMPTEID = R.COMPTEID
+             and
+             R.POST_ID = NEW.POST_ID
+             and
+             R.COMPTEID <> NEW.COMPTEID
+        group by R.COMPTEID;
+
+        insert into reply_notifications (COMPTEID, ID_MODULE, POST_ID, ID_REPONSE)
+        select
+             P.COMPTEID, I.ID_MODULE, NEW.POST_ID, NEW.ID_REPONSE
         from
              POST P
              join
@@ -50,12 +73,15 @@ CREATE TRIGGER notify_reply AFTER INSERT ON REPONSE
              join
              INSCRIT I on D.ID_MODULE = I.ID_MODULE
         where
-             C.POST_ID = NEW.POST_ID
+             P.POST_ID = NEW.POST_ID
              and
-             NEW.COMPTEID <> I.COMPTEID
+             I.COMPTEID = P.COMPTEID
              and
-             P.COMPTEID=I.COMPTEID
-        group by I.COMPTEID;
+             P.COMPTEID <> NEW.COMPTEID
+             and
+             P.COMPTEID NOT IN (select COMPTEID from REPONSE where POST_ID=NEW.POST_ID)
+        group by
+             P.POST_ID;
        END;
 ;;   
 
@@ -64,25 +90,46 @@ CREATE TRIGGER notify_comment AFTER INSERT ON COMMENTAIRE
        BEGIN
         insert into comment_notifications (COMPTEID, ID_MODULE, POST_ID, ID_REPONSE, ID_COMMENTAIRE)
         select
-             I.COMPTEID, I.ID_MODULE, R.POST_ID, NEW.ID_REPONSE, NEW.ID_COMMENTAIRE
+             CO.COMPTEID, I.ID_MODULE, R.POST_ID, NEW.ID_REPONSE, NEW.ID_COMMENTAIRE
         from
-             POST P
+             COMMENTAIRE CO
              join
-             REPONSE R on R.POST_ID=P.POST_ID
+             REPONSE R on CO.ID_REPONSE = R.ID_REPONSE
              join
-             CONCERNE C on C.POST_ID=R.POST_ID
+             POST P on R.POST_ID = P.POST_ID
+             join
+             CONCERNE C on P.POST_ID = C.POST_ID
              join
              DOSSIER D on D.ID_DOSSIER = C.ID_DOSSIER
              join
              INSCRIT I on D.ID_MODULE = I.ID_MODULE
         where
-             NEW.COMPTEID <> I.COMPTEID
+             NEW.ID_REPONSE = CO.ID_REPONSE
              and
-             R.ID_REPONSE=NEW.ID_REPONSE
+             I.COMPTEID = CO.COMPTEID
              and
-             (R.COMPTEID=I.COMPTEID or P.COMPTEID=I.COMPTEID)
-        group by I.COMPTEID;
+             NEW.COMPTEID <> CO.COMPTEID
+        group by CO.COMPTEID; 
+
+        insert into comment_notifications (COMPTEID, ID_MODULE, POST_ID, ID_REPONSE, ID_COMMENTAIRE)
+        select
+             R.COMPTEID, I.ID_MODULE, R.POST_ID, NEW.ID_REPONSE, NEW.ID_COMMENTAIRE
+        from
+             REPONSE R
+             join
+             POST P on R.POST_ID = P.POST_ID
+             join
+             CONCERNE C on P.POST_ID = C.POST_ID
+             join
+             DOSSIER D on D.ID_DOSSIER = C.ID_DOSSIER
+             join
+             INSCRIT I on D.ID_MODULE = I.ID_MODULE
+        where
+             NEW.ID_REPONSE = R.ID_REPONSE
+             and
+             I.COMPTEID = R.COMPTEID
+             and
+             R.COMPTEID NOT IN (select C1.COMPTEID from COMMENTAIRE C1 where C1.ID_REPONSE=NEW.ID_REPONSE)
+        group by R.COMPTEID; 
        END;
 ;;
-
-DELIMITER ;
