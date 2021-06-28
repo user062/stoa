@@ -13,7 +13,7 @@ router.post('/new_module', async (req, res) => {
 
     let user;
 
-    for (const prof_id of req.body.profs) {
+    for (const prof_id of profs) {
         user = users.get_user_by_id(Number(prof_id))[0];
         user.modules_taught.push(module.id);
         user.subscribe_to_module(module.id);

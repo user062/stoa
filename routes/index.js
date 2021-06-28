@@ -59,7 +59,10 @@ router.get('*', async (req, res, next) => {
 // @route GET /
 router.get('/', async (req, res) => {
     let modules = await Modules;
-    res.render('index', { layout: '', user: req.session.userId, modules: modules.all_posts, notifications: req.notifications });
+    if (req.session.userId === 'admin')
+        res.redirect('/admin');
+    else
+        res.render('index', { layout: '', user: req.session.userId, modules: modules.all_posts, notifications: req.notifications });
     req.notifications = null;
 });
 
