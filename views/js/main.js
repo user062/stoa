@@ -376,7 +376,7 @@ var delete_notification = (id) =>
             document.getElementById('notifications_count').innerText = Number(document.getElementById('notifications_count').innerText) - 1;
         });
 
-setInterval(notify, 60000);
+setInterval(notify, 10000);
 
 // Module subscribe
 var subscribe_button = document.querySelector('.subscribe');

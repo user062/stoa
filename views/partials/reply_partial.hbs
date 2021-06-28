@@ -8,7 +8,7 @@
                                                     <span class="vote-number">{{response.vote_count}}</span> 
                                                     <button onClick="chose_vote({{../moduleId}}, {{../postId}}, {{response.id}}, -1)" class="downvote material-icons up_down_vote_button">arrow_downward</button>
                                                 </div>
-                                                <a href="javascript:void(0)" class="card-link">
+                                                <a href="/profile/{{response.author_id}}" class="card-link">
                                                     <img src="/images/icons/profile_pic.jpg" class="rounded-circle" width="50" alt="User" />                                    
                                                 </a>
                                                 <div class="media-body ml-3">

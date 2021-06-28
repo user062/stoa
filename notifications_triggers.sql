@@ -14,7 +14,6 @@ CREATE TRIGGER notify_resources AFTER INSERT ON DOCUMENT
                I.COMPTEID not in (select e.COMPTEID from enseigner e where e.ID_MODULE=NEW.ID_MODULE);
        END;
 ;;
-
 CREATE TRIGGER notify_posts AFTER INSERT ON CONCERNE 
        FOR EACH ROW
        BEGIN

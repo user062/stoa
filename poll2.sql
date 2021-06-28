@@ -1,5 +1,5 @@
 
-delimiter $$
+delimiter ;;
 create procedure P1(IN comptID int, IN pollID int, IN postID INT)
 begin
 if exists(SELECT pv.POLL_ID, pv.COMPTEID, POST_ID 
@@ -14,12 +14,5 @@ then
 else              
 insert into POLL_VOTE (POLL_ID, COMPTEID) values (pollID, comptID);
 end if;
-end $$
+end ;;
 delimiter ;
-
--- test
-select * from compte;
-select * from poll_element;
-select * from poll_vote;
-drop procedure P1;
-call P1(2,6,2);
