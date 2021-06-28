@@ -22,7 +22,9 @@ class Comment {
         }
 
         results = await connection.query('select NOM, PRENOM from COMPTE where COMPTEID=?', [this.author_id]);
-        this.author = results[0][0].PRENOM + ' ' + results[0][0].NOM;
+
+        if (results[0][0])
+            this.author = results[0][0].PRENOM + ' ' + results[0][0].NOM;
 
         return this;
     }

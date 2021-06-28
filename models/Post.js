@@ -57,7 +57,9 @@ class Post {
         }
 
         results = await connection.query('select NOM, PRENOM from COMPTE where COMPTEID = ?', [this.author_id]);
-        this.author = results[0][0].PRENOM + ' ' + results[0][0].NOM;
+
+        if (results[0][0])
+            this.author = results[0][0].PRENOM + ' ' + results[0][0].NOM;
 
         return this;
     }
@@ -69,8 +71,13 @@ class Post {
         this.id = row[0].insertId;
         this.creation_date = new Date();
 
-        for (const folder of this.folders)
+        for (const folder of this.folders) {
+            console.log(this.author_id);
+            console.log(this.id);
+            console.log(folder.id);
             await connection.query(`insert into CONCERNE (POST_ID, ID_DOSSIER) values (${this.id}, ${folder.id})`);
+
+        }
     }
 
     async add_file(file) {
