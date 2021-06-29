@@ -73,9 +73,6 @@ class Post {
         this.creation_date = new Date();
 
         for (const folder of this.folders) {
-            console.log(this.author_id);
-            console.log(this.id);
-            console.log(folder.id);
             await connection.query(`insert into CONCERNE (POST_ID, ID_DOSSIER) values (${this.id}, ${folder.id})`);
 
         }

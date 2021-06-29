@@ -21,7 +21,7 @@
                                     </div>
                                     <div class="card-body p-2 p-sm-3">
                                         <div class="media forum-item">
-                                            <a href="/profile/{{post.author_id}}" data-toggle="collapse" data-target=".forum-content{{post.id}}"><img src="https://www.gravatar.com/avatar/{{hash post.author_email}}?d=identicon" alt="/images/icons/profile_pic.jpg" class="mr-3 rounded-circle" width="50" alt="User" /></a>
+                                            <a href="/profile/{{post.author_id}}" data-toggle="collapse" data-target=".forum-content{{post.id}}"><img src="https://www.gravatar.com/avatar/{{hash post.author_email}}?d=identicon" onError="this.src='/images/icons/profile_pic.jpg'" class="mr-3 rounded-circle" width="50" alt="User" /></a>
                                             <div class="media-body">
                                                 <h6><a href="javascript:void(0);" data-toggle="collapse" data-target=".forum-content{{post.id}}" class="text-body">{{post.title}}</a></h6>
                                                 <p class="text-secondary">{{{post.content}}}</p>
@@ -57,7 +57,9 @@
                                     <div class="card-body">
                                         <div class="media forum-item">
                                             <a href="javascript:void(0)" class="card-link">
-                                                <img src="https://www.gravatar.com/avatar/{{hash post.author_email}}?d=identicon" alt="/images/icons/profile_pic.jpg" class="rounded-circle" width="50" alt="User" />                                        
+                                              <img src="https://www.gravatar.com/avatar/{{hash post.author_email}}?d=identicon"
+                                                   onError="this.src='/images/icons/profile_pic.jpg'" class="rounded-circle"
+                                                   width="50" alt="User" />                                        
                                             </a>
                                             <div class="media-body ml-3">
                                                 <a href="/profile/{{post.author_id}}" class="text-secondary">{{post.author}}</a>

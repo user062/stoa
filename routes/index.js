@@ -364,8 +364,6 @@ router.get('/admin/:id', async (req, res) => {
 router.post('/delete_notification', async (req, res) => {
     let notification_id = Number(req.body.id);
     let notification_type = req.body.type;
-    console.log(notification_id);
-    console.log(notification_type);
     await (await Users).get_user_by_id(Number(req.session.userId))[0].delete_notification(notification_id, notification_type);
     res.send(true);
 });
