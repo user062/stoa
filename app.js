@@ -2,13 +2,12 @@ const express = require('express');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
 const exphbs = require('express-handlebars');
-const connectDB = require('./config/db');
 const path = require('path');
 const session = require('express-session');
 const Handlebars = require("handlebars");
 const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-access');
 const fileUpload = require('express-fileupload');
-const fs = require('fs');
+const crypto = require('crypto');
 
 dotenv.config({ path: './config/config.env' });
 
@@ -20,7 +19,11 @@ if (process.env.NODE_ENV === 'development')
 app.engine('.hbs', exphbs({
     handlebars: allowInsecurePrototypeAccess(Handlebars), defaultLayout: '',
     extname: '.hbs',
-    helpers: { eq: (param1, param2) => { return param1 === param2; }, call: (obj, f, v) => { return obj[f](v); } },
+    helpers: {
+        eq: (param1, param2) => { return param1 === param2; }, call: (obj, f, v) => { return obj[f](v); },
+        hash: data =>
+            crypto.createHash('md5').update(data).digest("hex")
+    },
     partialsDir: path.join(__dirname, 'views', 'partials')
 }));
 

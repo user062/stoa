@@ -2,7 +2,6 @@ const connection = require('../config/db');
 const Response = require('./Response');
 const File = require('./File');
 const Poll = require('./Poll');
-const elapsed_time = require('./helpers/humanized_time_span');
 const path = require('path');
 
 
@@ -56,10 +55,12 @@ class Post {
                 this.poll = await Poll(this.id, this.author_id, []);
         }
 
-        results = await connection.query('select NOM, PRENOM from COMPTE where COMPTEID = ?', [this.author_id]);
+        results = await connection.query('select NOM, PRENOM, EMAIL from COMPTE where COMPTEID = ?', [this.author_id]);
 
-        if (results[0][0])
+        if (results[0][0]) {
             this.author = results[0][0].PRENOM + ' ' + results[0][0].NOM;
+            this.author_email = results[0][0].EMAIL;
+        }
 
         return this;
     }

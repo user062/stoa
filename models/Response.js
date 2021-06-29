@@ -44,10 +44,12 @@ class Response {
                 this.files.push(new File(row.file_name, row.file_path, row.ID_FILE));
         }
 
-        results = await connection.query('select NOM, PRENOM from COMPTE where COMPTEID=?', [this.author_id]);
+        results = await connection.query('select NOM, PRENOM, EMAIL from COMPTE where COMPTEID=?', [this.author_id]);
 
-        if (results[0][0])
+        if (results[0][0]) {
             this.author = results[0][0].PRENOM + ' ' + results[0][0].NOM;
+            this.author_email = String(results[0][0].EMAIL);
+        }
 
         return this;
     }

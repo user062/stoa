@@ -1,6 +1,5 @@
 const connection = require('../config/db');
 const Modules = require('./ModuleRepository');
-const crypto = require('crypto');
 
 class User {
     constructor(id, name, family_name, birth_date, gender, status, email) {
@@ -66,8 +65,6 @@ class User {
 
         for (const notif of comment_notif[0])
             this.notifications.comment.push({ type: 'comment', id: notif.notification_id, module_id: notif.ID_MODULE, module_name: modules.get_module_by_id(notif.ID_MODULE)[0].name, post_id: notif.POST_ID, reply_id: notif.ID_REPONSE, comment_id: notif.ID_COMMENTAIRE, date: notif.date_ajoute });
-
-        this.avatar = crypto.createHash('md5').update(this.email).digest("hex");;
 
         return this;
     }
