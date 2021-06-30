@@ -1,9 +1,13 @@
 # stoa
 
-1/-install dependencies
+1/-install dependencies with
 npm install
+2/ run Mysql DB initialisation script (from mysql cli)
+(create_db.sql)
 
-2/-run using
+change the user and pwd of db in the config/db.js.
+
+3/-run using
 npm run dev
 
-change the user and pwd of db in the config file.
+4/create account with email root@root.com then logout (this will act as the admin account)
