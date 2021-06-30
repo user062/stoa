@@ -1,0 +1,47 @@
+                                {{#each responses as |response|}}
+                                    {{!-- Replies --}}
+                                    <div class="ml-3 card mb-2" id="reply{{response.id}}">
+                                        <div class="card-body">
+                                            <div class="media forum-item">
+                                                <div class="vote-answer" user_choice={{call response 'did_vote' ../user}}>
+                                                    <button onClick="chose_vote({{../moduleId}}, {{../postId}}, {{response.id}}, 1)" class="up_down_vote_button upvote material-icons">arrow_upward</button>
+                                                    <span class="vote-number">{{response.vote_count}}</span> 
+                                                    <button onClick="chose_vote({{../moduleId}}, {{../postId}}, {{response.id}}, -1)" class="downvote material-icons up_down_vote_button">arrow_downward</button>
+                                                </div>
+                                                <a href="/profile/{{response.author_id}}" class="card-link">
+                                                    <img src="https://www.gravatar.com/avatar/{{hash response.author_email}}?d=identicon" onError="this.src='/images/icons/profile_pic.jpg'" class="rounded-circle" width="50" alt="User" />
+                                                </a>
+                                                <div class="media-body ml-3">
+                                                    <a href="javascript:void(0)" class="text-secondary">{{response.author}}</a>
+                                                    <small class="time_since_replied text-muted ml-2" creation_time='{{response.creation_date}}' edit_time='{{response.get_edit_time}}'></small>                                                    
+                                                    <div class="mt-3 font-size-sm">
+                                                        <p>{{{response.content}}}</p>
+                                                    </div>
+                                                    <div class="files mb-2">
+                                                      {{#each response.files as |file|}}
+                                                        <div class="file">
+                                                            <span class="material-icons icon">description</span>
+                                                            <span class="file-name">
+                                                            <a target="_blank" href=/{{file.file_location}}>{{file.name}}</a> 
+                                                            </span>
+                                                        </div>                                                          
+                                                        {{/each}}
+                                                    </div>      
+                                                    <a href="/new_comment?{{../moduleId}}&{{../postId}}&{{response.id}}" class="text-muted small">Reply</a>       
+                                                    {{> comment_partial moduleId=../moduleId postId=../postId replyId=response.id comments=response.comments user=../user}}
+                                                </div>
+                                                {{!-- Edit or delete reply --}}
+                                                {{#if (eq response.author_id ../user)}}
+                                                <div class="text-muted post-more">
+                                                    <span class="material-icons dots" style="font-size: 16px">more_vert</span>                                        
+                                                    <div class="more-menu">
+                                                        <a href="/edit_reply?module_id={{../moduleId}}&post_id={{../postId}}&reply_id={{response.id}}">Modifier</a>
+                                                        <div onClick="delete_reply({{../moduleId}}, {{../postId}}, {{response.id}})">Supprimer</div>
+                                                    </div>                                                    
+                                                </div>
+                                                {{/if}}
+                                                {{!-- End Edit or delete reply --}}
+                                            </div>
+                                        </div>        
+                                    </div>                            
+                                {{/each}}

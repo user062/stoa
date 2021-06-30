@@ -2,7 +2,9 @@ const express = require('express');
 const router = express.Router();
 const connection = require('../config/db');
 const bcrypt = require('bcryptjs');
-var nodemailer = require('nodemailer');
+const nodemailer = require('nodemailer');
+const Users = require('../models/UserRepository');
+const User = require('../models/User');
 
 const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
@@ -50,7 +52,12 @@ router.post('/registration', async (req, res) => {
 
             req.session.loggedIn = false;
 
-            req.session.userId = await connection.query('select compteID from COMPTE where email= ?', req.body.email);
+            results = await connection.query('select compteID from COMPTE where email= ?', req.body.email);
+            req.session.userId = results[0][0].compteID;
+
+            let user = await User(req.session.userId);
+            let users = await Users;
+            users.add_user(user);
 
 
             res.redirect('/validation');

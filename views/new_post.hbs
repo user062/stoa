@@ -11,68 +11,8 @@
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-md bg-light sticky-top">
-        <div class="container">
-            <a href="#" class="navbar-brand">
-                <img src="images/stoa2.png" alt="stoa">
-            </a>            
-            <div class="collapse navbar-collapse">                
-                <ul class="navbar-nav text-center ml-auto">                    
-                    <li>
-                        <a class="nav-link" href="#">Account</a>
-                    </li>                  
-                </ul>                      
-            </div>
-        </div>
-    </nav>
-        
-    <div class="sidebar">
-        <ul class="links">
-            <button class="btn btn-primary new__descussion">
-                <span class="material-icons">add</span>
-                <span class="new__descussion-text">Nouvelle Discussion</span>
-                </button>
-            <li>                                
-                <a class="sidebar__link active" href="#">
-                    <span class="material-icons">home</span>
-                    Home
-                </a>                
-            </li>
-            <li>                
-                <a class="sidebar__link" href="#">
-                    <span class="material-icons">
-                    chat_bubble_outline
-                    </span>           
-                    Discussions
-                </a>                
-            </li>
-            <hr style="background-color: #f6f6f6;height: 1px;width: 75%;margin: 1rem auto">
-            <li>                
-                <a class="sidebar__link" href="#">
-                    <span class="material-icons">
-                    folder_open
-                    </span>           
-                    IHM
-                </a>                
-            </li>
-            <li>                
-                <a class="sidebar__link" href="#">
-                    <span class="material-icons">
-                    folder_open
-                    </span>           
-                    Acoo
-                </a>                
-            </li>
-            <li>                
-                <a class="sidebar__link" href="#">
-                    <span class="material-icons">
-                    folder_open
-                    </span>           
-                    Algo
-                </a>                
-            </li>            
-        </ul>
-    </div>
+{{> navbar userId=user}}        
+{{> module_sidebar folders=folders moduleId=moduleId creation=true}}
 
     <div class="content">        
         <div class="container">
@@ -116,21 +56,11 @@
                 <section class="post__folder form-group">
                     <label for="title">Dossiers</label>
                     <div class="dossiers">
-                        <div class="dossier">
-                            <span>devoires</span> 
+                      {{#each folders as |folder|}}
+                        <div class="dossier" id={{folder.id}}>
+                            <span>{{folder.name}}</span> 
                         </div>
-                        <div class="dossier">
-                            <span>coures</span>                            
-                        </div>
-                        <div class="dossier">
-                            <span>td</span>
-                        </div>
-                        <div class="dossier">
-                            <span>notes</span>
-                        </div>
-                        <div class="dossier" required>
-                            <span>other</span>
-                        </div>
+                        {{/each}}
                     </div>
                 </section><br>
                 <section class="post__title form-group">
@@ -191,19 +121,14 @@
               let folder = document.createElement('input');
               folder.setAttribute("type", "hidden");
               folder.setAttribute("name", "folders")
-              folder.setAttribute("value", selected_folder.getElementsByTagName("span")[0].innerHTML);
+              folder.setAttribute("value", selected_folder.id);
               form.appendChild(folder);
           }
 
-          let file = tinymce.activeEditor.dom.get('file_upload');
-
-          while(file){
-              tinymce.activeEditor.dom.remove(file);
-              file = tinymce.activeEditor.dom.get('file_upload');
-          }
+          let file = tinymce.activeEditor.dom.remove('files');
 
           let choices = document.getElementById("choices");
-          for(let choice of choices.children){
+          for(let choice of choices.children) {
               let choice_field = document.createElement('input');
               choice_field.setAttribute("type", "hidden");
               choice_field.setAttribute("name", "choices")
@@ -247,7 +172,7 @@
       function delete_choice(id) {
           let choices = document.getElementById('choices');
 
-          for(const choice of choices.children){
+          for(const choice of choices.children) {
               if(choice.id === String(id))
                   return choice.remove();
           }

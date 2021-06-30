@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/material-icons.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">        
+    <title>Nouveau Dossier</title>
+</head>
+<body>
+
+{{> navbar userId=user}}        
+{{> module_sidebar folders=folders moduleId=moduleId creation=true}}
+
+    <div class="content">        
+        <div class="container">
+            <div class="col-lg-6 col-md-10 mx-auto">
+                <h5>Ajouter un dossier</h5>
+                <hr>
+            {{#if error}}
+            <div class="alert alert-danger">
+              <strong>{{error}}</strong>
+            </div>
+            {{/if}}
+                <form action="add_folder/add_folder" method="POST" encType="multipart/form-data">
+                    <section class="post__title form-group">
+                        <label for="title">Nom</label>
+                        <input class="form-control" type="text" name="name" placeholder="Nom du dossier" id="name" required>
+                    </section>
+                    {{!-- <section class="post__folder form-group">
+                        <label for="title">Module</label>                        
+                        <div class="dossiers">
+                            <div class="dossier">
+                                <span>devoire 1</span> 
+                            </div>
+                            <div class="dossier">
+                                <span>serie1 ihm</span>                            
+                            </div>
+                            <div class="dossier">
+                                <span>serie2 ssi</span>
+                            </div>
+                            <div class="dossier">
+                                <span>coure1 algo</span>
+                            </div>            
+                        </div>
+                    </section> --}}
+                    <div class="text-right">
+                        <button type="submit" class="btn btn-primary col-3">Ajouter</button>
+                    </div>                
+                </form>                
+            </div>
+        </div>
+    </div>    
+
+    <script src="js/main.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+</body>
+</html>

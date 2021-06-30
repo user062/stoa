@@ -1,0 +1,20 @@
+    <div class="sidebar">
+        <ul class="links">            
+            <li>                                
+                <a class="sidebar__link active" id="home" href="/">
+                    <span class="material-icons">home</span>
+                    Home
+                </a>                
+            </li>
+            <hr style="background-color: #f6f6f6;height: 1px;width: 75%;margin: 1rem auto">                                            
+            {{#each modules as |module|}}
+            <li class="module__link">                                
+                <a class="sidebar__link" href="/modules/{{module.id}}">
+                    <span class="material-icons">folder_open</span>           
+                    {{module.name}}
+                </a>          
+            </li>
+            {{/each}}
+        </ul>
+    </div>
+<div class="expand-sidebar"><</div>

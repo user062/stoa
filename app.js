@@ -1,12 +1,13 @@
 const express = require('express');
 const dotenv = require('dotenv');
-const morgan = require('morgan'); const exphbs = require('express-handlebars');
-const connectDB = require('./config/db');
+const morgan = require('morgan');
+const exphbs = require('express-handlebars');
 const path = require('path');
 const session = require('express-session');
 const Handlebars = require("handlebars");
 const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-access');
 const fileUpload = require('express-fileupload');
+const crypto = require('crypto');
 
 dotenv.config({ path: './config/config.env' });
 
@@ -18,11 +19,15 @@ if (process.env.NODE_ENV === 'development')
 app.engine('.hbs', exphbs({
     handlebars: allowInsecurePrototypeAccess(Handlebars), defaultLayout: '',
     extname: '.hbs',
-    helpers: { eq: (param1, param2) => { return param1 === param2; }, call: (obj, f, v) => { return obj[f](v); } }
+    helpers: {
+        eq: (param1, param2) => { return param1 === param2; }, call: (obj, f, v) => { return obj[f](v); },
+        hash: data =>
+            crypto.createHash('md5').update(data).digest("hex")
+    },
+    partialsDir: path.join(__dirname, 'views', 'partials')
 }));
 
 app.set('view engine', '.hbs');
-
 
 app.use(express.static(path.join(__dirname, 'views')));
 app.use(express.urlencoded({ extended: false }));
@@ -37,6 +42,23 @@ app.use(
         saveUninitialized: false
     }));
 
+let checkUser = (req, res, next) => {
+    let paths = ['/registration', '/validation', '/login',
+        '/registration/registration', '/validation/validation', '/login/login'];
+
+    if (paths.includes(req.path) || req.session.loggedIn)
+        return next();
+    res.redirect('/login');
+};
+
+let checkAdmin = (req, res, next) => {
+    if (req.path.includes('admin') && req.session.userId !== 'admin')
+        return res.render('not_found', { home: '/' });
+    next();
+};
+
+app.all('*', checkUser);
+app.all('*', checkAdmin);
 app.use('/', require('./routes/index'));
 app.use('/login', require('./routes/login'));
 app.use('/registration', require('./routes/registration'));
@@ -46,6 +68,23 @@ app.use('/new_reply', require('./routes/new_reply'));
 app.use('/new_comment', require('./routes/new_comment'));
 app.use('/vote', require('./routes/vote'));
 app.use('/reply_vote', require('./routes/reply_vote'));
+app.use('/add_folder', require('./routes/add_folder'));
+app.use('/edit_post', require('./routes/edit_post'));
+app.use('/edit_reply', require('./routes/edit_reply'));
+app.use('/edit_comment', require('./routes/edit_comment'));
+app.use('/delete_post', require('./routes/delete_post'));
+app.use('/delete_reply', require('./routes/delete_reply'));
+app.use('/delete_comment', require('./routes/delete_comment'));
+app.use('/add_document', require('./routes/add_document'));
+app.use('/delete_document', require('./routes/delete_document'));
+app.use('/edit_description', require('./routes/edit_description'));
+app.use('/new_notifications', require('./routes/new_notifications'));
+app.use('/new_module', require('./routes/new_module'));
+app.use('/remove_prof', require('./routes/remove_prof'));
+app.use('/add_prof', require('./routes/add_prof'));
+app.use('/unsusbscribe', require('./routes/unsubscribe'));
+app.use('/subscribe', require('./routes/subscribe'));
+app.use('/unsubscribe', require('./routes/unsubscribe'));
 
 
 

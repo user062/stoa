@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stoa</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/material-icons.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">        
+</head>
+<body>
+
+{{> navbar userId=user.id}}        
+{{> home_sidebar modules=modules}}        
+
+    <div class="content">        
+        <div class="container">
+        <div class="main-body p-0 col-11 mx-auto">
+            <div class="inner-wrapper">    
+                <!-- Inner main -->
+                <div class="inner-main">
+                    <div class="container user-infos">                                 
+                        <table class="mx-auto profile-infos">     
+                                <tr class="mx-auto">
+                                    <div style="font-weight: 800;font-size: 20px;text-align:center">Informations</div>
+                                    <hr style="width: 50%;margin: 1rem auto">
+                                </tr>                                                   
+                                <tr>
+                                    <td>Nom :</td>
+                                    <td class="info">{{user.family_name}}</td>                                    
+                                </tr>                                
+                                <tr>
+                                    <td>Prénom :</td>
+                                    <td class="info">{{user.name}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Email :</td>
+                                    <td class="info">{{user.email}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Status :</td>
+                                    <td class="info">{{#if (eq user.status 'P')}} Enseignant {{else}}Étudiant{{/if}}</td>
+                                </tr>                               
+                                <tr>
+                                    <td>Sexe :</td>
+                                    <td class="info">{{#if (eq user.gender 'F')}} Femme {{else}}Homme{{/if}}</td>
+                                </tr>                               
+                                <tr>
+                                    <td>Date de Naissance :</td>
+                                    <td class="info">{{user.birth_date}}</td>
+                                </tr>                               
+                        </table>
+
+                    </div>
+                    
+        </div>
+        </div>
+    </div>
+
+
+    <!-- Script element sourcing TinyMCE -->
+    <script type="application/javascript" src= "/tinymce/tinymce.min.js"></script>
+    <!-- Script element sourcing the TinyMCE configuration -->
+    <script type="application/javascript" src= "/js/my-tinymce-config.js"></script>
+    <script src="/js/main.js"></script> 
+    <script src="/js/poll_script.js"></script> 
+    <script src="/js/up_down_vote.js"></script> 
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+</body>
+</html>

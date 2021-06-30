@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stoa</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/material-icons.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">            
+</head>
+<body>
+
+{{> navbar userId=user}}        
+{{> module_sidebar folders=folders moduleId=moduleId is_teacher=is_teacher}}
+
+    <div class="content">        
+        <div class="container">
+        <div class="main-body p-0 col-11 mx-auto">
+            <div class="inner-wrapper">    
+                <!-- Inner main -->
+                <div class="inner-main">
+                    <div class="container">                         
+                        <!-- Inner main header -->
+                        {{!-- <div class="row inner-main-header">
+                            <!-- <select class="col-2 custom-select custom-select-sm mr-1">
+                                <option selected="">Latest</option>
+                                <option value="1">Popular</option>
+                                <option value="3">Solved</option>
+                                <option value="3">Unsolved</option>
+                                <option value="3">No Replies Yet</option>
+                            </select> -->
+                            <span class="col-xs-3 input-icon input-icon-sm ml-auto" id="search">
+                                <input type="text" class="form-control form-control-sm bg-gray-200 border-gray-200 shadow-none mb-4" placeholder="Search forum" />
+                            </span>
+                        </div>                                                    
+                    </div> --}}
+
+                    {{!-- Coures --}}
+                    <section class="courses" style="margin-bottom: 100px">
+                        <hr><h5 class="mb-4 module-title" style="font-weight: 800;">Coures</h5>
+                        {{#unless files.course}}
+                        <div id='alert0' class="alert alert-primary" role="alert">
+                            Rien n'a été ajouté
+                        </div>
+                        {{/unless}}
+                        {{#if files.course}}
+                        <table id="fileTable0" class="table">
+                            <thead>
+                                <tr>      
+                                    <th class="thead" scope="col">Coure</th>
+                                    {{#if is_teacher}}
+                                    <th class="thead" scope="col">Action</th>                            
+                                    {{/if}}
+                                </tr>
+                            </thead>
+                        {{#each files.course as |file|}}
+                            <tbody>
+                                <tr id='file{{file.id}}'>      
+                                    <td class="file-container">
+                                      <a href="/{{file.file_location}}" class="link-to-file">{{file.name}}</a>
+
+                                    {{#if ../is_teacher}} 
+                                    <td class="actions">
+                                      <div class="btn-group">
+                                        <button class="btn btn-sm" onClick="delete_doc({{../moduleId}}, {{file.id}}, 0);">
+                                          <span class="material-icons" style="font-size: 18px;">delete</span>                                                
+                                        </button>                                            
+                                      </div>
+                                    </td>                        
+                                    {{/if}}
+                                    </td>
+                                    
+                                </tr>                            
+                            </tbody>
+                        {{/each}}
+                        </table> 
+                        {{/if}}
+                        {{#if is_teacher}}
+                        <div class="row">
+                            <div class="col-4"></div>
+                            <div class="col-8 text-right">
+                                <button class="btn btn-primary btn-md add-file">
+                                    <i class="material-icons">description</i>                                    
+                                    <input type="file" id="0" name="uploaded_file" id="0" hidden>
+                                    Ajouter
+                                </button>
+                            </div>
+                        </div>
+                        {{/if}}
+                        
+                    </section>
+                    
+
+                    <section class="TDs" style="margin-bottom: 100px">
+                        <hr><h5 class="mb-4 module-title" style="font-weight: 800;">TDs</h5>
+                        {{#unless files.td}}
+                        <div id='alert1' class="alert alert-primary" role="alert">
+                            Rien n'a été ajouté
+                        </div>
+                        {{/unless}}
+                        {{#if files.td}}
+                        <table id="fileTable1" class="table">
+                            <thead>
+                                <tr>      
+                                    <th class="thead" scope="col">TD</th>
+                                    {{#if is_teacher}}
+                                    <th class="thead" scope="col">Action</th>                            
+                                    {{/if}}
+                                </tr>
+                            </thead>
+                        {{#each files.td as |file|}}
+                            <tbody>
+                                <tr id='file{{file.id}}'>      
+                                    <td class="file-container">
+                                      <a href="/{{file.file_location}}" class="link-to-file">{{file.name}}</a>
+                                    </td>
+                                    
+                                    {{#if ../is_teacher}} 
+                                    <td class="actions">
+                                      <div class="btn-group">
+                                        <button class="btn btn-sm" onClick="delete_doc({{../moduleId}}, {{file.id}}, 1);">
+                                          <span class="material-icons" style="font-size: 18px;">delete</span>                                                
+                                        </button>                                            
+                                      </div>
+                                    </td>                        
+                                    {{/if}}
+                                </tr>                            
+                            </tbody>
+                        {{/each}}
+                        </table> 
+                        {{/if}}
+                        {{#if is_teacher}}
+                        <div class="row">
+                            <div class="col-4"></div>
+                            <div class="col-8 text-right">
+                                <button class="btn btn-primary btn-md add-file">
+                                    <i class="material-icons">description</i>                                    
+                                    <input type="file" name="uploaded-file" id="1" hidden>
+                                    Ajouter
+                                </button>
+                            </div>
+                        </div>
+                        {{/if}}
+                        
+                    </section>
+                    
+
+                    <section class="Devoirs de maison" style="margin-bottom: 100px">
+                        <hr><h5 class="mb-4 module-title" style="font-weight: 800;">Devoirs de maison</h5>
+                        {{#unless files.hw}}
+                        <div id='alert2' class="alert alert-primary" role="alert">
+                            Rien n'a été ajouté
+                        </div>
+                        {{/unless}}
+                        {{#if files.hw}}
+                        <table id="fileTable2" class="table">
+                            <thead>
+                                <tr>      
+                                    <th class="thead" scope="col">Devoir</th>
+                                    {{#if is_teacher}}
+                                    <th class="thead" scope="col">Action</th>                            
+                                    {{/if}}
+                                </tr>
+                            </thead>
+                        {{#each files.hw as |file|}}
+                            <tbody>
+                                <tr id='file{{file.id}}'>      
+                                    <td class="file-container">
+                                      <a href="/{{file.file_location}}" class="link-to-file">{{file.name}}</a>
+                                    </td>
+                                    
+                                    {{#if ../is_teacher}} 
+                                    <td class="actions">
+                                        <div class="btn-group">
+                                            <button class="btn btn-sm" onClick="delete_doc({{../moduleId}}, {{file.id}}, 2);">
+                                                <span class="material-icons" style="font-size: 18px;">delete</span>                                                
+                                            </button>                                            
+                                        </div>
+                                        
+                                    </td>                        
+                                    {{/if}}
+                                </tr>                            
+                            </tbody>
+                        {{/each}}
+                        </table> 
+                        {{/if}}
+                        {{#if is_teacher}}
+                        <div class="row">
+                            <div class="col-4"></div>
+                            <div class="col-8 text-right">
+                                <button class="btn btn-primary btn-md add-file">
+                                    <i class="material-icons">description</i>                                    
+                                    <input type="file" name="file-upload2" id="2" hidden>
+                                    Ajouter
+                                </button>
+                            </div>
+                        </div>
+                        {{/if}}
+                    </section>
+        </div>
+        </div>
+    </div>
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/main.js"></script> 
+    <script src="/js/resources.js"></script> 
+</body>
+</html>

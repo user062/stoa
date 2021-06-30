@@ -36,7 +36,6 @@ class Poll {
                     this.vote_choices.push(element);
                     return `(${this.id}, '${element}')`;
                 }).join();
-
             await connection.query(`insert into POLL_ELEMENT (POST_ID, ELEMENT) values ${elements};`);
             let results = await connection.query(`select POLL_ID from POLL_ELEMENT where POST_ID=${this.id}`);
 
@@ -45,7 +44,6 @@ class Poll {
 
             this.elements_ids = Array.from(Array(Object.keys(this.elements).length).keys());
         }
-
         return this;
     }
 
@@ -54,8 +52,11 @@ class Poll {
         if (Number.isInteger(previous_vote)) {
             let ind = this.elements[Object.keys(this.elements)[previous_vote]].indexOf(voter);
             this.elements[Object.keys(this.elements)[previous_vote]].splice(ind, 1);
-        }
 
+            if (element_ind === previous_vote) {
+                return await connection.query(`delete from POLL_VOTE where COMPTEID=${voter} and POLL_ID=${Object.keys(this.elements)[previous_vote]}`);
+            }
+        }
         this.elements[Object.keys(this.elements)[element_ind]].push(voter);
         let query = `call P1(${voter}, ${Number(Object.keys(this.elements)[element_ind])}, ${this.id})`;
         await connection.query(query);

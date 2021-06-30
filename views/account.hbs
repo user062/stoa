@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stoa</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/material-icons.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">        
+</head>
+<body>
+
+{{> navbar userId=user}}        
+        
+    <div class="sidebar">
+        <ul class="links">            
+            <li>                                
+                <a class="sidebar__link active" href="/">
+                    <span class="material-icons">home</span>
+                    Home
+                </a>                
+            </li>
+            {{!-- <li>                
+                <a class="sidebar__link" href="#">
+                    <span class="material-icons">
+                    chat_bubble_outline
+                    </span>           
+                    Discussions
+                </a>                
+            </li> --}}
+            <hr style="background-color: #f6f6f6;height: 1px;width: 75%;margin: 1rem auto">                                            
+            <li class="module__link">                                
+                <a class="sidebar__link" href="/module">
+                    <span class="material-icons">folder_open</span>           
+                    IHM
+                </a>          
+                {{!-- Button just for profs --}}
+                {{!--<a href="/new_folder" style="font-size: 14px;">
+                    <span class="material-icons">add</span>
+                    <span class="new__descussion-text">Nouveau dossier</span>
+                 </a>    
+                <div class="module__folders ml-4">
+                    <a class="module__folder" href="#">
+                        <span class="material-icons">folder_open</span>           
+                        Resources
+                    </a>          
+                </div>                    
+                <div class="module__folders ml-4">
+                    <a class="module__folder" href="#">
+                        <span class="material-icons">folder_open</span>           
+                        serie1
+                    </a>          
+                </div>      
+                <div class="module__folders ml-4">
+                    <a class="module__folder" href="#">
+                        <span class="material-icons">folder_open</span>           
+                        Autre
+                    </a>          
+                </div>       --}}
+            </li>
+            <li class="module__link">                
+                <a class="sidebar__link" href="/module">
+                    <span class="material-icons">
+                    folder_open
+                    </span>           
+                    Acoo
+                </a>                
+            </li>
+            <li class="module__link">                
+                <a class="sidebar__link" href="/module">
+                    <span class="material-icons">
+                    folder_open
+                    </span>           
+                    Algo
+                </a>                
+            </li>
+        </ul>
+    </div>
+    <div class="expand-sidebar"><</div>
+    <div class="content">        
+        <div class="container">
+        <div class="main-body p-0 col-11 mx-auto">
+            <div class="inner-wrapper">    
+                <!-- Inner main -->
+                <div class="inner-main">
+                    <div class="container">                        
+                        <div class="row text-center mt-3">                            
+                            <div class="col-3"></div>
+                            <div class="col-6">
+                                <input class="form-control" type="text" placeholder="Nom">
+                            </div>                                                                                                               
+                        </div>
+                        <div class="row text-center mt-3">                            
+                            <div class="col-3"></div>
+                            <div class="col-6">
+                                <input class="form-control" type="text" placeholder="Prénom">
+                            </div>                                                                                                               
+                        </div>
+                        <div class="row text-center mt-3">                            
+                            <div class="col-3"></div>
+                            <div class="col-6">
+                                <input class="form-control" type="text" placeholder="Adresse">
+                            </div>                                                                                                               
+                        </div>
+                        <div class="row text-center mt-3">                            
+                            <div class="col-3"></div>
+                            <div class="col-6">
+                                <input class="form-control" type="email" placeholder="Email">
+                            </div>                                                                                                               
+                        </div>
+                        <div class="row text-center mt-3">                            
+                            <div class="col-3"></div>
+                            <div class="col-6">
+                                <input class="form-control" type="password" placeholder="Mot de passe">
+                            </div>                                                                                                               
+                        </div>                        
+                        <div class="row text-center mt-3">
+                            <div class="col-3"></div>
+                            <div class="col-6 text-right">
+                                <button class="btn btn-secondary">Modifier</button>
+                            </div>                            
+                        </div>
+                        
+                    </div>
+                    
+        </div>
+        </div>
+    </div>
+
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script> 
+</body>
+</html>

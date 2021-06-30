@@ -44,9 +44,13 @@ create table CONCERNE
 create table DOCUMENT
 (
    ID_DOCUMENT          int auto_increment primary key,
-   ID_DOSSIER           int,
-   NOM                  varchar(40),
-   DOC_CORE             LONGBLOB
+   ID_MODULE            int,
+   NOM                  varchar(255),
+   path                 longtext,
+   type                 char(1) check (type='c' or type='t' or type='h'),
+   date_ajoute          timestamp default current_timestamp,
+FOREIGN KEY (ID_MODULE)
+        REFERENCES MODULE (ID_MODULE)
    );
 
 /*==============================================================*/
@@ -151,3 +155,83 @@ create table UP_DOWN_VOTE
    primary key (ID_REPONSE, COMPTEID)
 );
 
+
+create table resources_notifications
+(
+   notification_id       int auto_increment primary key,
+   COMPTEID              int,
+   ID_MODULE             int,
+   ID_DOCUMENT           int,
+   type                  char(1) check (type='c' or type='t' or type='h'),
+   date_ajoute           timestamp default current_timestamp,
+FOREIGN KEY (ID_DOCUMENT)
+        REFERENCES DOCUMENT (ID_DOCUMENT) on delete cascade,
+FOREIGN KEY (ID_MODULE)
+        REFERENCES MODULE (ID_MODULE) on delete cascade,
+FOREIGN KEY (COMPTEID)
+        REFERENCES COMPTE (COMPTEID) on delete cascade
+   );
+
+create table posts_notifications
+(
+   notification_id          int auto_increment primary key,
+   COMPTEID                 int,
+   ID_MODULE                int,
+   POST_ID                  int,
+   type                     char(1) check (type='q' or type='p' or type='n'),
+   date_ajoute              timestamp default current_timestamp,
+FOREIGN KEY (POST_ID)
+        REFERENCES POST (POST_ID) on delete cascade,
+FOREIGN KEY (ID_MODULE)
+        REFERENCES MODULE (ID_MODULE) on delete cascade,
+FOREIGN KEY (COMPTEID)
+        REFERENCES COMPTE (COMPTEID) on delete cascade
+   );
+
+create table reply_notifications
+(
+   notification_id          int auto_increment primary key,
+   COMPTEID                 int,
+   ID_MODULE                int,
+   POST_ID                  int,
+   ID_REPONSE               int,
+   date_ajoute              timestamp default current_timestamp,
+FOREIGN KEY (ID_REPONSE)
+        REFERENCES REPONSE (ID_REPONSE) on delete cascade,
+FOREIGN KEY (POST_ID)
+        REFERENCES POST (POST_ID) on delete cascade,
+FOREIGN KEY (ID_MODULE)
+        REFERENCES MODULE (ID_MODULE) on delete cascade,
+FOREIGN KEY (COMPTEID)
+        REFERENCES COMPTE (COMPTEID) on delete cascade
+   );
+
+create table comment_notifications
+(
+   notification_id          int auto_increment primary key,
+   COMPTEID                 int,
+   ID_MODULE                int,
+   POST_ID                  int,
+   ID_REPONSE               int,
+   ID_COMMENTAIRE           int,
+   date_ajoute              timestamp default current_timestamp,
+FOREIGN KEY (ID_COMMENTAIRE)
+        REFERENCES COMMENTAIRE (ID_COMMENTAIRE) on delete cascade,
+FOREIGN KEY (ID_REPONSE)
+        REFERENCES REPONSE (ID_REPONSE) on delete cascade,
+FOREIGN KEY (POST_ID)
+        REFERENCES POST (POST_ID) on delete cascade,
+FOREIGN KEY (ID_MODULE)
+        REFERENCES MODULE (ID_MODULE) on delete cascade,
+FOREIGN KEY (COMPTEID)
+        REFERENCES COMPTE (COMPTEID) on delete cascade
+   );
+
+ CREATE TABLE `INSCRIT` (
+  `ID_MODULE` int(11) NOT NULL,
+  `COMPTEID` int(11) NOT NULL,
+  `DATE_INSCRIT` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`ID_MODULE`,`COMPTEID`),
+FOREIGN KEY (ID_MODULE)
+        REFERENCES MODULE (ID_MODULE) on delete cascade
+);

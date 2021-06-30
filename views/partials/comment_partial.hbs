@@ -1,0 +1,24 @@
+{{#each comments as |comment|}}
+<div class="mt-4 comment" id='comment{{comment.id}}'>
+    <a href="javascript:void(0)" class="card-link"></a>
+    <div class="ml-2 pt-1 comment-text">                                    
+
+      {{#if (eq comment.author_id ../user)}}
+      <div class="text-muted post-more">
+        <span class="material-icons dots" style="font-size: 16px">more_vert</span>                                        
+        <div class="more-menu">
+          <a href="/edit_comment?module_id={{../moduleId}}&post_id={{../postId}}&reply_id={{../replyId}}&comment_id={{comment.id}}">Modifier</a>
+          <div onClick="delete_comment({{../moduleId}}, {{../postId}}, {{../replyId}}, {{comment.id}})">Supprimer</div>
+        </div>
+
+      </div>
+      {{/if}}
+      <p class="mb-1">{{{comment.content}}}</p>
+        <div class="pb-1 comment-detail">
+          <a href="/profile/{{comment.author_id}}" >{{comment.author}}</a>
+          <small class="text-muted ml-2 time_since_commented" creation_time='{{comment.creation_date}}' edit_time='{{comment.get_edit_time}}'>{{comment.get_elapsed_time}}</small>
+        </div>
+
+    </div>                                            
+</div>
+{{/each}}

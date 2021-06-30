@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/material-icons.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">        
+    <title>Modifier Reponse</title>
+</head>
+<body>
+
+{{> navbar userId=user}}        
+{{> module_sidebar folders=folders moduleId=moduleId creation=true}}
+
+    <div class="content">        
+        <div class="container">
+        <div class="col-10 mx-auto">
+            <h5>Modifier une reponse </h5>
+            <hr>
+            {{#if error}}
+            <div class="alert alert-danger">
+              <strong>{{error}}</strong>
+            </div>
+            {{/if}}
+            <form action="edit_reply/edit_reply" method="POST" encType="multipart/form-data">
+                <section class="details">
+                    <label>Détailes</label>
+                    <textarea name="keyboard_cat" class="petMachine" id="my-expressjs-tinymce-app"></textarea>
+                </section>
+                <button type="submit" class="btn btn-primary col-12 ml-auto mt-3 mb-5" onclick="select_type()">Modifier</button>
+            </form>
+
+
+            
+        </div>
+        </div>
+    </div>
+
+    <!-- Script element sourcing TinyMCE -->
+    <script type="application/javascript" src= "/tinymce/tinymce.min.js"></script>
+    <!-- Script element sourcing the TinyMCE configuration -->
+    <script type="application/javascript" src= "/js/my-tinymce-config.js"></script>
+
+    <script src="js/main.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <script src="/js/reply_edit.js"></script>
+    <script>
+      function select_type(){
+          let file = tinymce.activeEditor.dom.remove('files');
+      }
+
+    </script>
+
+</body>
+</html>
